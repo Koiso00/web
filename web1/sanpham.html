@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document</title>
+    <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root{
+            --accent:#0f75ff;
+            --muted:#666;
+            --bg:#f6f7fb
+        }
+        *{box-sizing:border-box}
+        body{
+            font-family:Arial, 
+            Helvetica, sans-serif;
+            margin:0;
+            background:var(--bg);
+            color:#111
+        }
+        header{
+            display:flex;align-items:center;justify-content:space-between;
+            padding:20px 138px;
+            background:#fff;
+            box-shadow:0 1px 6px rgba(0,0,0,.06)
+        }
+        .logo{
+            font-weight:700;color:var(--accent);
+            font-size:20px
+        }
+        .navbar{
+            display:flex;
+            gap:2px
+        }
+        .navbar a{padding:6px 10px;border-radius:6px}
+        
+        
+        .container{
+            max-width:1500px;
+            margin:20px;
+            padding:17px;
+            padding-top:100px;
+            
+        }
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:18px
+        }
+        .card{
+            background:#fff;
+            border: 1px solid #000;
+            border-radius:10px;
+            padding:12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+            display:flex;
+            flex-direction:column;
+            gap:20px
+        }
+        .img{
+            height:170px;
+            border-radius:5px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#f4f6fb;
+            overflow:hidden}
+        .img img{
+            max-width:100%;
+            height:100%;
+            object-fit:contain}
+        h3{
+            font-size:15px;
+            margin:0
+        }
+        .price{font-weight:700}
+        .price span{
+            font-weight:400;
+            color:var(--muted);
+            text-decoration:line-through;
+            margin-left:8px
+        }
+        .actions{display:flex;gap:8px}
+        .btn{
+            padding:8px 10px;
+            border-radius:5px;
+            border:0;
+            cursor:pointer}
+        .btn-primary{background:var(--accent);color:#fff}
+        .btn-outline{background:transparent;border:1px solid #ddd}
+        @media (max-width:600px){.img{height:140px}}
+        .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 30px;
+        padding: 20px 0;
+        }
+
+        .pagination a {
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        background: #fff;
+        transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+        background: var(--accent);
+        color: #fff;
+        }
+
+        .pagination a.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        }
+        .layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 30px;
+        }   
+
+        .sidebar {
+        width: 230px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        height: fit-content;
+        }
+        .sidebar h3 {
+        font-size: 25px;
+        margin-bottom: 20px;
+        color: var(--accent);
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+        }
+
+        .products {
+        flex: 1;
+        }
+
+        </style>
+</head>
+<body>
+    <header>
+        <input type="checkbox" name="" id="toggler">
+        <label for="toggler" class="fas fa-bars"></label>
+        
+        <a href="#" class="logo">TechZone<span>.</span></a>
+
+        <nav class="navbar">
+        <a href="#home">home</a> 
+        <a href="#about">about</a>
+        <a href="#product">product</a>
+        <a href="#review">review</a> 
+        <a href="#contact">contact</a>     
+        </nav>
+
+        <div class="icon">
+        <a href="#" class="fas fa-heart"></a>
+        <a href="#" class="fas fa-shopping-cart"></a>
+        <a href="#" class="fas fa-user"></a>
+    </div>
+    </header>
+    <main class="container">
+        <br>
+
+        <div class="layout">
+            <!-- Thanh bên trái -->
+            <aside class="sidebar">
+                <h3>Mức giá</h3>
+                <label><input type="checkbox"> Dưới 500k</label><br>
+                <label><input type="checkbox"> 500k - 1 triệu</label><br>
+                <label><input type="checkbox"> 1 triệu - 2 triệu</label><br>
+                <label><input type="checkbox"> Trên 2 triệu</label><br><br>
+          
+                <h3>Hãng</h3>
+                <label><input type="checkbox"> Logitech</label><br>
+                <label><input type="checkbox"> Razer</label><br>
+                <label><input type="checkbox"> Corsair</label><br>
+                <label><input type="checkbox"> AKKO</label><br>
+                <label><input type="checkbox"> MSI</label><br>
+              </aside>
+    
+        <section class="products">
+            <h1>Keyboard</h1>
+            <br>
+            <div class="grid">
+            <!-- Product 1 -->
+            <article class="card">
+            <div class="img"><img src="picture/product1.png" alt="AKKO TAC87 Black&Gold Mirror Switch"></div>
+            <h3>AKKO TAC87 Black&Gold Mirror Switch</h3>
+            <div class="price">1,250,000 ₫ <span>1,390,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+            
+            <!-- Product 2 -->
+                <article class="card">
+            <div class="img"><img src="picture/product2.png" alt="AKKO 5075B Plus Dragon Ball Super"></div>
+            <h3>AKKO 5075B Plus Dragon Ball Super</h3>
+            <div class="price">2,000,000 ₫ <span>2,999,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+        
+    
+            <!-- Product 3 -->
+            <article class="card">
+            <div class="img"><img src="picture/product3.png" alt="AKKO 3087 RF Black on White"></div>
+            <h3>AKKO 3087 RF Black on White</h3>
+            <div class="price">1,870,000 ₫ <span>1,999,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+
+    
+            <!-- Product 4 -->
+            <article class="card">
+            <div class="img"><img src="picture/product4.png" alt="AKKO 3087 RF Ocean Star"></div>
+            <h3>AKKO 3087 RF Ocean Star</h3>
+            <div class="price">1,389,000 ₫ <span>1,499,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+            
+        
+            <!-- Product 5 -->
+            <article class="card">
+            <div class="img"><img src="picture/product5.png" alt="AKKO PC75B Plus Blue on White"></div>
+            <h3>AKKO PC75B Plus Blue on White</h3>
+            <div class="price">2,389,000 ₫ <span>2,499,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+    
+    
+            <!-- Product 6 -->
+            <article class="card">
+            <div class="img"><img src="picture/product1.1.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
+            <h3>AKKO PC75B Plus Blue on White (Pro)</h3>
+            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+            </div>
+            <div class="pagination">
+                <a href="#" class="prev">« Back</a>
+                <a href="#" class="page active">1</a>
+                <a href="#" class="page">2</a>
+                <a href="#" class="page">3</a>
+                <a href="#" class="next">Continue »</a>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
