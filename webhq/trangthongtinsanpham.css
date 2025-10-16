@@ -1,0 +1,296 @@
+:root{
+    --black:#000;
+}
+* {
+    margin:0; padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    outline: none; border: none;
+    text-decoration: none;
+    /*text-tranform : dung de canh chinh kieu chu viet hoa hay viet thuong */
+    text-transform:capitalize;  /*capitalize dung de viet hoa chu cai dau */
+    transform: .2s linear;
+}
+html{
+    font-size: 62.5%;
+    /* Làm cho thao tác cuộn trang (scroll) mượt mà thay vì nhảy đột ngột.
+    Ví dụ: khi nhấp vào link nội bộ <a href="#section1">, trang sẽ cuộn từ từ đến #section1. */
+    scroll-behavior:smooth ; 
+    /* Đặt khoảng đệm khi cuộn đến một phần tử. */
+    scroll-padding-top: 6rem;
+    /* Ẩn phần tràn ngang (horizontal overflow). */
+    overflow-x: hidden;
+    background-color: #cdcccc;
+}
+header{
+    position:fixed;/*vi tri duoc nam co dinh ke ca khi cuon trang */
+    top:0;left: 0;right:0;
+    background: #fff;
+    padding: 3rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;/* chia lop , lop lon se nam de len lop duoi */
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+}
+header .logo {
+    font-size: 3rem;
+    color :#333;
+    font-weight: bolder;
+}
+header .logo span {
+    color : var(--black)
+} 
+header .navbar a{
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #666;
+}
+header .navbar a:hover {
+    color:var(--black);
+}
+header .login a{
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #666;
+}
+header .login a:hover {
+    color:var(--black);
+}
+header .icon a {
+    font-size: 3rem;
+    padding:0 1.5rem;
+    color: #666;
+}
+
+header .icon a:hover {
+    color:var(--black);
+}
+header #toggler {
+    display: none;
+}
+header .fa-bars {
+    font-size: 3rem;
+    color: #333;
+    border-radius: .5rem;
+    border: .2rem solid #333;
+    cursor: pointer;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0; /* ✅ Không co lại khi thu nhỏ */
+}
+
+header .fa-bars:hover {
+    background: var(--black);
+    color: #fff;
+}
+.search-container input{
+    font-size: 1.5rem;
+    padding: .5rem 1rem;
+    border: .2rem solid #000000;
+    width: 30rem;height: 30.5px;
+    color: #000000;
+}
+.search-container button{
+    padding: .5rem 1rem;
+    font-size: 1.5rem;
+    border: .2rem solid #000000;
+    background: var(--black);
+    color: #fff;
+    cursor: pointer;
+    margin-left: -5px;
+    height: 30.5px;
+}
+.product-details {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 60px;
+    max-width: 1100px;
+    margin: 120px auto 0 auto;
+    min-height: 400px;
+}
+.left-column, .right-colum {
+    display: inline-block;
+    vertical-align: top;
+}
+.right-colum {
+    width: 40%;
+}
+.left-column {
+    width: 55%;
+}
+.product-image img {   
+    position: relative;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+    background-color: #fff;
+    margin-top: -50px;
+}
+
+.product-info {
+    padding: 20px 0 0 100px;
+    max-width: 600px;
+    margin-top: -30px;
+}
+
+.product-info h1 {
+    font-family: Tahoma, sans-serif;
+    font-size: 2.4rem;
+    background-color: #fff;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.pricesale {
+    font-size: 2rem;
+    color: #e74c3c;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 1.8rem;
+    color: #666;
+    text-decoration: line-through;
+    margin-bottom: 20px;
+}
+
+.sale {
+    font-size: 1.4rem;
+    color: #ee0e0e;
+    margin-left: 10px;
+    border-radius: 3px;
+    border: 2px solid #ee0e0e;
+    padding: 2px 6px;
+}
+
+.status {
+    font-size: 1.4rem;
+    color: #27ae60;
+    margin-bottom: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.tt {
+    font-size: 1.4rem;
+    color: #333;
+    margin-top: 20px;
+    line-height: 1.6;
+    font-weight: bold;
+}
+
+.buy {
+    padding: 20px 30px;
+    font-size: 2rem;
+    background-color: #000;
+    color: #efefef;
+    border: 2px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.thongsokithuat {
+    position: relative;
+    top: 50px;
+    right: 450px;
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-right: 100px;
+    border: #000 solid 2px; 
+    border-radius: 5px;
+}
+.thongsokithuat ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.thongsokithuat li {
+    margin-bottom: 8px;
+}
+
+.thongsokithuat p {
+      font-size: 13px;
+    padding: 10px;
+    border-bottom: 2px solid #000;
+}
+.kn  {
+    position: relative;
+    width: 466px;
+    top: -201px;
+    right: -100px;
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-right: 100px;
+    border: #000 solid 2px;
+    border-radius: 5px;
+}
+.kn p {
+    font-size: 13;
+    padding: 10px;
+    border-bottom: 2px solid #000;
+}
+.kn ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.kn li {
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+.buy-button {
+    position: relative;
+    top: -155px;
+    right: -100px;
+    width: 150px;
+}
+.buy-button button {
+    font-family: "Verdana", sans-serif;
+    align-items: center;
+    width: 220px;
+    white-space: nowrap;
+    padding: 10px;
+    font-size: 2.5rem;
+    background-color: #ee0e0e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.buy-button2 {
+    position: relative;
+    top: -206px;
+    left:  350px;
+    width: 150px;
+}
+.buy-button2 button {
+    font-family: "Verdana", sans-serif;
+    align-items: center;
+    width: 220px;
+    white-space: nowrap;
+    padding: 10px;
+    font-size: 2.5rem;
+    background-color: #3204ea;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -6,169 +6,34 @@
     <title>document</title>
     <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        :root{
-            --accent:#0f75ff;
-            --muted:#666;
-            --bg:#f6f7fb
-        }
-        *{box-sizing:border-box}
-        body{
-            font-family:Arial, 
-            Helvetica, sans-serif;
-            margin:0;
-            background:var(--bg);
-            color:#111
-        }
-        header{
-            display:flex;align-items:center;justify-content:space-between;
-            padding:20px 138px;
-            background:#fff;
-            box-shadow:0 1px 6px rgba(0,0,0,.06)
-        }
-        .logo{
-            font-weight:700;color:var(--accent);
-            font-size:20px
-        }
-        .navbar{
-            display:flex;
-            gap:2px
-        }
-        .navbar a{padding:6px 10px;border-radius:6px}
-        
-        
-        .container{
-            max-width:1500px;
-            margin:20px;
-            padding:17px;
-            padding-top:100px;
-            
-        }
-        .grid{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:18px
-        }
-        .card{
-            background:#fff;
-            border: 1px solid #000;
-            border-radius:10px;
-            padding:12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-            display:flex;
-            flex-direction:column;
-            gap:20px
-        }
-        .img{
-            height:170px;
-            border-radius:5px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#f4f6fb;
-            overflow:hidden}
-        .img img{
-            max-width:100%;
-            height:100%;
-            object-fit:contain}
-        h3{
-            font-size:15px;
-            margin:0
-        }
-        .price{font-weight:700}
-        .price span{
-            font-weight:400;
-            color:var(--muted);
-            text-decoration:line-through;
-            margin-left:8px
-        }
-        .actions{display:flex;gap:8px}
-        .btn{
-            padding:8px 10px;
-            border-radius:5px;
-            border:0;
-            cursor:pointer}
-        .btn-primary{background:var(--accent);color:#fff}
-        .btn-outline{background:transparent;border:1px solid #ddd}
-        @media (max-width:600px){.img{height:140px}}
-        .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        margin-top: 30px;
-        padding: 20px 0;
-        }
+    <link rel="stylesheet" href="styleforpr.css">
 
-        .pagination a {
-        padding: 8px 14px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        text-decoration: none;
-        color: #333;
-        font-weight: 500;
-        background: #fff;
-        transition: all 0.3s ease;
-        }
-
-        .pagination a:hover {
-        background: var(--accent);
-        color: #fff;
-        }
-
-        .pagination a.active {
-        background: var(--accent);
-        color: #fff;
-        border-color: var(--accent);
-        }
-        .layout {
-        display: flex;
-        align-items: flex-start;
-        gap: 30px;
-        }   
-
-        .sidebar {
-        width: 230px;
-        background: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        height: fit-content;
-        }
-        .sidebar h3 {
-        font-size: 25px;
-        margin-bottom: 20px;
-        color: var(--accent);
-        border-bottom: 1px solid #eee;
-        padding-bottom: 8px;
-        }
-
-        .products {
-        flex: 1;
-        }
-
-        </style>
 </head>
 <body>
     <header>
-        <input type="checkbox" name="" id="toggler">
-        <label for="toggler" class="fas fa-bars"></label>
-        
-        <a href="#" class="logo">TechZone<span>.</span></a>
+        <a href="#" class="logo">TechZone</a>
 
+        <div class="search-bar">
+            <a href="#" class="fas fa-bars"></a>
+            <div class="dropdown-content">
+            <a href="#keyboard">Bàn phím</a>
+            <a href="#mouse">Chuột</a>
+            <a href="#headphone">Tai nghe</a>
+            <a href="#monitor">Màn hình</a>
+        </div>
+            <input type="text" placeholder="Tìm kiếm tại đây ...."s id="search-box">
+            <a href="#" class="fas fa-search"></a>
+        </div>
         <nav class="navbar">
-        <a href="#home">home</a> 
-        <a href="#about">about</a>
-        <a href="#product">product</a>
-        <a href="#review">review</a> 
-        <a href="#contact">contact</a>     
+        <a href="#home">Trang chủ</a> 
+        <a href="#product">Sản Phẩm</a> 
+        <a href="#contact">Liên hệ</a>     
         </nav>
 
         <div class="icon">
-        <a href="#" class="fas fa-heart"></a>
         <a href="#" class="fas fa-shopping-cart"></a>
         <a href="#" class="fas fa-user"></a>
+        <a href="#" class="fa-solid fa-user-tie"></a>
     </div>
     </header>
     <main class="container">
@@ -257,7 +122,37 @@
             <!-- Product 6 -->
             <article class="card">
             <div class="img"><img src="picture/product1.1.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
-            <h3>AKKO PC75B Plus Blue on White (Pro)</h3>
+            <h3>AKKO 5075B Plus Naruto</h3>
+            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+
+            <article class="card">
+            <div class="img"><img src="picture/product6.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
+            <h3>YUNZII YZ75 Pro Wireless Mechanical Keyboard</h3>
+            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+
+            <article class="card">
+            <div class="img"><img src="picture/product7.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
+            <h3>YUNZII B75 Pro Dark Gray Wireless Mechanical Keyboard</h3>
+            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
+            <div class="actions">
+            <a class="btn btn-primary" href="#">Details</a>
+            <a class="btn btn-outline" href="#">Add to cards</a>
+            </div>
+            </article>
+
+            <article class="card">
+            <div class="img"><img src="picture/product8.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
+            <h3>YUNZII YZ87 Mechanical Gaming Keyboard</h3>
             <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
             <div class="actions">
             <a class="btn btn-primary" href="#">Details</a>
