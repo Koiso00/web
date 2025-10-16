@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sản Phẩm Mới</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1 class="logo">TechZone</h1>
+            <a href="Trang-chu.html">📈 Trang Chủ</a>
+            <a href="sanpham.html">📦 Quản lý sản phẩm</a>
+            <a href="taikhoan.html">👥 Quản lý tài khoản</a>
+            <a href="quan-li-danh-muc.html" class="active">🎁 Quản lí danh mục</a>
+        </nav>
+
+        <main class="main-content">
+            <a href="quanlidanhmuc.html" class="back-link">← Quay lại danh sách</a>
+
+            <div class="form-container">
+                <h1>Thêm sản phẩm mới</h1>
+                <form action="#">
+                    <div class="form-group">
+                        <label for="product-category">Loại sản phẩm</label>
+                        <select id="product-category" name="product-category">
+                            <option value="laptop">Laptop</option>
+                            <option value="mouse">Chuột</option>
+                            <option value="keyboard">Bàn phím</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-id">Mã sản phẩm</label>
+                        <input type="text" id="product-id" name="product-id" placeholder="VD: LT003">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-name">Tên sản phẩm</label>
+                        <input type="text" id="product-name" name="product-name" placeholder="VD: Laptop UltraBook 2026">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Hình ảnh sản phẩm</label>
+                        <input type="file" id="product-image" name="product-image">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Mô tả</label>
+                        <textarea id="product-description" name="product-description" rows="4" placeholder="Nhập mô tả chi tiết..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-color">Màu sắc</label>
+                        <input type="text" id="product-color" name="product-color" placeholder="VD: Xám Bạc, Đen Nhám">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-save">Lưu sản phẩm</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
