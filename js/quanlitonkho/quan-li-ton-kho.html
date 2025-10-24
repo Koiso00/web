@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Tồn Kho</title>
+    <link rel="stylesheet" href="../Style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1 class="logo">TechZone</h1>
+            <a href="../Trang-chu.html">📈 Trang Chủ</a>
+            <a href="../sanpham.html">📦 Quản lý sản phẩm</a>
+            <a href="../taikhoan.html">👥 Quản lý tài khoản</a>
+            <a href="../quanlidanhmuc/quanlidanhmuc.html">🎁 Quản lí danh mục</a>
+            <a href="../quanlinhaphang/quan-li-nhap-hang.html">📥 Quản lí nhập hàng</a>
+            <a href="../quanligiaban/quanligiaban.html">💲 Quản lí giá bán</a>
+            <a href="../quanlidonhang/quan-li-don-hang.html">🚚 Quản lí đơn hàng</a>
+            <a href="quan-li-ton-kho.html" class="active">📊 Quản lí tồn kho</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Quản lí số lượng tồn</h1>
+            </div>
+
+            <nav class="category-nav">
+                <a href="quan-li-ton-kho.html" class="category-link active">Tồn kho hiện tại</a>
+                <a href="bao-cao-nhap-xuat-ton.html" class="category-link">Báo cáo Nhập-Xuất-Tồn</a>
+            </nav>
+
+            <div class="warning-box">
+                <h4>Cảnh báo sắp hết hàng (dưới 10 sản phẩm)</h4>
+                <p>Phát hiện 2 sản phẩm: <strong>Bàn phím Akko Songoku</strong> (Tồn 5), <strong>Chuột Gaming Logitech</strong> (Tồn 8)</p>
+            </div>
+            
+            <div class="inventory-filter-bar">
+                <input type="text" placeholder="Tìm theo tên hoặc mã sản phẩm...">
+                <select class="status-select">
+                    <option value="">Lọc theo danh mục</option>
+                    <option value="phim">Bàn phím</option>
+                    <option value="chuot">Chuột</option>
+                    <option value="tainghe">Tai nghe</option>
+                </select>
+                <button type="submit" class="btn btn-edit">Tra cứu</button>
+            </div>
+
+            <table class="price-lookup-table">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Mã SP</th>
+                        <th>Danh mục</th>
+                        <th>Số lượng tồn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ban phim Akko</td>
+                        <td>LT001</td>
+                        <td>Bàn phím</td>
+                        <td class="text-right">50</td>
+                    </tr>
+                    <tr>
+                        <td>Ban phim Akko Songoku</td>
+                        <td>MS002</td>
+                        <td>Bàn phím</td>
+                        <td class="text-right status-low-stock">5</td>
+                    </tr>
+                    <tr>
+                        <td>Chuột Gaming Logitech</td>
+                        <td>CH001</td>
+                        <td>Chuột</td>
+                        <td class="text-right status-low-stock">8</td>
+                    </tr>
+                    <tr>
+                        <td>Tai nghe Pro</td>
+                        <td>TN003</td>
+                        <td>Tai nghe</td>
+                        <td class="text-right">120</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+</body>
+</html>
