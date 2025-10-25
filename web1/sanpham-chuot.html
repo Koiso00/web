@@ -11,35 +11,40 @@
 </head>
 <body>
     <header>
-        <a href="hello.html" class="logo">TechZone</a>
+        <a href="trangchu.html" class="logo">TechZone</a>
 
-        <div class="search-bar">
-            <a href="#" class="fas fa-bars"></a>
-            <div class="dropdown-content">
-            <a href="sanpham-banphim.html">Bàn phím</a>
-            <a href="sanpham-chuot.html">Chuột</a>
-            <a href="sanpham-banphim.html">Tai nghe</a>
-            <a href="sanpham-chuot.html">Màn hình</a>
-        </div>
-        <form action="sanpham-banphim.html" method="GET" class="search-form"> 
-        
-            <input type="text" placeholder="Tìm kiếm tại đây ...." id="search-box" name="keyword">
-            
-            <button type="submit" class="fas fa-search"></button>
-            
-        </form>
+        <div class="search-bar" role="search" aria-label="Search site">
+            <input type="checkbox" id="menu-toggle" hidden>
+            <label for="menu-toggle" class="menu-btn" aria-hidden="true">
+                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
+            </label>
+
+            <div class="dropdown-content" aria-hidden="true">
+                <a href="sanpham-banphim.html">Bàn phím</a>
+                <a href="sanpham-chuot.html">Chuột</a>
+                <a href="sanpham-banphim.html">Tai nghe</a>
+                <a href="sanpham-chuot.html">Màn hình</a>
+            </div>
+
+            <form action="sanpham-banphim.html" method="GET" class="search-form">
+                <label for="search-box" class="visually-hidden">Tìm kiếm</label>
+                <input type="search" id="search-box" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu..." aria-label="Tìm kiếm" autocomplete="off">
+                <button type="submit" class="search-submit" aria-label="Tìm kiếm">
+                    <img src="picture/magnifying-glass.png" alt="">
+                </button>
+            </form>
         </div>
         <nav class="navbar">
-        <a href="hello.html">Trang chủ</a> 
-        <a href="sanpham.html">Sản Phẩm</a> 
+        <a href="trangchu.html">Trang chủ</a> 
+        <a href="sanpham-banphim.html">Sản Phẩm</a> 
         <a href="#contact">Liên hệ</a>     
         </nav>
 
         <div class="icon">
-        <a href="#" class="fas fa-shopping-cart"></a>
-        <a href="#" class="fas fa-user"></a>
-        <a href="#" class="fa-solid fa-user-tie"></a>
-    </div>
+            <div><a href="giohang.html" class="shopping-cart"><img src="picture/shopping.png" alt="Giỏ hàng"></a></div>
+
+            <div class="user"> <a href="suathongtin.html" ><img class="avatar" src="picture/avatar-con-gian-cute.jpg" alt="Người dùng"><span>TÈO</span></a></div>
+        </div>
     </header>
     <main class="container">
         <br>
