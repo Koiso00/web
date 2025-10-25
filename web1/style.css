@@ -242,26 +242,12 @@ header .icon .user a{
     color: #333;
     text-align: left;
 }
-/* khi đã đăng nhập */
-/* khi đã đăng nhập - avatar image (has class="user1") */
-header .icon .user img.user1,
-header .icon img.user1{
-    width: 3.6rem;         /* use rem for consistency with root font-size */
-    height: 3.6rem;
+header .icon .user .avatar{
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255,255,255,0.9);
-    box-shadow: 0 .35rem .9rem rgba(0,0,0,.12);
-    transition: transform .15s ease, box-shadow .15s ease;
-    display: block;
 }
-header .icon .user img.user1:hover,
-header .icon img.user1:hover{
-    transform: scale(1.06);
-    box-shadow: 0 .6rem 1.4rem rgba(0,0,0,.18);
-}
-
-/* username next to avatar */
 header .icon .user a span{
     padding-bottom: 0;
     display: inline-block;
