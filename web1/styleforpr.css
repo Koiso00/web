@@ -116,6 +116,35 @@ header .fa-bars {
   cursor: pointer;
   margin-right: 1rem;
 }
+/*Bắt form dãn ra để lấp đầy .search-bar */
+.search-form {
+    display: flex;  
+    flex-grow: 0.95; 
+    align-items: center; 
+}
+
+/*Bắt ô input dãn ra lấp đầy form */
+#search-box {
+    flex-grow: 1; 
+    background: transparent; 
+    border: none;
+    outline: none;
+
+    /* Style chữ và khoảng cách */
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+/*Style cho icon tìm kiếm */
+.search-form button {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    color: #555;
+    padding: 0 15px;
+    cursor: pointer;
+}
 
 /* Phần menu ẩn đi ban đầu */
 .dropdown-content {
@@ -180,7 +209,7 @@ header .fa-bars {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
         .img {
-    height: 180px;                 /* giảm chiều cao khung */
+    height: 280px;                 /* giảm chiều cao khung */
     border-radius: 5px;
     display: flex;
     align-items: center;
