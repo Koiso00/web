@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Ký</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png" type="image/x-icon">
+  <link rel="stylesheet" href="trangdangki.css">
+</head>
+<body>
+      <header>
+        <a href="trangchu.html" class="logo">TechZone</a>
+
+        <div class="search-bar" role="search" aria-label="Search site">
+            <input type="checkbox" id="menu-toggle" hidden>
+            <label for="menu-toggle" class="menu-btn" aria-hidden="true">
+                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
+            </label>
+
+            <div class="dropdown-content" aria-hidden="true">
+                <a href="sanpham-banphim.html">Bàn phím</a>
+                <a href="sanpham-chuot.html">Chuột</a>
+                <a href="sanpham-banphim.html">Tai nghe</a>
+                <a href="sanpham-chuot.html">Màn hình</a>
+            </div>
+
+            <form action="sanpham-banphim.html" method="GET" class="search-form">
+                <label for="search-box" class="visually-hidden">Tìm kiếm</label>
+                <input type="search" id="search-box" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu..." aria-label="Tìm kiếm" autocomplete="off">
+                <button type="submit" class="search-submit" aria-label="Tìm kiếm">
+                    <img src="picture/magnifying-glass.png" alt="">
+                </button>
+            </form>
+        </div>
+        <nav class="navbar">
+        <a href="#">Trang chủ</a> 
+        <a href="#products">Sản Phẩm</a> 
+        <a href="#bottom">Liên hệ</a>     
+        </nav>
+
+        <div class="icon">
+            <div><a href="#" class="shopping-cart"><img src="picture/shopping.png" alt="Giỏ hàng"></a></div>
+
+            <div class="user"> <a href="#" ><img src="picture/user.png" alt="Người dùng"><span>Đăng nhập</span></a></div>
+        </div>
+    </header>
+  
+  <!-- Đăng ký -->
+  <section class="register-section">
+    <div class="register-wrapper">
+      <!-- Khung bên trái -->
+      <div class="register-box left">
+        <h2>Tạo tài khoản mới</h2>
+        <form>
+          <label for="fullname">Họ và tên:</label>
+          <input type="text" id="fullname" placeholder="Nhập họ và tên" required>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Nhập email" required>
+
+          <label for="username">Tên đăng nhập:</label>
+          <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
+
+          <label for="password">Mật khẩu:</label>
+          <input type="password" id="password" placeholder="Tạo mật khẩu" required>
+
+          <label for="confirm">Nhập lại mật khẩu:</label>
+          <input type="password" id="confirm" placeholder="Xác nhận mật khẩu" required>
+
+          <button class="buttonsign">Đăng Ký</button>
+          <p class="register-text">
+            Đã có tài khoản? <a href="trangdangnhap.html">Đăng nhập ngay</a>
+          </p>
+        </form>
+      </div>
+
+      <!-- Chữ "hoặc" ở giữa -->
+      <div class="divider">
+        <span>Hoặc</span>
+      </div>
+
+      <!-- Khung bên phải -->
+      <div class="register-box right">
+        <a href="https://accounts.google.com/signin/v2/identifier" class="google" target="_blank">
+          <img src="picture/google.png"> Đăng ký bằng Google
+        </a>
+        <a href="https://www.facebook.com/login/" class="facebook" target="_blank">
+          <img src="picture/facebook.png"> Đăng ký bằng Facebook
+        </a>
+        <a href="https://appleid.apple.com/sign-in" class="apple" target="_blank">
+          <img src="picture/apple.png"> Đăng ký bằng Apple
+        </a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
