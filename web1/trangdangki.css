@@ -383,3 +383,7 @@ header .icon .user a span{
   opacity: 0.9;
   transform: scale(1.02);
 }
+.buttonsign a{
+    color: white;
+    text-decoration: none;
+}
