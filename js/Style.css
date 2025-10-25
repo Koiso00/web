@@ -600,6 +600,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
 
@@ -971,4 +972,152 @@ body {
 .btn-add-item:hover {
     background-color: #218838;
     opacity: 1; /* Ghi đè opacity mặc định của .btn:hover */
+}
+/* --- CSS CHO TRANG QUẢN LÍ ĐƠN HÀNG --- */
+
+/* Danh sách đơn hàng (tương tự .slip-list) */
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Mỗi dòng đơn hàng (tương tự .slip-item) */
+.order-item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.order-details {
+    flex-grow: 1; /* Đẩy action sang phải */
+}
+.order-details h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+}
+.order-details p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+.order-details .order-total {
+    font-weight: bold;
+    color: #dc3545; /* Màu đỏ cho tổng tiền */
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.order-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Ô <select> chọn trạng thái */
+.status-select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: #f8f9fa;
+}
+
+/* --- CSS CHO TRANG CHI TIẾT ĐƠN HÀNG --- */
+.order-customer-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+.order-customer-info p {
+    margin: 5px 0;
+}
+/* --- CSS CHO TRANG QUẢN LÍ TỒN KHO --- */
+
+/* Hộp cảnh báo */
+.warning-box {
+    background-color: #fff3cd; /* Màu vàng nhạt */
+    border: 1px solid #ffeeba;
+    color: #856404; /* Màu chữ vàng đậm */
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+.warning-box h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+}
+.warning-box p {
+    margin: 0;
+}
+
+/* Thanh bộ lọc */
+.inventory-filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+.inventory-filter-bar input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+.inventory-filter-bar .status-select {
+    width: 200px; /* Độ rộng cố định cho select */
+}
+.inventory-filter-bar .btn-edit {
+    flex-shrink: 0;
+}
+
+/* Bộ lọc ngày tháng */
+.date-range-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.date-range-filter label {
+    font-weight: 500;
+}
+.date-range-filter input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+/* Chữ đỏ cho số lượng tồn kho thấp */
+.status-low-stock {
+    color: #dc3545; /* Màu đỏ */
+    font-weight: bold;
+}
+/* --- CSS CHO BẢNG TỒN KHO & TRA CỨU --- */
+
+/* Áp dụng cho bảng có class="price-lookup-table" */
+.price-lookup-table {
+    width: 100%; /* Cho bảng rộng hết cỡ */
+    border-collapse: collapse; /* Gộp các đường viền lại */
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Đây là phần quan trọng nhất để sửa lỗi của bạn */
+.price-lookup-table th,
+.price-lookup-table td {
+    border: 1px solid #dee2e6; /* Thêm đường viền */
+    padding: 12px 15px;      /* Thêm khoảng cách (padding) */
+    text-align: left;        /* Căn chữ về bên trái */
+}
+
+/* Làm cho các ô tiêu đề (Sản phẩm, Mã SP...) đẹp hơn */
+.price-lookup-table th {
+    background-color: #f8f9fa; /* Nền xám nhạt cho tiêu đề */
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }

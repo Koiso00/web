@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sản Phẩm Mới</title>
+    <link rel="stylesheet" href="../Style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1 class="logo">TechZone</h1>
+            <a href="../Trang-chu.html">📈 Trang Chủ</a>
+            <a href="../sanpham.html">📦 Quản lý sản phẩm</a>
+            <a href="../taikhoan.html">👥 Quản lý tài khoản</a>
+            <a href="quanlidanhmuc.html" class="active">🎁 Quản lí danh mục</a>
+            <a href="../quanlinhaphang/quan-li-nhap-hang.html">📥 Quản lí nhập hàng</a>
+            <a href="../quanligiaban/quanligiaban.html">💲 Quản lí giá bán</a>
+            <a href="../quanlidonhang/quan-li-don-hang.html">🚚 Quản lí đơn hàng</a>
+            <a href="../quanlitonkho/quan-li-ton-kho.html">📊 Quản lí tồn kho</a>
+        </nav>
+
+        <main class="main-content">
+
+            <div class="form-container">
+                <h1>Thêm danh mục mới</h1>
+                <form action="#">
+                    <div class="form-group">
+                        <label for="product-category">Loại danh mục</label>
+                        <input type="text" id="product-id" name="product-id" placeholder="VD: Điện tử">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-id">Mã danh mục</label>
+                        <input type="text" id="product-id" name="product-id" placeholder="VD: LT003">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-name">Tên danh mục</label>
+                        <input type="text" id="product-name" name="product-name" placeholder="VD: Sạc dự phòng UltraBook 2026">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Hình ảnh danh mục</label>
+                        <input type="file" id="product-image" name="product-image">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Mô tả</label>
+                        <textarea id="product-description" name="product-description" rows="4" placeholder="Nhập mô tả chi tiết..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-save">Lưu danh mục</button>
+                        <a href="quanlidanhmuc.html" class="btn-save">← Quay lại danh sách</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
