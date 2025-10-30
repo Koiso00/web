@@ -109,8 +109,11 @@ body {
 .btn-add {
     background-color: #28a745; /* Màu xanh lá */
 
+    width: 200px;
     color: white;
     padding: 10px 15px;
+    margin-left: 0;
+    margin-right: 10px;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
@@ -627,14 +630,27 @@ body {
 /* Header của Dashboard */
 .dashboard-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Vẫn giữ space-between */
     align-items: center;
     margin-bottom: 30px;
 }
 
+/* Class mới cho 3 cột */
+.header-column {
+    flex-basis: 250px; /* Đặt độ rộng cho 2 cột bên, bạn có thể chỉnh số này */
+    flex-shrink: 0;
+}
+
+/* Căn giữa cho tiêu đề */
+.header-title {
+    text-align: center;
+}
+
+/* Thay thế .header-profile cũ bằng cái này */
 .header-profile {
     display: flex;
     align-items: center;
+    justify-content: flex-end; /* Đẩy icon về cuối (bên phải) của cột */
     gap: 20px;
 }
 

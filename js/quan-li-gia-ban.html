@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Giá Bán</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1 class="logo">TechZone</h1>
+            <a href="Trang-chu.html">📈 Trang Chủ</a>
+            <a href="sanpham.html">📦 Quản lý sản phẩm</a>
+            <a href="taikhoan.html">👥 Quản lý tài khoản</a>
+            <a href="quanlidanhmuc.html">🎁 Quản lí danh mục</a>
+            <a href="quan-li-nhap-hang.html">📥 Quản lí nhập hàng</a>
+            <a href="quan-li-gia-ban.html" class="active">💲 Quản lí giá bán</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Quản lí tỉ lệ lợi nhuận</h1>
+                <a href="tra-cuu-gia-ban.html" class="btn btn-edit">📊 Tra cứu giá bán</a>
+            </div>
+
+            <div class="price-category-block">
+                <h3>⌨️ Bàn phím</h3>
+                <div class="category-profit-setting">
+                    <label for="profit-keyboard">Tỉ lệ lợi nhuận chung:</label>
+                    <input type="number" id="profit-keyboard" value="30">
+                    <span>%</span>
+                </div>
+
+                <h4 class="product-specific-title">Hoặc theo sản phẩm cụ thể (ưu tiên):</h4>
+
+                <div class="product-list">
+                    <div class="product-item">
+                        <img src="Image/product0.png" alt="Bàn phím" class="product-image">
+                        <div class="product-details">
+                            <h3>Ban phim Akko</h3>
+                            <p>Mã SP: LT001</p>
+                        </div>
+                        <div class="product-profit-input">
+                            <input type="number" placeholder="Chung (30%)">
+                            <span>%</span>
+                        </div>
+                    </div>
+                    <div class="product-item">
+                        <img src="Image/product1.1.png" alt="Bàn phím" class="product-image">
+                        <div class="product-details">
+                            <h3>Ban phim Akko Songoku</h3>
+                            <p>Mã SP: MS002</p>
+                        </div>
+                        <div class="product-profit-input">
+                            <input type="number" value="35" placeholder="Chung (30%)">
+                            <span>%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-category-block">
+                <h3>🖱️ Chuột</h3>
+                <div class="category-profit-setting">
+                    <label for="profit-mouse">Tỉ lệ lợi nhuận chung:</label>
+                    <input type="number" id="profit-mouse" value="40">
+                    <span>%</span>
+                </div>
+                <h4 class="product-specific-title">Hoặc theo sản phẩm cụ thể (ưu tiên):</h4>
+                <div class="product-list">
+                    <p class="empty-list-text">Chưa có sản phẩm cụ thể nào trong loại này.</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</body>
+</html>
