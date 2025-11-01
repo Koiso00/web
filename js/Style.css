@@ -47,6 +47,7 @@ body {
     top: 0; /* Căn menu lên đỉnh */
 
     left: 0; /* Căn menu sang trái */
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
 }
 
 
@@ -202,6 +203,7 @@ body {
 .product-actions {
     display: flex;
     gap: 10px; /* Khoảng cách giữa các nút */
+    flex-wrap: wrap;
 }
 
 
@@ -216,6 +218,7 @@ body {
     font-weight: 500;
     transition: opacity 0.2s;
     text-decoration: none;
+    white-space: nowrap; /* Ngăn chữ bên trong nút tự xuống dòng */
 }
 
 
@@ -349,6 +352,7 @@ body {
 .account-actions {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 
@@ -585,8 +589,9 @@ body {
 
 .form-actions {
     text-align: right; /* Đẩy nút Lưu sang phải */
-
+    flex-wrap: wrap;
     margin-top: 30px;
+    gap: 10px;
 }
 
 
@@ -783,12 +788,35 @@ body {
     gap: 10px;
 }
 
+/* Tìm class .bar trong file Style.css và THAY THẾ nó bằng code này */
 .bar {
     width: 10%;
     background-color: #007bff;
     border-radius: 5px 5px 0 0;
     animation: grow 1.5s ease-out;
+    
+    /* --- BẮT ĐẦU THAY ĐỔI --- */
+    display: flex;
+    flex-direction: column; /* Xếp dọc (số ở trên, chữ ở dưới) */
+    justify-content: flex-start; /* Đẩy 2 item LÊN TRÊN ĐẦU */
+    padding: 8px 4px; /* Thêm đệm trên/dưới và trái/phải */
+    box-sizing: border-box; /* Để padding không làm tăng chiều cao */
+    color: white;
     text-align: center;
+}
+/* --- THÊM CÁC DÒNG MỚI NÀY VÀO CUỐI FILE CSS --- */
+
+/* Định dạng cho SỐ (giá trị) */
+.bar-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Định dạng cho CHỮ (tháng) */
+.bar p {
+    font-size: 0.8rem;
+    margin: 0; /* Xóa margin mặc định của <p> */
+    opacity: 0.8; /* Làm chữ tháng mờ đi 1 chút */
 }
 /* Hiệu ứng cho biểu đồ */
 @keyframes grow {
@@ -897,6 +925,7 @@ body {
     gap: 10px;
     width: 220px; /* Đặt độ rộng cố định để các nút thẳng hàng */
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 /* Nút mới */
@@ -1031,6 +1060,7 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* Ô <select> chọn trạng thái */

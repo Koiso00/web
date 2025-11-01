@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Đơn Hàng - Mới đặt</title>
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <nav class="sidebar">
@@ -23,10 +25,18 @@
             <div class="page-header">
                 <h1>Quản lí đơn đặt hàng</h1>
             </div>
-            
-            <div class="search-bar">
+
+            <div class="inventory-filter-bar">
                 <input type="text" placeholder="Tìm theo mã đơn hàng, tên khách hàng...">
-                <button type="submit" class="btn btn-edit">Tìm kiếm</button>
+
+                <div class="date-range-filter">
+                    <label for="date-from">Từ ngày:</label>
+                    <input type="date" id="date-from">
+                    <label for="date-to">Đến ngày:</label>
+                    <input type="date" id="date-to">
+                </div>
+
+                <button type="submit" class="btn btn-edit">Tra cứu</button>
             </div>
 
             <nav class="category-nav">
@@ -38,7 +48,7 @@
             </nav>
 
             <div class="order-list">
-                
+
                 <div class="order-item">
                     <div class="order-details">
                         <h4>Mã đơn: DH001</h4>
@@ -81,4 +91,5 @@
         </main>
     </div>
 </body>
+
 </html>
