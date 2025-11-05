@@ -110,7 +110,7 @@ body {
 .btn-add {
     background-color: #28a745; /* Màu xanh lá */
 
-    width: 200px;
+    width: 150px;
     color: white;
     padding: 10px 15px;
     margin-left: 0;
@@ -460,7 +460,7 @@ body {
 
 .page-header {
     display: flex;
-    justify-content: space-between; /* Đẩy 2 item ra 2 đầu */
+    justify-content: center; /* Đẩy 2 item ra 2 đầu */
 
     align-items: center;
     margin-bottom: 25px;
@@ -678,6 +678,7 @@ body {
     object-fit: cover;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
 }
 
 
@@ -772,6 +773,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow-x: auto; /* Thêm thanh cuộn ngang khi cần */
+    padding-bottom: 20px; /* Thêm khoảng đệm cho thanh cuộn */
 }
 
     .chart-placeholder p {
@@ -1166,4 +1169,153 @@ body {
     background-color: #f8f9fa; /* Nền xám nhạt cho tiêu đề */
     font-size: 0.9rem;
     text-transform: uppercase;
+}
+/* Cột 2 (Tiêu đề) */
+.page-header h1.page-header-title {
+    /* Xóa gạch chân và margin mặc định của H1 */
+    margin: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    
+    /* Căn giữa chữ bên trong */
+    text-align: center;
+}
+
+/* Bỏ margin-bottom của nút khi nó nằm trong header */
+.page-header-side .btn-add {
+    margin-bottom: 0;
+}
+/* --- CSS CHO THANH CÔNG CỤ (DƯỚI HEADER) --- */
+.page-toolbar {
+    display: flex;
+    justify-content: flex-end; /* Đẩy nút sang bên phải */
+    margin-bottom: 20px; /* Khoảng cách với danh sách bên dưới */
+}
+
+/* Bỏ margin-bottom của nút khi nó nằm trong toolbar mới */
+.page-toolbar .btn-add {
+    margin-bottom: 0;
+}
+/* --- CSS CHO RESPONSIVE (MÀN HÌNH NHỎ) --- */
+
+/* Áp dụng cho màn hình từ 992px trở xuống */
+@media (max-width: 992px) {
+
+    /* * 1. BIẾN SIDEBAR THÀNH THANH ĐIỀU HƯỚNG BÊN TRÊN 
+     */
+     .container {
+        flex-direction: column; /* Bắt buộc: Xếp sidebar và nội dung theo chiều dọc */
+    }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        overflow-y: hidden; /* Tắt cuộn dọc */
+        justify-content: flex-start;
+        align-items: center;
+        
+        /* Thay đổi quan trọng */
+        flex-wrap: nowrap;   /* Bắt buộc menu nằm trên MỘT HÀNG */
+        overflow-x: auto;   /* Thêm cuộn ngang khi cần */
+    }
+    .sidebar a {
+        padding: 10px 15px;    /* Tăng đệm 1 chút cho dễ bấm */
+        font-size: 0.9rem;
+        flex-shrink: 0;
+        margin-bottom: 0;      /* Xóa margin-bottom không cần thiết */
+        width: auto;           /* Cho phép mục menu tự co dãn */
+        white-space: nowrap;   /* Ngăn chữ bị xuống dòng */
+    }
+
+    /* Ẩn logo đi để tiết kiệm diện tích */
+    .sidebar .logo {
+        display: none;
+    }
+
+    /* * 2. ĐIỀU CHỈNH NỘI DUNG CHÍNH 
+     */
+    .main-content {
+        margin-left: 0; /* Xóa khoảng trống bên trái */
+        padding: 15px;  /* Giảm padding một chút */
+    }
+
+    /* * 3. SẮP XẾP LẠI CÁC KHỐI BÊN TRONG 
+     */
+    
+    /* Cho 4 thẻ thống kê ở trang chủ thành 2 cột */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Cho các dòng danh sách (sản phẩm, đơn hàng) xếp dọc */
+    .product-item,
+    .account-item,
+    .order-item,
+    .slip-item {
+        flex-direction: column; /* Xếp dọc */
+        align-items: flex-start; /* Căn về bên trái */
+    }
+    
+    /* Cho các nút hành động chiếm hết chiều rộng */
+    .product-actions,
+    .account-actions,
+    .order-actions,
+    .slip-actions {
+        width: 100%;
+        margin-top: 15px; /* Thêm khoảng cách với nội dung bên trên */
+    }
+    
+    /* Cho thanh tìm kiếm/lọc xếp dọc */
+    .inventory-filter-bar {
+        flex-direction: column;
+        align-items: stretch; /* Kéo dãn các item ra */
+    }
+    .date-range-filter {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .inventory-filter-bar .status-select {
+        width: 100%; /* Chiếm hết chiều rộng */
+    }
+
+    /* Cho thanh header (tiêu đề, nút) xếp dọc */
+    .page-header {
+        flex-direction: column;
+        align-items: center; /* Căn giữa */
+        gap: 15px;
+    }
+    .page-toolbar {
+        justify-content: center; /* Căn giữa */
+    }
+
+    /* Cho các bảng tự động có thanh cuộn ngang */
+    .product-entry-table,
+    .price-lookup-table {
+        /* Bọc các bảng này trong 1 div để có thể cuộn */
+        /* Nếu chưa bọc, hãy thêm 1 div bên ngoài chúng */
+        display: block;
+        width: 100%;
+        overflow-x: auto; /* Đây là thanh trượt bạn muốn */
+    }
+}
+/* --- SỬA LỖI VỠ CHỮ HEADER TRANG CHỦ --- */
+
+/* Áp dụng cho màn hình từ 768px trở xuống */
+@media (max-width: 768px) {
+
+    .dashboard-header {
+        flex-direction: column; /* Xếp 3 cột thành hàng dọc */
+        gap: 20px;
+    }
+
+    .header-column {
+        flex-basis: auto; /* Tắt độ rộng cố định 250px */
+        width: 100%;
+    }
+
+    /* Đẩy avatar và icon ra giữa */
+    .header-profile {
+        justify-content: center;
+    }
 }

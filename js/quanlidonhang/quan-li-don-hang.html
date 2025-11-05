@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Đơn Hàng - Mới đặt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Style.css">
 </head>
 
@@ -23,11 +24,20 @@
 
         <main class="main-content">
             <div class="page-header">
-                <h1>Quản lí đơn đặt hàng</h1>
+                <h1 class="page-header-title">Quản lí đơn đặt hàng</h1>
             </div>
 
             <div class="inventory-filter-bar">
                 <input type="text" placeholder="Tìm theo mã đơn hàng, tên khách hàng...">
+
+                <select class="status-select" style="width: 200px;">
+                    <option value="">Lọc theo trạng thái</option>
+                    <option value="moi-dat">Mới đặt</option>
+                    <option value="xac-nhan">Đã xác nhận</option>
+                    <option value="dang-giao">Đang giao</option>
+                    <option value="da-giao">Đã giao</option>
+                    <option value="huy">Hủy</option>
+                </select>
 
                 <div class="date-range-filter">
                     <label for="date-from">Từ ngày:</label>
@@ -38,14 +48,6 @@
 
                 <button type="submit" class="btn btn-edit">Tra cứu</button>
             </div>
-
-            <nav class="category-nav">
-                <a href="quan-li-don-hang.html" class="category-link active">Mới đặt</a>
-                <a href="don-hang-da-xac-nhan.html" class="category-link">Đã xác nhận</a>
-                <a href="don-hang-dang-giao.html" class="category-link">Đang giao</a>
-                <a href="don-hang-da-giao.html" class="category-link">Đã giao</a>
-                <a href="don-hang-huy.html" class="category-link">Đã huỷ</a>
-            </nav>
 
             <div class="order-list">
 
@@ -86,6 +88,99 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="order-item">
+                    <div class="order-details">
+                        <h4>Mã đơn: DH034</h4>
+                        <p>Khách hàng: Nguyễn Văn D</p>
+                        <p>Ngày đặt: 23/10/2023</p>
+                        <p class="order-total">1,000,000đ</p>
+                    </div>
+                    <div class="order-actions">
+                        <button type="button" class="btn btn-view">Chi tiết</button>
+                        <select class="status-select">
+                            <option value="moi-dat">Mới đặt</option>
+                            <option value="xac-nhan" selected>Đã xác nhận</option>
+                            <option value="dang-giao">Đang giao</option>
+                            <option value="da-giao">Đã giao</option>
+                            <option value="huy">Hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <div class="order-details">
+                        <h4>Mã đơn: DH003</h4>
+                        <p>Khách hàng: Lê Hoàng C</p>
+                        <p>Ngày đặt: 23/10/2025</p>
+                        <p class="order-total">700,000đ</p>
+                    </div>
+                    <div class="order-actions">
+                        <button type="button" class="btn btn-view">Chi tiết</button>
+                        <select class="status-select">
+                            <option value="moi-dat">Mới đặt</option>
+                            <option value="xac-nhan" selected>Đã xác nhận</option>
+                            <option value="dang-giao">Đang giao</option>
+                            <option value="da-giao">Đã giao</option>
+                            <option value="huy">Hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <div class="order-details">
+                        <h4>Mã đơn: DH009</h4>
+                        <p>Khách hàng: Lê Cẩm Lan</p>
+                        <p>Ngày đặt: 03/08/2025</p>
+                        <p class="order-total">812,000đ</p>
+                    </div>
+                    <div class="order-actions">
+                        <button type="button" class="btn btn-view">Chi tiết</button>
+                        <select class="status-select">
+                            <option value="moi-dat">Mới đặt</option>
+                            <option value="xac-nhan" selected>Đã xác nhận</option>
+                            <option value="dang-giao">Đang giao</option>
+                            <option value="da-giao">Đã giao</option>
+                            <option value="huy">Hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <div class="order-details">
+                        <h4>Mã đơn: DH018</h4>
+                        <p>Khách hàng: Phiến công chúa</p>
+                        <p>Ngày đặt: 12/2/2025</p>
+                        <p class="order-total">360,000đ</p>
+                    </div>
+                    <div class="order-actions">
+                        <button type="button" class="btn btn-view">Chi tiết</button>
+                        <select class="status-select">
+                            <option value="moi-dat">Mới đặt</option>
+                            <option value="xac-nhan" selected>Đã xác nhận</option>
+                            <option value="dang-giao">Đang giao</option>
+                            <option value="da-giao">Đã giao</option>
+                            <option value="huy">Hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="page-footer-bar">
+                
+                <div class="pagination">
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                    <span class="page-number">4</span>
+                    <span class="page-number">5</span>
+                    <span class="page-number">...</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Lưu tình trạng</button>
+                </div>
+
+            </div>
 
             </div>
         </main>
