@@ -1320,6 +1320,8 @@ body {
     }
 }
 
+/*-------Style cho phần đăng nhập admin----*/
+
 .login-section {
     display: flex;
     justify-content: center;
@@ -1409,13 +1411,12 @@ body {
     display: flex;/* 1. Biến nó thành flex container */
     justify-content: space-between; /* 2. Đẩy 2 con ra 2 bên */
     align-items: center;/* 3. Căn giữa theo chiều dọc */
-    /* Thêm dòng này để tạo khoảng cách với nút "Đăng nhập" bên dưới */
-    margin-bottom: 20px;
+    margin-bottom: 20px;/*để tạo khoảng cách với nút "Đăng nhập" bên dưới */
     }
 
 .admin-avatar img {
-    width: 40px;        /* Đặt chiều rộng cố định cho ảnh */
-    height: 40px;       /* Đặt chiều cao cố định cho ảnh */
+    width: 40px;
+    height: 40px;
     border-radius: 50%; /* Biến ảnh thành hình tròn */
     object-fit: cover;  /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
 }
@@ -1497,6 +1498,7 @@ body {
     text-decoration: none;
 }
 
+/*---- phần đăng xuất -----*/
 /* 1. CSS cho thẻ bọc ngoài */
 .profile-dropdown {
     position: relative; /* Giữ nguyên để định vị menu con */
