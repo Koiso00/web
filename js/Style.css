@@ -1405,6 +1405,13 @@ body {
     width: 15px;
     height: 15px;
 }
+.remember-forgot {
+    display: flex;/* 1. Biến nó thành flex container */
+    justify-content: space-between; /* 2. Đẩy 2 con ra 2 bên */
+    align-items: center;/* 3. Căn giữa theo chiều dọc */
+    /* Thêm dòng này để tạo khoảng cách với nút "Đăng nhập" bên dưới */
+    margin-bottom: 20px;
+    }
 
 .admin-avatar img {
     width: 40px;        /* Đặt chiều rộng cố định cho ảnh */
