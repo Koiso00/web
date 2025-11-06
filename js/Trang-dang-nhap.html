@@ -9,22 +9,48 @@
 <body>
     <section class="login-section">
         <div class="login-wrapper">
-            <h2>Đăng Nhập Admin</h2>
-            <form>
-            <label for="username">Tên đăng nhập:</label>
-            <input type="text" id="username" placeholder="Nhập tên đăng nhập">
-
-            <label for="password">Mật khẩu:</label>
-            <input type="password" id="password" placeholder="Nhập mật khẩu">
-            <div class="remember-forgot">
-                <label>
-                    <input type="checkbox" ><span>Nhớ tài khoản</span>
-                </label>
+            <div class="login-box left">
+                <h2>Đăng Nhập Admin</h2>
+                <form>
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" placeholder="Nhập tên đăng nhập">
+          
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" placeholder="Nhập mật khẩu">
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox" ><span>Nhớ tài khoản</span>
+                    </label>
+                       
+                    <a href="#">Quên mật khẩu?</a>
+                    </div>
+                    <button class="buttonsign" type="button" onclick="window.location.href='Trang-chu.html'">
+                      Đăng nhập
+                    </button>
+                </form>
+                </div>
+          
+                <!-- Chữ "hoặc" ở giữa -->
+                <div class="divider">
+                <span>Hoặc</span>
+                </div>
+          
+                <!-- Khung bên phải -->
+                <div class="login-box right">
+                
+                    <a href="Trang-chu.html" class="google" >
+                        <img src="Image/google.png" > Đăng Nhập Bằng Google
+                    </a>
+                
+                    <a href="Trang-chu.html" class="facebook" >
+                        <img src="Image/facebook.png" > Đăng Nhập Bằng Facebook
+                    </a>
+                 
+                    <a href="Trang-chu.html" class="apple" >
+                        <img src="Image/apple.png" > Đăng Nhập Bằng Apple
+                    </a>
+                </div>
             </div>
-                <button class="buttonsign" type="button" onclick="window.location.href='Trang-chu.html'">
-                Đăng nhập
-                </button>
-            </form>
         </div>
     </section>
 </body>
