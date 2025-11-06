@@ -1319,3 +1319,125 @@ body {
         justify-content: center;
     }
 }
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    width: 500px;
+}
+.login-wrapper form {
+    width: 90%;
+}
+
+
+/* Input */
+.login-wrapper input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+/* Nút đăng nhập */
+.buttonsign {
+    background: #050af9;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.buttonsign:hover {
+    background: #0000cc;
+}
+
+.remember-forgot label {
+    display: inline-flex;
+    align-items: center;
+    gap:0px;
+}
+.remember-forgot input[type="checkbox"] {
+    margin-right: 10px;
+    width: 15px;
+    height: 15px;
+}
+
+.admin-avatar img {
+    width: 40px;        /* Đặt chiều rộng cố định cho ảnh */
+    height: 40px;       /* Đặt chiều cao cố định cho ảnh */
+    border-radius: 50%; /* Biến ảnh thành hình tròn */
+    object-fit: cover;  /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
+}
+/* 1. CSS cho thẻ bọc ngoài */
+.profile-dropdown {
+    position: relative; /* Giữ nguyên để định vị menu con */
+}
+
+/* 2. CSS cho avatar (thẻ summary) */
+.admin-avatar {
+    list-style: none; /* Ẩn mũi tên mặc định của <details> */
+    cursor: pointer;
+    /* Dòng này rất QUAN TRỌNG để ảnh không bị lỗi hiển thị */
+    display: inline-block; 
+}
+
+/* Ẩn mũi tên mặc định trên các trình duyệt Webkit (Chrome, Safari) */
+.admin-avatar::-webkit-details-marker {
+    display: none;
+}
+
+/* 3. CSS cho ảnh avatar bên trong */
+.admin-avatar img {
+    /* Copy y hệt CSS cũ của bạn cho ảnh tròn */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* Thêm dòng này để ảnh không bị dính vào viền khi click */
+    vertical-align: middle; 
+}
+
+/* 4. CSS cho menu xổ xuống */
+.dropdown-menu {
+    /* Trình duyệt tự động ẩn/hiện, không cần "display: none" */
+    position: absolute; 
+    top: 110%; /* Vị trí: ngay dưới avatar */
+    right: 0;  /* Căn về bên phải */
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    width: 200px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+/* 5. CSS cho các link bên trong menu */
+.dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
