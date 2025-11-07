@@ -186,7 +186,7 @@ body {
 
     .product-details h3 {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
     }
 
 
@@ -439,7 +439,7 @@ body {
     color: #007bff;
     background-color: #ffffff;
     font-weight: 500;
-    cursor: default; /* Biến con trỏ thành mũi tên thường vì không bấm được */
+    cursor: pointer;
 }
 
 
@@ -450,6 +450,7 @@ body {
         background-color: #007bff;
         color: white;
         border-color: #007bff;
+        cursor: default;
     }
 
 /* --- CSS CHO TRANG QUẢN LÍ DANH MỤC & FORM --- */
@@ -1130,7 +1131,7 @@ body {
 .date-range-filter {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
 }
 .date-range-filter label {
     font-weight: 500;
