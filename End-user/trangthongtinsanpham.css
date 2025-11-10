@@ -807,3 +807,38 @@ header .icon .user a span{
 .xemchitiet:hover {
   background-color: #ff6600;
 }
+footer{
+    width:100%;
+    overflow:auto;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+}
+footer section div{
+    float: left;
+    padding: 1rem 2rem;
+    text-align: center;
+}
+footer section div ul li{
+    list-style: none;
+    margin: 1rem 0;
+    font-size: 1.3rem;
+    color: #fff;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.payment {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+tr td {
+    padding: .5rem;
+}
+.social a{
+    font-size: 2rem;
+    color: #fff;
+    padding: 0 1rem;
+}
