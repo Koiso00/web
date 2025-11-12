@@ -122,8 +122,8 @@ td input[type="checkbox"] {
 /* ===== NÚT XOÁ ===== */
 .remove img {
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   transition: 0.2s;
 }
 
