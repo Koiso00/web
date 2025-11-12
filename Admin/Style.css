@@ -25,16 +25,6 @@ body {
     color: white;
     font-weight: bolder;
 }
-.login-page-logo { 
-    position: absolute; /* Lấy logo ra khỏi luồng trang */
-    top: 30px;          /* Cách lề trên 30px */
-    left: 30px;         /* Cách lề trái 30px */
-    font-size: 45px;    /* Kích thước chữ cho logo */
-    color: white;       /* Màu chữ trắng để nổi bật trên nền tối */
-    z-index: 100;       /* Đảm bảo nó nổi lên trên các thành phần khác */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Thêm bóng chữ cho nổi bật */
-    /* Bạn có thể thêm font-family nếu muốn font chữ đặc biệt */
-}
 
 
 
@@ -120,7 +110,7 @@ body {
 .btn-add {
     background-color: #28a745; /* Màu xanh lá */
 
-    width: 150px;
+    width: 170px;
     color: white;
     padding: 10px 15px;
     margin-left: 0;
@@ -251,14 +241,34 @@ body {
 
 .btn-delete {
     background-color: #dc3545; /* Đỏ */
-
+    
     color: white;
+}
+
+.btn-deleteback {
+    background-color: #dc3545; /* Đỏ */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
 }
 
 
 
 .btn-hide {
     background-color: #6c757d; /* Xám */
+
+    color: white;
+}
+
+.btn-hide.active
+{
+    background-color: #28a745; /* Xanh lá khi đang ẩn */
 
     color: white;
 }
@@ -334,7 +344,7 @@ body {
 
 .role {
     font-size: 0.8rem;
-    padding: 3px 8px;
+    padding: 1px 8px;
     border-radius: 10px;
     font-weight: bold;
 }
@@ -1349,7 +1359,6 @@ body {
     
 }
 
-
 .login-wrapper {
     display: flex;
     align-items: center;
@@ -1359,20 +1368,28 @@ body {
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
 }
 .login-wrapper form {
-    width: 95%;
+    width: 90%;
 }
-/* Khung trắng */
+/* Hai khung trái/phải */
 .login-box {
     background: white;
     padding: 40px;
     border-radius: 10px;
     width: 290px;
 }
-/* CSS cho tiêu đề Đăng Nhập Admin */
+
+.login-box.left {
+    width:  400px;
+    margin-right: -40px;
+}
 .login-box h2 {
-    margin-top: 0;      /* Xóa lề trên để kéo chữ lên */
-    text-align: center; /* Đảm bảo chữ vẫn ở giữa */
-    margin-bottom: 50px; /* Đặt khoảng cách với form bên dưới cho đẹp */
+    font-size: 24px;
+ 
+    color: #333;
+}
+.login-box h2, .login-box h3 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Input */
@@ -1418,14 +1435,89 @@ body {
     margin-bottom: 20px;/*để tạo khoảng cách với nút "Đăng nhập" bên dưới */
     }
 
-
 .admin-avatar img {
     width: 40px;
     height: 40px;
     border-radius: 50%; /* Biến ảnh thành hình tròn */
     object-fit: cover;  /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
 }
+/* --- CHỮ Ở GIỮA --- */
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
+}
+.divider span {
+    font-size: 19px;
+    background: #fff;
+    padding: 8px 15px;
+    font-weight: bold;
+    transition: 0.2ms;
+    margin-right: -35px;
+}
 
+/* --- Đăng nhập MXH --- */
+.login-box.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 400px;
+    margin-top: 20px;
+}
+
+.login-box.right button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    width: 220px;
+    font-size: 15px;
+}
+
+.google, .facebook, .apple {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  width: 300px;height: 50px; ;
+  padding: 16px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+.google img,.facebook img,.apple img{
+    width: 17px;
+}
+
+.google { background: #db4437; }
+.facebook { background: #3b5998; }
+.apple { background: #000; }
+
+.google:hover, .facebook:hover, .apple:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.login-box.right button:hover {
+    opacity: 0.9;
+}
+.buttonsign a{
+    color: white;
+    text-decoration: none;
+}
 
 /*---- phần đăng xuất -----*/
 /* 1. CSS cho thẻ bọc ngoài */
@@ -1481,3 +1573,32 @@ vertical-align: middle; /* để ảnh không bị dính vào viền khi click *
 .dropdown-menu a:hover {
     background-color: #f5f5f5;
 }
+/* --- CSS CHO TRANG CHI TIẾT ĐƠN HÀNG --- */
+.order-customer-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #e9ecef;
+}
+.order-customer-info p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+.order-customer-info p strong {
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Tái sử dụng style cho chấm tròn trạng thái */
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.status-pending { background-color: #ffc107; }
+.status-confirmed { background-color: #007bff; }
+.status-completed { background-color: #28a745; }
+.status-cancelled { background-color: #dc3545; }

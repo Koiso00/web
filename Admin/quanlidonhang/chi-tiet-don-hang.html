@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Đơn Hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1 class="logo">TechZone</h1>
+            <a href="../Trang-chu.html">📈 Trang Chủ</a>
+            <a href="../sanpham.html">📦 Quản lý loại sản phẩm</a>
+            <a href="../taikhoan.html">👥 Quản lý tài khoản</a>
+            <a href="../quanlidanhmuc/quanlidanhmuc.html">🎁 Quản lí danh mục</a>
+            <a href="../quanlinhaphang/quan-li-nhap-hang.html">📥 Quản lí nhập hàng</a>
+            <a href="../quanligiaban/quanligiaban.html">💲 Quản lí giá bán</a>
+            <a href="quan-li-don-hang.html" class="active">🚚 Quản lí đơn hàng</a>
+            <a href="../quanlitonkho/quan-li-ton-kho.html">📊 Quản lí tồn kho</a>
+        </nav>
+
+        <main class="main-content">
+            
+            
+            <div class="form-container">
+                <h1>Chi tiết đơn hàng: DH001</h1>
+                
+                <div class="order-customer-info">
+                    <p><strong>Khách hàng:</strong> Messi</p>
+                    <p><strong>Số điện thoại:</strong> 090xxxx123</p>
+                    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường X, Quận Y, TP. HCM</p>
+                    <p><strong>Trạng thái:</strong> <span class="status-dot status-pending"></span> Mới đặt</p>
+                </div>
+
+                <h2 class="form-section-title">Các sản phẩm trong đơn</h2>
+                
+                <table class="price-lookup-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Mã SP</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AKKO 5075B Plus Dragon Ball Super</td>
+                            <td>MS002</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">1,620,000đ</td>
+                            <td class="text-right">1,620,000đ</td>
+                        </tr>
+                        <tr>
+                            <td>Chuột Gaming Logitech</td>
+                            <td>CH001</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right">700,000đ</td>
+                            <td class="text-right">700,000đ</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-right strong-price">TỔNG CỘNG</td>
+                            <td class="text-right strong-price">2,320,000đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-actions">
+                    <a href="quan-li-don-hang.html" class="btn btn-deleteback">← Quay lại danh sách</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
