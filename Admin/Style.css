@@ -25,6 +25,16 @@ body {
     color: white;
     font-weight: bolder;
 }
+/* CSS cho logo TechZone ở góc trái trên cùng của trang đăng nhập */
+.login-page-logo { 
+    position: absolute; /* Lấy logo ra khỏi luồng trang */
+    top: 30px;          
+    left: 30px;         
+    font-size: 45px;    /* Kích thước chữ cho logo */
+    color: white;       /* Màu chữ trắng để nổi bật trên nền tối */
+    z-index: 100;       /* Đảm bảo nó nổi lên trên các thành phần khác */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+}
 
 
 
@@ -1377,19 +1387,11 @@ body {
     border-radius: 10px;
     width: 290px;
 }
-
-.login-box.left {
-    width:  400px;
-    margin-right: -40px;
-}
+/* CSS cho tiêu đề Đăng Nhập Admin */
 .login-box h2 {
-    font-size: 24px;
- 
-    color: #333;
-}
-.login-box h2, .login-box h3 {
-    text-align: center;
-    margin-bottom: 20px;
+    margin-top: 0;      /* Xóa lề trên để kéo chữ lên */
+    text-align: center; /* Đảm bảo chữ vẫn ở giữa */
+    margin-bottom: 25px; /* Đặt khoảng cách với form bên dưới cho đẹp */
 }
 
 /* Input */
