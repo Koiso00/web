@@ -25,6 +25,16 @@ body {
     color: white;
     font-weight: bolder;
 }
+.login-page-logo { 
+    position: absolute; /* Lấy logo ra khỏi luồng trang */
+    top: 30px;          /* Cách lề trên 30px */
+    left: 30px;         /* Cách lề trái 30px */
+    font-size: 45px;    /* Kích thước chữ cho logo */
+    color: white;       /* Màu chữ trắng để nổi bật trên nền tối */
+    z-index: 100;       /* Đảm bảo nó nổi lên trên các thành phần khác */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Thêm bóng chữ cho nổi bật */
+    /* Bạn có thể thêm font-family nếu muốn font chữ đặc biệt */
+}
 
 
 
@@ -1339,6 +1349,7 @@ body {
     
 }
 
+
 .login-wrapper {
     display: flex;
     align-items: center;
@@ -1348,28 +1359,20 @@ body {
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
 }
 .login-wrapper form {
-    width: 90%;
+    width: 105%;
 }
-/* Hai khung trái/phải */
+/* Khung trắng */
 .login-box {
     background: white;
     padding: 40px;
     border-radius: 10px;
     width: 290px;
 }
-
-.login-box.left {
-    width:  400px;
-    margin-right: -40px;
-}
+/* CSS cho tiêu đề Đăng Nhập Admin */
 .login-box h2 {
-    font-size: 24px;
- 
-    color: #333;
-}
-.login-box h2, .login-box h3 {
-    text-align: center;
-    margin-bottom: 20px;
+    margin-top: 0;      /* Xóa lề trên để kéo chữ lên */
+    text-align: center; /* Đảm bảo chữ vẫn ở giữa */
+    margin-bottom: 50px; /* Đặt khoảng cách với form bên dưới cho đẹp */
 }
 
 /* Input */
@@ -1415,89 +1418,14 @@ body {
     margin-bottom: 20px;/*để tạo khoảng cách với nút "Đăng nhập" bên dưới */
     }
 
+
 .admin-avatar img {
     width: 40px;
     height: 40px;
     border-radius: 50%; /* Biến ảnh thành hình tròn */
     object-fit: cover;  /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
 }
-/* --- CHỮ Ở GIỮA --- */
-.divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 0 20px;
-}
-.divider span {
-    font-size: 19px;
-    background: #fff;
-    padding: 8px 15px;
-    font-weight: bold;
-    transition: 0.2ms;
-    margin-right: -35px;
-}
 
-/* --- Đăng nhập MXH --- */
-.login-box.right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 400px;
-    margin-top: 20px;
-}
-
-.login-box.right button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    width: 220px;
-    font-size: 15px;
-}
-
-.google, .facebook, .apple {
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  gap: 10px;
-  width: 300px;height: 50px; ;
-  padding: 16px;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  font-weight: 650;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
-}
-.google img,.facebook img,.apple img{
-    width: 17px;
-}
-
-.google { background: #db4437; }
-.facebook { background: #3b5998; }
-.apple { background: #000; }
-
-.google:hover, .facebook:hover, .apple:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-}
-
-.login-box.right button:hover {
-    opacity: 0.9;
-}
-.buttonsign a{
-    color: white;
-    text-decoration: none;
-}
 
 /*---- phần đăng xuất -----*/
 /* 1. CSS cho thẻ bọc ngoài */
