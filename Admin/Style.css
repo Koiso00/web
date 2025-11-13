@@ -33,7 +33,7 @@ body {
     font-size: 45px;    /* Kích thước chữ cho logo */
     color: white;       /* Màu chữ trắng để nổi bật trên nền tối */
     z-index: 100;       /* Đảm bảo nó nổi lên trên các thành phần khác */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 
