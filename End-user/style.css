@@ -467,6 +467,7 @@ header .icon .user a span{
 }
 
 footer{
+    padding: 2rem 0;
     width:100%;
     overflow:auto;
     background-color: rgba(0,0,0,0.5);
