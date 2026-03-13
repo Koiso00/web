@@ -163,6 +163,7 @@ Chúng tôi cam kết không bán hàng kém chất lượng.
 <h1 class="heading">Latest <span>Products</span></h1>
 
 <br>
+ 
 
 <div class="box-content">
 
@@ -170,33 +171,19 @@ Chúng tôi cam kết không bán hàng kém chất lượng.
 
 <div class="box">
 
-<div class="image">
+    <div class="image">
+        <a href="chitietsanpham.php?id=<?php echo $row['MaSP']; ?>">
+            <img src="picture/<?php echo $row['HinhAnh']; ?>" alt="">
+        </a>
+    </div>
 
-<a href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">
+    <div class="name-product">
+        <h3><?php echo $row['TenSP']; ?></h3>
 
-<img src="picture/<?php echo $row['HinhAnh']; ?>" alt="">
-
-</a>
-
-<div class="icon">
-<a href="giohang.php?id=<?php echo $row['MaSP']; ?>" class="fas fa-shopping-cart">
-Mua ngay
-</a>
-</div>
-
-<div class="name-product">
-
-<h3><?php echo $row['TenSP']; ?></h3>
-
-<div class="price">
-
-<?php echo number_format($row['GiaNhapBinhQuan'],0,',','.'); ?> ₫
-
-</div>
-
-</div>
-
-</div>
+        <div class="price">
+            <?php echo number_format($row['GiaNhapBinhQuan'],0,',','.'); ?> ₫
+        </div>
+    </div>
 
 </div>
 
