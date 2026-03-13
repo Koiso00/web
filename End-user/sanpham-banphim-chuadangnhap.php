@@ -67,117 +67,91 @@
                 <label><input type="checkbox"> MSI</label><br>
               </aside>
     
-        <section class="products">
+              <section class="products">
             <h1>Keyboard | Bàn phím máy tính</h1>
             <br>
+            
+            <?php
+            // 1. Nhúng file kết nối
+            include 'connect.php';
+
+            // 2. Cấu hình phân trang
+            $limit = 6; // Số sản phẩm 1 trang
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            if ($page < 1) $page = 1;
+            $offset = ($page - 1) * $limit;
+
+            // 3. Đếm tổng số sản phẩm Bàn phím (Giả sử Tên loại có chứa chữ 'Bàn phím' và đang được bán)
+            $sql_count = "SELECT COUNT(*) as total FROM SanPham sp 
+                          JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai 
+                          WHERE lsp.TenLoai LIKE '%Bàn phím%' AND sp.HienTrang = 1";
+            $result_count = mysqli_query($conn, $sql_count);
+            $row_count = mysqli_fetch_assoc($result_count);
+            $total_records = $row_count['total'];
+            $total_pages = ceil($total_records / $limit);
+
+            // 4. Lấy dữ liệu sản phẩm cho trang hiện tại
+            $sql = "SELECT sp.* FROM SanPham sp 
+                    JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai 
+                    WHERE lsp.TenLoai LIKE '%Bàn phím%' AND sp.HienTrang = 1 
+                    LIMIT $limit OFFSET $offset";
+            $result = mysqli_query($conn, $sql);
+            ?>
+
             <div class="grid">
-            <!-- Product 1 -->
-            <article class="card">
-            <div class="img"><a href="thongtinsanpham.php"><img src="picture/product1.png" alt="AKKO TAC87 Black&Gold Mirror Switch"></a></div>
-            <h3>AKKO TAC87 Black&Gold Mirror Switch</h3>
-            <div class="price">1,250,000 ₫ <span>1,390,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-            
-            <!-- Product 2 -->
+                <?php 
+                // 5. Vòng lặp in sản phẩm ra HTML
+                if (mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                        // Tính giá bán theo công thức: Giá nhập * (100% + Tỉ lệ lợi nhuận)
+                        // Trong DB của bạn, TiLeLoiNhuan lưu kiểu 0.20 (tức là 20%)
+                        $gia_nhap = $row['GiaNhapBinhQuan'];
+                        $ti_le = $row['TiLeLoiNhuan'];
+                        $gia_ban = $gia_nhap * (1 + $ti_le);
+                ?>
                 <article class="card">
-            <div class="img"><img src="picture/product2.png" alt="AKKO 5075B Plus Dragon Ball Super"></div>
-            <h3>AKKO 5075B Plus Dragon Ball Super</h3>
-            <div class="price">2,000,000 ₫ <span>2,999,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
+                    <div class="img">
+                        <a href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">
+                            <img src="picture/<?php echo $row['HinhAnh']; ?>" alt="<?php echo htmlspecialchars($row['TenSP']); ?>">
+                        </a>
+                    </div>
+                    <h3><?php echo htmlspecialchars($row['TenSP']); ?></h3>
+                    
+                    <div class="price">
+                        <?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫ 
+                    </div>
+                    
+                    <div class="actions">
+                        <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php?id=<?php echo $row['MaSP']; ?>">Chi tiết</a>
+                        <a class="btn btn-outline" href="themgiohang.php?id=<?php echo $row['MaSP']; ?>">Thêm vào giỏ hàng</a>
+                    </div>
+                </article>
+                <?php 
+                    } 
+                } else {
+                    echo "<p>Hiện tại chưa có sản phẩm nào trong danh mục này.</p>";
+                }
+                ?>
             </div>
-            </article>
-        
-    
-            <!-- Product 3 -->
-            <article class="card">
-            <div class="img"><img src="picture/product3.png" alt="AKKO 3087 RF Black on White"></div>
-            <h3>AKKO 3087 RF Black on White</h3>
-            <div class="price">1,870,000 ₫ <span>1,999,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
 
-    
-            <!-- Product 4 -->
-            <article class="card">
-            <div class="img"><img src="picture/product4.png" alt="AKKO 3087 RF Ocean Star"></div>
-            <h3>AKKO 3087 RF Ocean Star</h3>
-            <div class="price">1,389,000 ₫ <span>1,499,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-            
-        
-            <!-- Product 5 -->
-            <article class="card">
-            <div class="img"><img src="picture/product5.png" alt="AKKO PC75B Plus Blue on White"></div>
-            <h3>AKKO PC75B Plus Blue on White</h3>
-            <div class="price">2,389,000 ₫ <span>2,499,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-    
-    
-            <!-- Product 6 -->
-            <article class="card">
-            <div class="img"><img src="picture/product1.1.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
-            <h3>AKKO 5075B Plus Naruto</h3>
-            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-
-            <article class="card">
-            <div class="img"><img src="picture/product6.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
-            <h3>YUNZII YZ75 Pro Wireless Mechanical Keyboard</h3>
-            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-
-            <article class="card">
-            <div class="img"><img src="picture/product7.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
-            <h3>YUNZII B75 Pro Dark Gray Wireless Mechanical Keyboard</h3>
-            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-
-            <article class="card">
-            <div class="img"><img src="picture/product8.png" alt="AKKO PC75B Plus Blue on White (Pro)"></div>
-            <h3>YUNZII YZ87 Mechanical Gaming Keyboard</h3>
-            <div class="price">2,889,000 ₫ <span>3,534,000 ₫</span></div>
-            <div class="actions">
-            <a class="btn btn-primary" href="thongtinsanpham-chuadangnhap.php">Chi tiết</a>
-            <a class="btn btn-outline" href="#">Thêm vào giỏ hàng</a>
-            </div>
-            </article>
-            </div>
+            <?php if ($total_pages > 1): ?>
             <div class="pagination">
-                <a href="#" class="prev">« Trở về </a>
-                <a href="#" class="page active">1</a>
-                <a href="#" class="page">2</a>
-                <a href="#" class="page">3</a>
-                <a href="#" class="next">Tiếp tục »</a>
+                <?php if($page > 1): ?>
+                    <a href="?page=<?php echo $page - 1; ?>" class="prev">« Trở về </a>
+                <?php endif; ?>
+
+                <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href="?page=<?php echo $i; ?>" class="page <?php echo ($i == $page) ? 'active' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if($page < $total_pages): ?>
+                    <a href="?page=<?php echo $page + 1; ?>" class="next">Tiếp tục »</a>
+                <?php endif; ?>
             </div>
+            <?php endif; ?>
+
         </section>
     </main>
 
