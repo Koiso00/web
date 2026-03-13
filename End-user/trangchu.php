@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-
+session_start();
 /* Lấy danh sách sản phẩm đang bán */
 $sql = "SELECT * FROM SanPham WHERE HienTrang = 1 ORDER BY MaSP DESC LIMIT 12";
 $stmt = $conn->query($sql);
@@ -66,12 +66,33 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <a href="#"><img src="picture/shopping.png"></a>
 
 <div class="user">
+
+<?php
+if(isset($_SESSION['user'])){
+?>
+
+<a href="#">
+<img src="picture/user.png">
+<span><?php echo $_SESSION['user']; ?></span>
+</a>
+
+<a href="xuly_dangxuat.php" class="dangky">Đăng xuất</a>
+
+<?php
+}else{
+?>
+
 <a href="trangdangnhap.php">
 <img src="picture/user.png">
 <span>Đăng nhập</span>
 </a>
 
 <a href="trangdangki.php" class="dangky">Đăng ký</a>
+
+<?php
+}
+?>
+
 </div>
 
 </div>
