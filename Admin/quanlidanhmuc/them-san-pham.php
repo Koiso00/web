@@ -1,10 +1,14 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once '../config.php';
 
 // Kiểm tra đăng nhập
-if (!isset($_SESSION['admin'])) {} // Bật lại sau khi có login
+if (!isset($_SESSION['admin'])) {
+    header("Location: ../Trang-dang-nhap.php");
+    exit();
+}
 
+// Lấy danh sách loại sản phẩm cho ô Select
 $stmtLoai = $conn->query("SELECT * FROM LoaiSanPham");
 $loaiSanPhams = $stmtLoai->fetchAll(PDO::FETCH_ASSOC);
 
@@ -13,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $maLoai = $_POST['product-category'];
     $moTa = $_POST['product-description'];
     $donViTinh = $_POST['product-unit'];
-    $tiLeLoiNhuan = $_POST['product-margin'] / 100; // Đổi % ra hệ số thập phân lưu DB
+    $tiLeLoiNhuan = $_POST['product-margin'] / 100; // Đổi % ra hệ số thập phân
     $hienTrang = $_POST['product-status'];
-    $hinhAnh = "default.png"; // Ảnh mặc định nếu lỗi
+    $hinhAnh = "default.png"; // Ảnh mặc định
 
-    // Bảo mật Upload ảnh
+    // Xử lý Upload ảnh
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
         $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -47,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container">
+        <?php include_once '../sidebar.php'; ?>
+
         <main class="main-content">
             <div class="form-container">
                 <h1>Thêm sản phẩm mới</h1>

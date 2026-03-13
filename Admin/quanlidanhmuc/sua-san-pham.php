@@ -1,12 +1,15 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once '../config.php';
 
-if (!isset($_SESSION['admin'])) {} // Bật lại sau
+if (!isset($_SESSION['admin'])) {
+    header("Location: ../Trang-dang-nhap.php");
+    exit();
+}
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Lấy dữ liệu sản phẩm hiện tại
+// Lấy dữ liệu sản phẩm hiện tại để hiện lên form
 $stmt = $conn->prepare("SELECT * FROM SanPham WHERE MaSP = ?");
 $stmt->execute([$id]);
 $sp = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -27,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tiLeLoiNhuan = $_POST['product-margin'] / 100;
     $hienTrang = $_POST['product-status'];
     
-    $hinhAnhMoi = $sp['HinhAnh']; // Mặc định giữ ảnh cũ
+    $hinhAnhMoi = $sp['HinhAnh']; // Mặc định giữ ảnh cũ nếu không chọn ảnh mới
 
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
         $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
@@ -55,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container">
+        <?php include_once '../sidebar.php'; ?>
+
         <main class="main-content">
             <div class="form-container">
                 <h1>Chỉnh sửa sản phẩm: <?= htmlspecialchars($sp['TenSP']) ?></h1>

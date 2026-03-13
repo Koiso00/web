@@ -1,119 +1,113 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once '../config.php';
 
-// Kiểm tra bảo mật: Phải đăng nhập admin mới được vào
 if (!isset($_SESSION['admin'])) {
-    // Tạm thời comment lại để bạn test giao diện nếu chưa làm trang login
-    // header("Location: login.php"); 
-    // exit();
+    header("Location: ../Trang-dang-nhap.php");
+    exit();
 }
 
-// Lấy danh sách loại sản phẩm
-$stmtLoai = $conn->prepare("SELECT * FROM LoaiSanPham");
-$stmtLoai->execute();
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+// Lấy dữ liệu sản phẩm hiện tại để hiện lên form
+$stmt = $conn->prepare("SELECT * FROM SanPham WHERE MaSP = ?");
+$stmt->execute([$id]);
+$sp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$sp) {
+    echo "<script>alert('Sản phẩm không tồn tại!'); window.location.href='quanlidanhmuc.php';</script>";
+    exit();
+}
+
+$stmtLoai = $conn->query("SELECT * FROM LoaiSanPham");
 $loaiSanPhams = $stmtLoai->fetchAll(PDO::FETCH_ASSOC);
 
-// Lấy mã loại từ URL, mặc định loại đầu tiên
-$maLoaiActive = isset($_GET['maloai']) ? (int)$_GET['maloai'] : ($loaiSanPhams[0]['MaLoai'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $tenSP = $_POST['product-name'];
+    $maLoai = $_POST['product-category'];
+    $moTa = $_POST['product-description'];
+    $donViTinh = $_POST['product-unit'];
+    $tiLeLoiNhuan = $_POST['product-margin'] / 100;
+    $hienTrang = $_POST['product-status'];
+    
+    $hinhAnhMoi = $sp['HinhAnh']; // Mặc định giữ ảnh cũ nếu không chọn ảnh mới
 
-// Phân trang
-$limit = 8;
-$page = isset($_GET['page']) ? max((int)$_GET['page'], 1) : 1;
-$offset = ($page - 1) * $limit;
+    if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
+        $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (in_array(strtolower($ext), $allowed)) {
+            $hinhAnhMoi = time() . '_' . $_FILES['product-image']['name'];
+            move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnhMoi);
+        }
+    }
 
-// Đếm tổng số sản phẩm
-$stmtCount = $conn->prepare("SELECT COUNT(*) FROM SanPham WHERE MaLoai = ?");
-$stmtCount->execute([$maLoaiActive]);
-$totalProducts = $stmtCount->fetchColumn();
-$totalPages = ceil($totalProducts / $limit);
+    $sql = "UPDATE SanPham SET TenSP=?, MaLoai=?, MoTa=?, DonViTinh=?, HinhAnh=?, TiLeLoiNhuan=?, HienTrang=? WHERE MaSP=?";
+    $stmtUpdate = $conn->prepare($sql);
+    $stmtUpdate->execute([$tenSP, $maLoai, $moTa, $donViTinh, $hinhAnhMoi, $tiLeLoiNhuan, $hienTrang, $id]);
 
-// Lấy danh sách sản phẩm
-$stmtSP = $conn->prepare("SELECT * FROM SanPham WHERE MaLoai = ? ORDER BY MaSP DESC LIMIT ? OFFSET ?");
-$stmtSP->bindValue(1, $maLoaiActive, PDO::PARAM_INT);
-$stmtSP->bindValue(2, $limit, PDO::PARAM_INT);
-$stmtSP->bindValue(3, $offset, PDO::PARAM_INT);
-$stmtSP->execute();
-$sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
+    echo "<script>alert('Cập nhật thành công!'); window.location.href='quanlidanhmuc.php';</script>";
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý Danh mục</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh Sửa Sản Phẩm</title>
     <link rel="stylesheet" href="../Style.css">
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
-            <h1 class="logo">TechZone</h1>
-            <a href="../Trang-chu.php">📈 Trang Chủ</a>
-            <a href="../sanpham.php">📦 Quản lý loại sản phẩm</a>
-            <a href="../taikhoan.php">👥 Quản lý tài khoản</a>
-            <a href="quanlidanhmuc.php" class="active">🎁 Quản lí danh mục</a>
-            <a href="../quanlinhaphang/quan-li-nhap-hang.php">📥 Quản lí nhập hàng</a>
-            <a href="../quanligiaban/quanligiaban.php">💲 Quản lí giá bán</a>
-            <a href="../quanlidonhang/quan-li-don-hang.php">🚚 Quản lí đơn hàng</a>
-            <a href="../quanlitonkho/quan-li-ton-kho.php">📊 Quản lí tồn kho</a>
-        </nav>
+        <?php include_once '../sidebar.php'; ?>
 
         <main class="main-content">
-            <div class="page-header">
-                <h1 class="page-header-title">Quản lí danh mục sản phẩm</h1>
+            <div class="form-container">
+                <h1>Chỉnh sửa sản phẩm: <?= htmlspecialchars($sp['TenSP']) ?></h1>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Loại sản phẩm</label>
+                        <select name="product-category" required>
+                            <?php foreach($loaiSanPhams as $loai): ?>
+                                <option value="<?= $loai['MaLoai'] ?>" <?= ($loai['MaLoai'] == $sp['MaLoai']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($loai['TenLoai']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <input type="text" name="product-name" value="<?= htmlspecialchars($sp['TenSP']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Đơn vị tính</label>
+                        <input type="text" name="product-unit" value="<?= htmlspecialchars($sp['DonViTinh']) ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tỉ lệ lợi nhuận (%)</label>
+                        <input type="number" step="0.1" name="product-margin" value="<?= $sp['TiLeLoiNhuan'] * 100 ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hiện trạng</label>
+                        <select name="product-status">
+                            <option value="1" <?= $sp['HienTrang'] == 1 ? 'selected' : '' ?>>Hiển thị (Đang bán)</option>
+                            <option value="0" <?= $sp['HienTrang'] == 0 ? 'selected' : '' ?>>Ẩn (Chưa bán)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hình ảnh (Để trống nếu không đổi)</label><br>
+                        <img src="../Image/<?= htmlspecialchars($sp['HinhAnh']) ?>" width="100" style="margin-bottom:10px;">
+                        <input type="file" name="product-image" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea name="product-description" rows="4"><?= htmlspecialchars($sp['MoTa']) ?></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <a href="quanlidanhmuc.php" class="btn btn-deleteback">← Quay lại</a>
+                        <button type="submit" class="btn btn-save">Lưu thay đổi</button>
+                    </div>
+                </form>
             </div>
-
-            <nav class="category-nav">
-                <?php foreach($loaiSanPhams as $loai): ?>
-                    <a href="quanlidanhmuc.php?maloai=<?= $loai['MaLoai'] ?>" 
-                       class="category-link <?= ($loai['MaLoai'] == $maLoaiActive) ? 'active' : '' ?>">
-                        <?= htmlspecialchars($loai['TenLoai']) ?>
-                    </a>
-                <?php endforeach; ?>
-            </nav>
-
-            <div class="page-toolbar">
-                <a href="them-san-pham.php" class="btn btn-add">➕ Thêm sản phẩm</a>
-            </div>
-
-            <div class="product-list">
-                <?php if(count($sanPhams) > 0): ?>
-                    <?php foreach($sanPhams as $sp): ?>
-                        <div class="product-item <?= $sp['HienTrang'] == 0 ? 'hidden-item' : '' ?>">
-                            <img src="../Image/<?= htmlspecialchars($sp['HinhAnh']) ?>" alt="Hình ảnh" class="product-image">
-                            <div class="product-details">
-                                <h3><?= htmlspecialchars($sp['TenSP']) ?></h3>
-                                <p>Mã SP: <?= $sp['MaSP'] ?></p>
-                                <p>Tồn kho: <?= $sp['SoLuongTon'] ?> <?= htmlspecialchars($sp['DonViTinh']) ?></p>
-                                <p>Trạng thái: <?= $sp['HienTrang'] == 1 ? '<span style="color:green; font-weight:bold;">Đang bán</span>' : '<span style="color:red; font-weight:bold;">Đang ẩn</span>' ?></p>
-                            </div>
-                            <div class="product-actions">
-                                <a href="sua-san-pham.php?id=<?= $sp['MaSP'] ?>" class="btn btn-edit">Sửa</a>
-                                <a href="action_sanpham.php?action=delete&id=<?= $sp['MaSP'] ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa/ẩn sản phẩm này?');">Xoá</a>
-                                <?php if($sp['HienTrang'] == 1): ?>
-                                    <a href="action_sanpham.php?action=hide&id=<?= $sp['MaSP'] ?>" class="btn btn-hide">Ẩn</a>
-                                <?php else: ?>
-                                    <a href="action_sanpham.php?action=show&id=<?= $sp['MaSP'] ?>" class="btn btn-hide" style="background-color: #28a745; color: white;">Hiện</a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="padding: 20px;">Chưa có sản phẩm nào trong danh mục này.</p>
-                <?php endif; ?>
-            </div>
-
-            <?php if($totalPages > 1): ?>
-            <div class="pagination">
-                <?php for($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="quanlidanhmuc.php?maloai=<?= $maLoaiActive ?>&page=<?= $i ?>" 
-                       class="page-number <?= ($i == $page) ? 'active' : '' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
-            </div>
-            <?php endif; ?>
         </main>
     </div>
 </body>
