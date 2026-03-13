@@ -1,106 +1,169 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+include "config.php";
+
+if(isset($_POST['dangnhap'])){
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $pass = md5($password);
+
+    $sql = $conn->prepare("SELECT * FROM TaiKhoan WHERE Username=? AND Password=?");
+    $sql->execute([$username,$pass]);
+
+    $user = $sql->fetch(PDO::FETCH_ASSOC);
+
+    if($user){
+
+        $_SESSION['user'] = $user['Username'];
+
+        echo "<script>
+        alert('Đăng nhập thành công');
+        window.location='trangchu.php';
+        </script>";
+
+    }else{
+        echo "<script>alert('Sai tên đăng nhập hoặc mật khẩu');</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <link rel="stylesheet" href="trangdangnhap.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png">
+<link rel="stylesheet" href="trangdangnhap.css">
+
 </head>
 <body>
-       <header>
-        <a href="trangchu.php" class="logo">TechZone</a>
 
-        <div class="search-bar" role="search" aria-label="Search site">
-            <input type="checkbox" id="menu-toggle" hidden>
-            <label for="menu-toggle" class="menu-btn" aria-hidden="true">
-                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
-            </label>
+<header>
 
-            <div class="dropdown-content" aria-hidden="true">
-                <a href="sanpham-banphim.php">Bàn phím</a>
-                <a href="sanpham-chuot.php">Chuột</a>
-                <a href="sanpham-banphim.php">Tai nghe</a>
-                <a href="sanpham-chuot.php">Màn hình</a>
-            </div>
+<a href="trangchu.php" class="logo">TechZone</a>
 
-            <form action="sanpham-banphim.php" method="GET" class="search-form">
-                <label for="search-box" class="visually-hidden">Tìm kiếm</label>
-                <input type="search" id="search-box" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu..." aria-label="Tìm kiếm" autocomplete="off">
-                <button type="submit" class="search-submit" aria-label="Tìm kiếm">
-                    <img src="picture/magnifying-glass.png" alt="">
-                </button>
-            </form>
-        </div>
-        <nav class="navbar">
-        <a href="#">Trang chủ</a> 
-        <a href="#products">Sản Phẩm</a> 
-        <a href="#bottom">Liên hệ</a>     
-        </nav>
+<div class="search-bar">
 
-        <div class="icon">
-            <div><a href="#" class="shopping-cart"><img src="picture/shopping.png" alt="Giỏ hàng"></a></div>
+<input type="checkbox" id="menu-toggle" hidden>
 
-            <div class="user"> <a href="#" ><img src="picture/user.png" alt="Người dùng"><span>Đăng nhập</span></a></div>
-        </div>
-    </header>
-  
-    <!-- dang nhap  -->
-  <section class="login-section">
-  <div class="login-wrapper">
+<label for="menu-toggle" class="menu-btn">
+<img src="picture/menu-burger.png" class="menu-icon">
+</label>
 
-    <!-- Khung bên trái -->
-    <div class="login-box left">
-      <h2>Đăng Nhập</h2>
-      <form>
-        <label for="username">Tên đăng nhập:</label>
-        <input type="text" id="username" placeholder="Nhập tên đăng nhập">
+<div class="dropdown-content">
+<a href="sanpham-banphim.php">Bàn phím</a>
+<a href="sanpham-chuot.php">Chuột</a>
+<a href="sanpham-tainghe.php">Tai nghe</a>
+<a href="sanpham-manhinh.php">Màn hình</a>
+</div>
 
-        <label for="password">Mật khẩu:</label>
-        <input type="password" id="password" placeholder="Nhập mật khẩu">
-        <div class="remember-forgot">
-            <label>
-                <input type="checkbox" ><span>Nhớ tài khoản</span>
-            </label>
-             
-            <a href="#">Quên mật khẩu?</a>
-            </div>
-            <button class="buttonsign" type="submit" formaction="sau-khi-dang-nhap.php">
-              Đăng nhập
-            </button>
-        <p class="register-text">
-          Chưa có tài khoản? <a href="trangdangki.php">Đăng ký ngay</a>
-        </p>
-      </form>
-    </div>
+<form action="sanpham-banphim.php" method="GET" class="search-form">
 
-    <!-- Chữ "hoặc" ở giữa -->
-    <div class="divider">
-      <span>Hoặc</span>
-    </div>
+<input type="search" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu...">
 
-    <!-- Khung bên phải -->
-    <div class="login-box right">
-    <a href="sau-khi-dang-nhap.php" class="google" >
-    <img src="picture/google.png" > Đăng Nhập Bằng Google
+<button type="submit" class="search-submit">
+<img src="picture/magnifying-glass.png">
+</button>
+
+</form>
+
+</div>
+
+<nav class="navbar">
+<a href="trangchu.php">Trang chủ</a>
+<a href="#">Sản Phẩm</a>
+<a href="#">Liên hệ</a>
+</nav>
+
+<div class="icon">
+
+<div>
+<a href="#" class="shopping-cart">
+<img src="picture/shopping.png">
+</a>
+</div>
+
+<div class="user">
+<a href="trangdangnhap.php">
+<img src="picture/user.png">
+<span>Đăng nhập</span>
+</a>
+</div>
+
+</div>
+
+</header>
+
+
+<!-- LOGIN -->
+
+<section class="login-section">
+
+<div class="login-wrapper">
+
+<div class="login-box left">
+
+<h2>Đăng Nhập</h2>
+
+<form method="POST">
+
+<label>Tên đăng nhập:</label>
+<input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
+
+<label>Mật khẩu:</label>
+<input type="password" name="password" placeholder="Nhập mật khẩu" required>
+
+<div class="remember-forgot">
+
+<label>
+<input type="checkbox">
+<span>Nhớ tài khoản</span>
+</label>
+
+<a href="#">Quên mật khẩu?</a>
+
+</div>
+
+<button class="buttonsign" type="submit" name="dangnhap">
+Đăng nhập
+</button>
+
+<p class="register-text">
+Chưa có tài khoản?
+<a href="trangdangki.php">Đăng ký ngay</a>
+</p>
+
+</form>
+
+</div>
+
+<div class="divider">
+<span>Hoặc</span>
+</div>
+
+<div class="login-box right">
+
+<a href="#" class="google">
+<img src="picture/google.png"> Đăng Nhập Bằng Google
 </a>
 
-<a href="sau-khi-dang-nhap.php" class="facebook" >
-   <img src="picture/facebook.png" > Đăng Nhập Bằng Facebook
+<a href="#" class="facebook">
+<img src="picture/facebook.png"> Đăng Nhập Bằng Facebook
 </a>
 
-<a href="sau-khi-dang-nhap.php" class="apple" >
-  <img src="picture/apple.png" > Đăng Nhập Bằng Apple
+<a href="#" class="apple">
+<img src="picture/apple.png"> Đăng Nhập Bằng Apple
 </a>
 
-    </div>
+</div>
 
-    
-  </div>
+</div>
+
 </section>
 
-
 </body>
+</html>
