@@ -1,98 +1,393 @@
--- Tạo cơ sở dữ liệu (Bạn có thể đổi tên db_banhang theo ý muốn)
-CREATE DATABASE IF NOT EXISTS db_banhang DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE db_banhang;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th3 13, 2026 lúc 05:53 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
--- 1. Bảng Tài Khoản (Dùng chung cho cả Admin và Khách hàng)
-CREATE TABLE TaiKhoan (
-    MaTK INT AUTO_INCREMENT PRIMARY KEY,
-    Username VARCHAR(50) NOT NULL UNIQUE,
-    Password VARCHAR(255) NOT NULL, -- Lưu mật khẩu đã mã hóa (MD5/Bcrypt)
-    HoTen VARCHAR(100) NOT NULL,
-    Email VARCHAR(100) NOT NULL UNIQUE,
-    SoDienThoai VARCHAR(20) NOT NULL,
-    VaiTro TINYINT(1) DEFAULT 0 COMMENT '0: Khách hàng, 1: Admin',
-    TrangThai TINYINT(1) DEFAULT 1 COMMENT '0: Bị khóa, 1: Hoạt động'
-) ENGINE=InnoDB;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- 2. Bảng Địa Chỉ Khách Hàng (Để khách chọn khi mua và Admin lọc theo Phường)
-CREATE TABLE DiaChiKhachHang (
-    MaDC INT AUTO_INCREMENT PRIMARY KEY,
-    MaTK INT NOT NULL,
-    TenNguoiNhan VARCHAR(100) NOT NULL,
-    SDTNhan VARCHAR(20) NOT NULL,
-    DiaChiChiTiet VARCHAR(255) NOT NULL,
-    PhuongXa VARCHAR(100) NOT NULL,
-    QuanHuyen VARCHAR(100) NOT NULL,
-    TinhThanh VARCHAR(100) NOT NULL,
-    FOREIGN KEY (MaTK) REFERENCES TaiKhoan(MaTK) ON DELETE CASCADE
-) ENGINE=InnoDB;
 
--- 3. Bảng Loại Sản Phẩm (Danh mục)
-CREATE TABLE LoaiSanPham (
-    MaLoai INT AUTO_INCREMENT PRIMARY KEY,
-    TenLoai VARCHAR(100) NOT NULL UNIQUE
-) ENGINE=InnoDB;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- 4. Bảng Sản Phẩm
-CREATE TABLE SanPham (
-    MaSP INT AUTO_INCREMENT PRIMARY KEY,
-    TenSP VARCHAR(200) NOT NULL,
-    MaLoai INT NOT NULL,
-    MoTa TEXT,
-    DonViTinh VARCHAR(50) NOT NULL,
-    HinhAnh VARCHAR(255),
-    SoLuongTon INT DEFAULT 0,
-    TiLeLoiNhuan DECIMAL(5,2) DEFAULT 0.00 COMMENT 'Ví dụ: 0.20 là 20%',
-    GiaNhapBinhQuan DECIMAL(15,2) DEFAULT 0.00,
-    HienTrang TINYINT(1) DEFAULT 1 COMMENT '0: Ẩn (Xóa mềm), 1: Đang bán',
-    FOREIGN KEY (MaLoai) REFERENCES LoaiSanPham(MaLoai) ON DELETE RESTRICT
-) ENGINE=InnoDB;
+--
+-- Cơ sở dữ liệu: `db_banhang`
+--
 
--- 5. Bảng Phiếu Nhập
-CREATE TABLE PhieuNhap (
-    MaPN INT AUTO_INCREMENT PRIMARY KEY,
-    NgayNhap DATETIME DEFAULT CURRENT_TIMESTAMP,
-    MaAdmin INT NOT NULL,
-    TrangThai TINYINT(1) DEFAULT 0 COMMENT '0: Đang tạo/Chưa hoàn thành, 1: Đã hoàn thành',
-    FOREIGN KEY (MaAdmin) REFERENCES TaiKhoan(MaTK) ON DELETE RESTRICT
-) ENGINE=InnoDB;
+-- --------------------------------------------------------
 
--- 6. Bảng Chi Tiết Phiếu Nhập
-CREATE TABLE ChiTietPhieuNhap (
-    MaPN INT NOT NULL,
-    MaSP INT NOT NULL,
-    SoLuongNhap INT NOT NULL CHECK (SoLuongNhap > 0),
-    GiaNhap DECIMAL(15,2) NOT NULL CHECK (GiaNhap >= 0),
-    PRIMARY KEY (MaPN, MaSP),
-    FOREIGN KEY (MaPN) REFERENCES PhieuNhap(MaPN) ON DELETE CASCADE,
-    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON DELETE RESTRICT
-) ENGINE=InnoDB;
+--
+-- Cấu trúc bảng cho bảng `chitietdonhang`
+--
 
--- 7. Bảng Đơn Hàng
-CREATE TABLE DonHang (
-    MaDH INT AUTO_INCREMENT PRIMARY KEY,
-    MaTK INT NOT NULL,
-    NgayDat DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TongTien DECIMAL(15,2) NOT NULL,
-    PhuongThucThanhToan VARCHAR(50) NOT NULL,
-    TrangThai TINYINT(1) DEFAULT 0 COMMENT '0: Chưa xử lý, 1: Đã xác nhận, 2: Đã giao, 3: Đã hủy',
-    DiaChiGiaoHang TEXT NOT NULL COMMENT 'Lưu cứng địa chỉ lúc đặt hàng',
-    PhuongXaGiao VARCHAR(100) NOT NULL COMMENT 'Tách riêng để Admin dễ lọc',
-    FOREIGN KEY (MaTK) REFERENCES TaiKhoan(MaTK) ON DELETE RESTRICT
-) ENGINE=InnoDB;
+CREATE TABLE `chitietdonhang` (
+  `MaDH` int(11) NOT NULL,
+  `MaSP` int(11) NOT NULL,
+  `SoLuongMua` int(11) NOT NULL CHECK (`SoLuongMua` > 0),
+  `GiaBan` decimal(15,2) NOT NULL COMMENT 'Lưu cứng giá bán tại thời điểm mua'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 8. Bảng Chi Tiết Đơn Hàng
-CREATE TABLE ChiTietDonHang (
-    MaDH INT NOT NULL,
-    MaSP INT NOT NULL,
-    SoLuongMua INT NOT NULL CHECK (SoLuongMua > 0),
-    GiaBan DECIMAL(15,2) NOT NULL COMMENT 'Lưu cứng giá bán tại thời điểm mua',
-    PRIMARY KEY (MaDH, MaSP),
-    FOREIGN KEY (MaDH) REFERENCES DonHang(MaDH) ON DELETE CASCADE,
-    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP) ON DELETE RESTRICT
-) ENGINE=InnoDB;
+--
+-- Đang đổ dữ liệu cho bảng `chitietdonhang`
+--
 
--- INSERT sẵn 1 tài khoản Admin mặc định để bạn test đăng nhập (Password là: 123456 - giả sử dùng MD5)
--- Lưu ý: Trong thực tế bạn dùng hàm băm nào (MD5, password_hash của PHP) thì thay chuỗi hash vào đây.
-INSERT INTO TaiKhoan (Username, Password, HoTen, Email, SoDienThoai, VaiTro, TrangThai) 
-VALUES ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'Quản trị viên', 'admin@gmail.com', '0123456789', 1, 1);
+INSERT INTO `chitietdonhang` (`MaDH`, `MaSP`, `SoLuongMua`, `GiaBan`) VALUES
+(1, 1, 1, 1500000.00),
+(2, 11, 2, 585000.00),
+(3, 20, 1, 2437500.00);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `chitietphieunhap`
+--
+
+CREATE TABLE `chitietphieunhap` (
+  `MaPN` int(11) NOT NULL,
+  `MaSP` int(11) NOT NULL,
+  `SoLuongNhap` int(11) NOT NULL CHECK (`SoLuongNhap` > 0),
+  `GiaNhap` decimal(15,2) NOT NULL CHECK (`GiaNhap` >= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chitietphieunhap`
+--
+
+INSERT INTO `chitietphieunhap` (`MaPN`, `MaSP`, `SoLuongNhap`, `GiaNhap`) VALUES
+(1, 1, 10, 1100000.00),
+(1, 2, 5, 1400000.00),
+(2, 11, 20, 400000.00),
+(2, 13, 30, 300000.00),
+(3, 8, 15, 800000.00),
+(3, 20, 10, 1850000.00),
+(4, 12, 5, 550000.00),
+(5, 1, 1235, 52345245.00),
+(5, 20, 500, 99999999.00);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `diachikhachhang`
+--
+
+CREATE TABLE `diachikhachhang` (
+  `MaDC` int(11) NOT NULL,
+  `MaTK` int(11) NOT NULL,
+  `TenNguoiNhan` varchar(100) NOT NULL,
+  `SDTNhan` varchar(20) NOT NULL,
+  `DiaChiChiTiet` varchar(255) NOT NULL,
+  `PhuongXa` varchar(100) NOT NULL,
+  `QuanHuyen` varchar(100) NOT NULL,
+  `TinhThanh` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `diachikhachhang`
+--
+
+INSERT INTO `diachikhachhang` (`MaDC`, `MaTK`, `TenNguoiNhan`, `SDTNhan`, `DiaChiChiTiet`, `PhuongXa`, `QuanHuyen`, `TinhThanh`) VALUES
+(7, 2, 'Nguyễn Văn A', '0901234567', '123 Nguyễn Huệ', 'Bến Nghé', 'Quận 1', 'TP.HCM'),
+(8, 3, 'Trần Thị B', '0912345678', '456 Lê Lợi', 'Phường 7', 'Quận 3', 'TP.HCM'),
+(9, 4, 'Lê Văn C', '0923456789', '111 Lý Thái Tổ', 'Phường 1', 'Quận 10', 'TP.HCM'),
+(10, 5, 'Phạm Thị D', '0934567890', '789 Quang Trung', 'Phường 10', 'Gò Vấp', 'TP.HCM');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `donhang`
+--
+
+CREATE TABLE `donhang` (
+  `MaDH` int(11) NOT NULL,
+  `MaTK` int(11) NOT NULL,
+  `NgayDat` datetime DEFAULT current_timestamp(),
+  `TongTien` decimal(15,2) NOT NULL,
+  `PhuongThucThanhToan` varchar(50) NOT NULL,
+  `TrangThai` tinyint(1) DEFAULT 0 COMMENT '0: Chưa xử lý, 1: Đã xác nhận, 2: Đã giao, 3: Đã hủy',
+  `DiaChiGiaoHang` text NOT NULL COMMENT 'Lưu cứng địa chỉ lúc đặt hàng',
+  `PhuongXaGiao` varchar(100) NOT NULL COMMENT 'Tách riêng để Admin dễ lọc'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `donhang`
+--
+
+INSERT INTO `donhang` (`MaDH`, `MaTK`, `NgayDat`, `TongTien`, `PhuongThucThanhToan`, `TrangThai`, `DiaChiGiaoHang`, `PhuongXaGiao`) VALUES
+(1, 2, '2026-03-10 10:30:00', 1500000.00, 'Tiền mặt', 0, '123 Nguyễn Huệ', 'Bến Nghé'),
+(2, 3, '2026-03-11 14:20:00', 1170000.00, 'Chuyển khoản', 2, '456 Lê Lợi', 'Phường 7'),
+(3, 5, '2026-03-12 09:15:00', 2437500.00, 'Ví điện tử', 1, '789 Quang Trung', 'Phường 10');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `loaisanpham`
+--
+
+CREATE TABLE `loaisanpham` (
+  `MaLoai` int(11) NOT NULL,
+  `TenLoai` varchar(100) NOT NULL,
+  `HinhAnh` varchar(255) DEFAULT 'folder-icon.png'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `loaisanpham`
+--
+
+INSERT INTO `loaisanpham` (`MaLoai`, `TenLoai`, `HinhAnh`) VALUES
+(1, 'Bàn phím cơ', '1773416851_product6.png'),
+(2, 'Chuột Gaming', '1773416817_product2.1.png'),
+(3, 'Tai nghe & Âm thanh', '1773416798_tainghe.png');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `phieunhap`
+--
+
+CREATE TABLE `phieunhap` (
+  `MaPN` int(11) NOT NULL,
+  `NgayNhap` datetime DEFAULT current_timestamp(),
+  `MaAdmin` int(11) NOT NULL,
+  `TrangThai` tinyint(1) DEFAULT 0 COMMENT '0: Đang tạo/Chưa hoàn thành, 1: Đã hoàn thành'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `phieunhap`
+--
+
+INSERT INTO `phieunhap` (`MaPN`, `NgayNhap`, `MaAdmin`, `TrangThai`) VALUES
+(1, '2026-03-01 08:00:00', 1, 1),
+(2, '2026-03-05 09:30:00', 1, 1),
+(3, '2026-03-10 15:00:00', 1, 1),
+(4, '2026-03-13 10:00:00', 1, 0),
+(5, '2026-03-13 00:00:00', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `sanpham`
+--
+
+CREATE TABLE `sanpham` (
+  `MaSP` int(11) NOT NULL,
+  `TenSP` varchar(200) NOT NULL,
+  `MaLoai` int(11) NOT NULL,
+  `MoTa` text DEFAULT NULL,
+  `DonViTinh` varchar(50) NOT NULL,
+  `HinhAnh` varchar(255) DEFAULT NULL,
+  `SoLuongTon` int(11) DEFAULT 0,
+  `TiLeLoiNhuan` decimal(5,2) DEFAULT 0.00 COMMENT 'Ví dụ: 0.20 là 20%',
+  `GiaNhapBinhQuan` decimal(15,2) DEFAULT 0.00,
+  `HienTrang` tinyint(1) DEFAULT 1 COMMENT '0: Ẩn (Xóa mềm), 1: Đang bán'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `sanpham`
+--
+
+INSERT INTO `sanpham` (`MaSP`, `TenSP`, `MaLoai`, `MoTa`, `DonViTinh`, `HinhAnh`, `SoLuongTon`, `TiLeLoiNhuan`, `GiaNhapBinhQuan`, `HienTrang`) VALUES
+(1, 'Bàn phím cơ AULA F99', 1, 'Bàn phím cơ không dây 3 mode, mạch xuôi, cấu trúc gasket mount gõ êm ái, pin trâu.', 'Cái', '1773419480_aula-f99.png', 15, 0.25, 1200000.00, 1),
+(2, 'Bàn phím cơ Akko 5108S', 1, 'Bàn phím fullsize 108 phím, LED RGB rực rỡ, switch custom êm ái, keycap PBT siêu bền.', 'Cái', '1773419450_ban-phim-co-akko-5108s-black-pink-ava-510x631.jpg', 10, 0.20, 1500000.00, 1),
+(3, 'Bàn phím cơ Keychron K2 V2', 1, 'Layout 75% nhỏ gọn, hỗ trợ Mac/Windows hoàn hảo, kết nối Bluetooth tiện lợi cho dân văn phòng.', 'Cái', '1773419426_Keychron-K2-V2-vo-nhua.jpg', 25, 0.30, 1650000.00, 1),
+(4, 'Bàn phím cơ DareU EK87', 1, 'Bàn phím cơ quốc dân giá rẻ cho học sinh sinh viên, switch D độc quyền siêu bền bỉ.', 'Cái', '1773419399_Bàn phím cơ DareU EK87.png', 50, 0.35, 450000.00, 1),
+(5, 'Bàn phím cơ Logitech G Pro X', 1, 'Bàn phím TKL chuyên dụng cho game thủ eSports, khả năng thay nóng switch (hot-swap) linh hoạt.', 'Cái', '1773419369_Bàn phím cơ Logitech G Pro X.png', 8, 0.25, 2800000.00, 1),
+(6, 'Bàn phím cơ Razer BlackWidow V3', 1, 'Switch xanh lá đặc trưng của Razer, tiếng clicky đã tai, kê tay nam châm êm ái, LED Chroma.', 'Cái', '1773419328_Razer BlackWidow V3.png', 12, 0.20, 3100000.00, 1),
+(7, 'Bàn phím cơ Corsair K70 RGB', 1, 'Khung nhôm xước phay nguyên khối sang trọng, switch Cherry MX chuẩn Đức, phím media cuộn tiện lợi.', 'Cái', '1773419295_n.com-products-corsair-k70-rgb.png', 5, 0.15, 3800000.00, 1),
+(8, 'Bàn phím cơ RK Royal Kludge RK61', 1, 'Bàn phím mini 60% siêu nhỏ gọn, kết nối 3 chế độ (Dây, Bluetooth, 2.4Ghz), dễ dàng mang theo.', 'Cái', '1773419246_RK Royal Kludge RK61.png', 30, 0.40, 850000.00, 1),
+(9, 'Bàn phím cơ E-Dra EK387', 1, 'Thiết kế cổ điển, build cực kỳ chắc chắn, giá cả phải chăng, phù hợp cho phòng net.', 'Cái', '1773419148_n.com-products-ban-phim-e-dra-ek387.png', 40, 0.30, 550000.00, 1),
+(10, 'Bàn phím cơ FL-Esports CMK87', 1, 'Bàn phím cận cao cấp, build kim loại đầm tay, âm thanh gõ cực thock không cần mod lại. Phiên bản CPM Metal Heart ', 'Cái', '1773419099_ban-phim-co-fl-esports-cmk87cpm-metal-heart-3-mode.jpg', 7, 0.30, 2500000.00, 1),
+(11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'product0.png', 20, 0.30, 450000.00, 1),
+(12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'product0.png', 12, 0.20, 600000.00, 1),
+(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'product0.png', 60, 0.35, 350000.00, 1),
+(14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'product0.png', 15, 0.25, 1100000.00, 1),
+(15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'product0.png', 25, 0.30, 750000.00, 1),
+(16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'product0.png', 10, 0.15, 1650000.00, 1),
+(17, 'Chuột SteelSeries Rival 3', 2, 'Cảm biến TrueMove Core chính xác, chất liệu nhựa nhám chống mồ hôi cực tốt.', 'Cái', 'product0.png', 18, 0.25, 650000.00, 1),
+(18, 'Chuột Corsair Harpoon RGB', 2, 'Chuột không dây giá mềm của Corsair, công nghệ Slipstream độ trễ siêu thấp.', 'Cái', 'product0.png', 22, 0.20, 1150000.00, 1),
+(19, 'Chuột Asus ROG Gladius II', 2, 'Có thể tự thay switch dễ dàng với socket push-fit, LED Aura Sync đồng bộ hệ sinh thái Asus.', 'Cái', 'product0.png', 8, 0.20, 1450000.00, 1),
+(20, 'Tai nghe HyperX Cloud II', 3, 'Huyền thoại tai nghe gaming, giả lập âm thanh vòm 7.1, đệm tai mút hoạt tính cực êm đeo cả ngày không đau.', 'Cái', 'product0.png', 15, 0.25, 1950000.00, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `taikhoan`
+--
+
+CREATE TABLE `taikhoan` (
+  `MaTK` int(11) NOT NULL,
+  `Username` varchar(50) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `HoTen` varchar(100) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Avatar` varchar(255) DEFAULT NULL,
+  `SoDienThoai` varchar(20) NOT NULL,
+  `VaiTro` tinyint(1) DEFAULT 0 COMMENT '0: Khách hàng, 1: Admin',
+  `TrangThai` tinyint(1) DEFAULT 1 COMMENT '0: Bị khóa, 1: Hoạt động'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `taikhoan`
+--
+
+INSERT INTO `taikhoan` (`MaTK`, `Username`, `Password`, `HoTen`, `Email`, `Avatar`, `SoDienThoai`, `VaiTro`, `TrangThai`) VALUES
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'Quản trị viên', 'admin@gmail.com', NULL, '0123456789', 1, 1),
+(2, 'khachhang1', 'e10adc3949ba59abbe56e057f20f883e', 'Nguyễn Văn A', 'nva@gmail.com', NULL, '0901234567', 0, 1),
+(3, 'khachhang2', 'e10adc3949ba59abbe56e057f20f883e', 'Trần Thị B', 'ttb@gmail.com', NULL, '0912345678', 0, 1),
+(4, 'khachhang3', 'e10adc3949ba59abbe56e057f20f883e', 'Lê Văn C', 'lvc@gmail.com', NULL, '0923456789', 0, 0),
+(5, 'khachhang4', 'e10adc3949ba59abbe56e057f20f883e', 'Phạm Thị D', 'ptd@gmail.com', NULL, '0934567890', 0, 1),
+(6, 'nhanvien1', 'e10adc3949ba59abbe56e057f20f883e', 'Nhân viên test', 'nv1@techzone.vn', NULL, '0988888888', 1, 1);
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `chitietdonhang`
+--
+ALTER TABLE `chitietdonhang`
+  ADD PRIMARY KEY (`MaDH`,`MaSP`),
+  ADD KEY `MaSP` (`MaSP`);
+
+--
+-- Chỉ mục cho bảng `chitietphieunhap`
+--
+ALTER TABLE `chitietphieunhap`
+  ADD PRIMARY KEY (`MaPN`,`MaSP`),
+  ADD KEY `MaSP` (`MaSP`);
+
+--
+-- Chỉ mục cho bảng `diachikhachhang`
+--
+ALTER TABLE `diachikhachhang`
+  ADD PRIMARY KEY (`MaDC`),
+  ADD KEY `MaTK` (`MaTK`);
+
+--
+-- Chỉ mục cho bảng `donhang`
+--
+ALTER TABLE `donhang`
+  ADD PRIMARY KEY (`MaDH`),
+  ADD KEY `MaTK` (`MaTK`);
+
+--
+-- Chỉ mục cho bảng `loaisanpham`
+--
+ALTER TABLE `loaisanpham`
+  ADD PRIMARY KEY (`MaLoai`),
+  ADD UNIQUE KEY `TenLoai` (`TenLoai`);
+
+--
+-- Chỉ mục cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  ADD PRIMARY KEY (`MaPN`),
+  ADD KEY `MaAdmin` (`MaAdmin`);
+
+--
+-- Chỉ mục cho bảng `sanpham`
+--
+ALTER TABLE `sanpham`
+  ADD PRIMARY KEY (`MaSP`),
+  ADD KEY `MaLoai` (`MaLoai`);
+
+--
+-- Chỉ mục cho bảng `taikhoan`
+--
+ALTER TABLE `taikhoan`
+  ADD PRIMARY KEY (`MaTK`),
+  ADD UNIQUE KEY `Username` (`Username`),
+  ADD UNIQUE KEY `Email` (`Email`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `diachikhachhang`
+--
+ALTER TABLE `diachikhachhang`
+  MODIFY `MaDC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT cho bảng `donhang`
+--
+ALTER TABLE `donhang`
+  MODIFY `MaDH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `loaisanpham`
+--
+ALTER TABLE `loaisanpham`
+  MODIFY `MaLoai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  MODIFY `MaPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `sanpham`
+--
+ALTER TABLE `sanpham`
+  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT cho bảng `taikhoan`
+--
+ALTER TABLE `taikhoan`
+  MODIFY `MaTK` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `chitietdonhang`
+--
+ALTER TABLE `chitietdonhang`
+  ADD CONSTRAINT `chitietdonhang_ibfk_1` FOREIGN KEY (`MaDH`) REFERENCES `donhang` (`MaDH`) ON DELETE CASCADE,
+  ADD CONSTRAINT `chitietdonhang_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
+
+--
+-- Các ràng buộc cho bảng `chitietphieunhap`
+--
+ALTER TABLE `chitietphieunhap`
+  ADD CONSTRAINT `chitietphieunhap_ibfk_1` FOREIGN KEY (`MaPN`) REFERENCES `phieunhap` (`MaPN`) ON DELETE CASCADE,
+  ADD CONSTRAINT `chitietphieunhap_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
+
+--
+-- Các ràng buộc cho bảng `diachikhachhang`
+--
+ALTER TABLE `diachikhachhang`
+  ADD CONSTRAINT `diachikhachhang_ibfk_1` FOREIGN KEY (`MaTK`) REFERENCES `taikhoan` (`MaTK`) ON DELETE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `donhang`
+--
+ALTER TABLE `donhang`
+  ADD CONSTRAINT `donhang_ibfk_1` FOREIGN KEY (`MaTK`) REFERENCES `taikhoan` (`MaTK`);
+
+--
+-- Các ràng buộc cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MaAdmin`) REFERENCES `taikhoan` (`MaTK`);
+
+--
+-- Các ràng buộc cho bảng `sanpham`
+--
+ALTER TABLE `sanpham`
+  ADD CONSTRAINT `sanpham_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `loaisanpham` (`MaLoai`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
