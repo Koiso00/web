@@ -19,11 +19,13 @@ $tongDonHang = $conn->query("SELECT COUNT(*) FROM DonHang")->fetchColumn();
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Trang Chủ - Quản trị</title>
     <link rel="stylesheet" href="Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once 'sidebar.php'; ?>
@@ -67,17 +69,22 @@ $tongDonHang = $conn->query("SELECT COUNT(*) FROM DonHang")->fetchColumn();
                     </div>
                 </div>
             </div>
-            
+
             <div class="chart-container">
                 <h2>Biểu đồ doanh thu dự kiến</h2>
                 <div class="chart-placeholder">
                     <div class="chart-bars">
-                        <div class="bar" style="height: 80%;"><span class="bar-value">160tr</span><p>Mar</p></div>
-                        <div class="bar" style="height: 100%;"><span class="bar-value">200tr</span><p>Nov</p></div>
+                        <div class="bar" style="height: 80%;"><span class="bar-value">160tr</span>
+                            <p>Mar</p>
+                        </div>
+                        <div class="bar" style="height: 100%;"><span class="bar-value">200tr</span>
+                            <p>Nov</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 </body>
+
 </html>

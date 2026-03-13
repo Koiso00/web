@@ -19,18 +19,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $donViTinh = $_POST['product-unit'];
     $tiLeLoiNhuan = $_POST['product-margin'] / 100; // Đổi % ra hệ số thập phân
     $hienTrang = $_POST['product-status'];
-    $hinhAnh = "default.png"; // Ảnh mặc định
+
+    // Sửa Lỗi 1: Đồng bộ ảnh mặc định
+    $hinhAnh = "product0.png";
 
     // Xử lý Upload ảnh
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
+
+        // Sửa Lỗi 2: Kiểm tra dung lượng file (Giới hạn 2MB = 2097152 bytes)
+        if ($_FILES['product-image']['size'] > 2097152) {
+            echo "<script>alert('Lỗi: File ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB.'); window.history.back();</script>";
+            exit();
+        }
+
         $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        
+
         if (in_array(strtolower($ext), $allowed)) {
             $hinhAnh = time() . '_' . $_FILES['product-image']['name'];
             move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
         } else {
-            echo "<script>alert('Lỗi: Chỉ cho phép upload file ảnh!');</script>";
+            echo "<script>alert('Lỗi: Chỉ cho phép upload định dạng ảnh (jpg, png, gif, webp)!'); window.history.back();</script>";
+            exit();
         }
     }
 
@@ -44,11 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Thêm Sản Phẩm Mới</title>
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once '../sidebar.php'; ?>
@@ -60,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="product-category">Loại sản phẩm</label>
                         <select id="product-category" name="product-category" required>
-                            <?php foreach($loaiSanPhams as $loai): ?>
+                            <?php foreach ($loaiSanPhams as $loai): ?>
                                 <option value="<?= $loai['MaLoai'] ?>"><?= htmlspecialchars($loai['TenLoai']) ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -90,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="form-group">
                         <label for="product-description">Mô tả</label>
-                        <textarea id="product-description" name="product-description" rows="4"></textarea>
+                        <textarea id="product-description" name="product-description" rows="4" required placeholder="Nhập mô tả chi tiết cho sản phẩm..."></textarea>
                     </div>
                     <div class="form-actions">
                         <a href="quanlidanhmuc.php" class="btn btn-deleteback">← Quay lại danh sách</a>
@@ -101,4 +113,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </main>
     </div>
 </body>
+
 </html>

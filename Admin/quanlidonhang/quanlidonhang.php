@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn_update_status'])) 
         foreach ($_POST['trang_thai'] as $maDH => $trangThaiMoi) {
             $stmtUpdate->execute([$trangThaiMoi, $maDH]);
         }
-        echo "<script>alert('Cập nhật trạng thái các đơn hàng thành công!'); window.location.href='quan-li-don-hang.php';</script>";
+        echo "<script>alert('Cập nhật trạng thái các đơn hàng thành công!'); window.location.href='quanlidonhang.php';</script>";
     }
 }
 
@@ -90,12 +90,14 @@ $arrTrangThai = [
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Đơn Hàng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/Do_an_Web/sidebar.php'; ?>
@@ -148,15 +150,15 @@ $arrTrangThai = [
                                 </div>
                                 <div class="order-actions">
                                     <a href="chi-tiet-don-hang.php?id=<?= $dh['MaDH'] ?>" class="btn btn-view" style="text-decoration:none;">Chi tiết</a>
-                                    
+
                                     <select name="trang_thai[<?= $dh['MaDH'] ?>]" class="status-select" <?= $dh['TrangThai'] == 2 || $dh['TrangThai'] == 3 ? 'disabled' : '' ?>>
                                         <option value="0" <?= $dh['TrangThai'] == 0 ? 'selected' : '' ?>>Mới đặt</option>
                                         <option value="1" <?= $dh['TrangThai'] == 1 ? 'selected' : '' ?>>Đã xác nhận</option>
                                         <option value="2" <?= $dh['TrangThai'] == 2 ? 'selected' : '' ?>>Đã giao</option>
                                         <option value="3" <?= $dh['TrangThai'] == 3 ? 'selected' : '' ?>>Hủy</option>
                                     </select>
-                                    
-                                    <?php if($dh['TrangThai'] == 2 || $dh['TrangThai'] == 3): ?>
+
+                                    <?php if ($dh['TrangThai'] == 2 || $dh['TrangThai'] == 3): ?>
                                         <input type="hidden" name="trang_thai[<?= $dh['MaDH'] ?>]" value="<?= $dh['TrangThai'] ?>">
                                     <?php endif; ?>
                                 </div>
@@ -175,4 +177,5 @@ $arrTrangThai = [
         </main>
     </div>
 </body>
+
 </html>

@@ -13,7 +13,8 @@ body {
 /* Container chính bao bọc cả 2 cột */
 
 .container {
-    display: flex; /* Dùng Flexbox để chia cột */
+    display: flex;
+    /* Dùng Flexbox để chia cột */
 
     min-height: 100vh;
 }
@@ -25,15 +26,20 @@ body {
     color: white;
     font-weight: bolder;
 }
+
 /* CSS cho logo TechZone ở góc trái trên cùng của trang đăng nhập */
-.login-page-logo { 
-    position: absolute; /* Lấy logo ra khỏi luồng trang */
-    top: 30px;          
-    left: 30px;         
-    font-size: 45px;    /* Kích thước chữ cho logo */
-    color: white;       /* Màu chữ trắng để nổi bật trên nền tối */
-    z-index: 100;       /* Đảm bảo nó nổi lên trên các thành phần khác */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+.login-page-logo {
+    position: absolute;
+    /* Lấy logo ra khỏi luồng trang */
+    top: 30px;
+    left: 30px;
+    font-size: 45px;
+    /* Kích thước chữ cho logo */
+    color: white;
+    /* Màu chữ trắng để nổi bật trên nền tối */
+    z-index: 100;
+    /* Đảm bảo nó nổi lên trên các thành phần khác */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -41,73 +47,85 @@ body {
 /* Menu bên trái (Sidebar) */
 
 .sidebar {
-    width: 250px; /* Độ rộng cố định */
+    width: 250px;
+    /* Độ rộng cố định */
 
-    background-color: #343a40; /* Màu nền tối cho menu */
+    background-color: #343a40;
+    /* Màu nền tối cho menu */
 
     padding: 15px;
-    flex-shrink: 0; /* Không cho phép menu bị co lại */
+    flex-shrink: 0;
+    /* Không cho phép menu bị co lại */
 
 
 
-    position: fixed; /* Ghim menu cố định so với màn hình */
+    position: fixed;
+    /* Ghim menu cố định so với màn hình */
 
-    height: 100vh; /* Cho menu cao bằng 100% chiều cao màn hình */
+    height: 100vh;
+    /* Cho menu cao bằng 100% chiều cao màn hình */
 
-    top: 0; /* Căn menu lên đỉnh */
+    top: 0;
+    /* Căn menu lên đỉnh */
 
-    left: 0; /* Căn menu sang trái */
-    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
+    left: 0;
+    /* Căn menu sang trái */
+    overflow-y: auto;
+    /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
 }
 
 
 
-    .sidebar a {
-        display: block; /* Biến thẻ <a> thành khối để chiếm hết chiều rộng */
+.sidebar a {
+    display: block;
+    /* Biến thẻ <a> thành khối để chiếm hết chiều rộng */
 
-        color: #c2c7d0;
-        text-decoration: none;
-        padding: 12px 15px;
-        margin-bottom: 5px;
-        border-radius: 5px;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-
-
-        .sidebar a:hover {
-            background-color: #494e53;
-            color: white;
-        }
+    color: #c2c7d0;
+    text-decoration: none;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+}
 
 
 
-        /* Lớp .active để làm nổi bật mục menu đang được chọn */
+.sidebar a:hover {
+    background-color: #494e53;
+    color: white;
+}
 
-        .sidebar a.active {
-            background-color: #007bff; /* Màu xanh cho mục đang hoạt động */
 
-            color: white;
-            font-weight: bold;
-        }
+
+/* Lớp .active để làm nổi bật mục menu đang được chọn */
+
+.sidebar a.active {
+    background-color: #007bff;
+    /* Màu xanh cho mục đang hoạt động */
+
+    color: white;
+    font-weight: bold;
+}
 
 
 
 /* Khung nội dung chính bên phải */
 
 .main-content {
-    flex-grow: 1; /* Chiếm hết phần không gian còn lại */
+    flex-grow: 1;
+    /* Chiếm hết phần không gian còn lại */
 
     padding: 25px;
-    margin-left: 260px; /* Đẩy nội dung sang phải một khoảng bằng độ rộng của sidebar */
+    margin-left: 260px;
+    /* Đẩy nội dung sang phải một khoảng bằng độ rộng của sidebar */
 }
 
 
 
-    .main-content h1 {
-        border-bottom: 2px solid #dee2e6;
-        padding-bottom: 10px;
-    }
+.main-content h1 {
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
 
 
 
@@ -118,7 +136,8 @@ body {
 /* Nút Thêm Sản Phẩm Mới */
 
 .btn-add {
-    background-color: #28a745; /* Màu xanh lá */
+    background-color: #28a745;
+    /* Màu xanh lá */
 
     width: 170px;
     color: white;
@@ -130,16 +149,18 @@ body {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    margin-bottom: 20px; /* Tạo khoảng cách với danh sách bên dưới */
+    margin-bottom: 20px;
+    /* Tạo khoảng cách với danh sách bên dưới */
 
     transition: background-color 0.3s;
 }
 
 
 
-    .btn-add:hover {
-        background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
-    }
+.btn-add:hover {
+    background-color: #218838;
+    /* Màu xanh lá đậm hơn khi hover */
+}
 
 
 
@@ -149,9 +170,11 @@ body {
 
 .product-list {
     display: flex;
-    flex-direction: column; /* Sắp xếp các sản phẩm theo chiều dọc */
+    flex-direction: column;
+    /* Sắp xếp các sản phẩm theo chiều dọc */
 
-    gap: 15px; /* Khoảng cách giữa các sản phẩm */
+    gap: 15px;
+    /* Khoảng cách giữa các sản phẩm */
 }
 
 
@@ -159,9 +182,11 @@ body {
 /* Kiểu dáng cho mỗi dòng sản phẩm */
 
 .product-item {
-    display: flex; /* Sử dụng Flexbox để căn chỉnh các phần tử bên trong */
+    display: flex;
+    /* Sử dụng Flexbox để căn chỉnh các phần tử bên trong */
 
-    align-items: center; /* Căn giữa theo chiều dọc */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
 
     background-color: #ffffff;
     padding: 15px;
@@ -176,12 +201,15 @@ body {
 .product-image {
     width: 60px;
     height: 60px;
-    border-radius: 8px; /* Bo góc ảnh */
+    border-radius: 8px;
+    /* Bo góc ảnh */
 
     margin-right: 15px;
-    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị méo */
 
-    background-color: #e9ecef; /* Màu nền cho ảnh trống */
+    background-color: #e9ecef;
+    /* Màu nền cho ảnh trống */
 }
 
 
@@ -189,22 +217,24 @@ body {
 /* Khung chứa tên và mã sản phẩm */
 
 .product-details {
-    flex-grow: 1; /* Quan trọng: Đẩy các nút hành động về phía bên phải */
+    flex-grow: 1;
+    /* Quan trọng: Đẩy các nút hành động về phía bên phải */
 }
 
 
 
-    .product-details h3 {
-        margin: 0;
-        font-size: 0.9rem;
-    }
+.product-details h3 {
+    margin: 0;
+    font-size: 0.9rem;
+}
 
 
 
-    .product-details p {
-        margin: 5px 0 0;
-        color: #6c757d; /* Màu xám cho mã SP */
-    }
+.product-details p {
+    margin: 5px 0 0;
+    color: #6c757d;
+    /* Màu xám cho mã SP */
+}
 
 
 
@@ -212,7 +242,8 @@ body {
 
 .product-actions {
     display: flex;
-    gap: 10px; /* Khoảng cách giữa các nút */
+    gap: 10px;
+    /* Khoảng cách giữa các nút */
     flex-wrap: wrap;
 }
 
@@ -228,21 +259,23 @@ body {
     font-weight: 500;
     transition: opacity 0.2s;
     text-decoration: none;
-    white-space: nowrap; /* Ngăn chữ bên trong nút tự xuống dòng */
+    white-space: nowrap;
+    /* Ngăn chữ bên trong nút tự xuống dòng */
 }
 
 
 
-    .btn:hover {
-        opacity: 0.8;
-    }
+.btn:hover {
+    opacity: 0.8;
+}
 
 
 
 /* Màu sắc riêng cho từng nút */
 
 .btn-edit {
-    background-color: #007bff; /* Xanh dương */
+    background-color: #007bff;
+    /* Xanh dương */
 
     color: white;
 }
@@ -250,13 +283,15 @@ body {
 
 
 .btn-delete {
-    background-color: #dc3545; /* Đỏ */
-    
+    background-color: #dc3545;
+    /* Đỏ */
+
     color: white;
 }
 
 .btn-deleteback {
-    background-color: #dc3545; /* Đỏ */
+    background-color: #dc3545;
+    /* Đỏ */
     color: white;
     padding: 12px 25px;
     border: none;
@@ -271,14 +306,15 @@ body {
 
 
 .btn-hide {
-    background-color: #6c757d; /* Xám */
+    background-color: #6c757d;
+    /* Xám */
 
     color: white;
 }
 
-.btn-hide.active
-{
-    background-color: #28a745; /* Xanh lá khi đang ẩn */
+.btn-hide.active {
+    background-color: #28a745;
+    /* Xanh lá khi đang ẩn */
 
     color: white;
 }
@@ -290,11 +326,13 @@ body {
 /* Khung chứa danh sách tài khoản */
 
 .account-list {
-    margin-top: 20px; /* Thêm khoảng cách với nút "Thêm tài khoản" */
+    margin-top: 20px;
+    /* Thêm khoảng cách với nút "Thêm tài khoản" */
 
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Khoảng cách giữa các tài khoản */
+    gap: 15px;
+    /* Khoảng cách giữa các tài khoản */
 }
 
 
@@ -317,11 +355,13 @@ body {
 .account-avatar {
     width: 50px;
     height: 50px;
-    border-radius: 50%; /* Bo tròn ảnh */
+    border-radius: 50%;
+    /* Bo tròn ảnh */
 
     margin-right: 15px;
     object-fit: cover;
-    background-color: #ced4da; /* Màu nền cho avatar trống */
+    background-color: #ced4da;
+    /* Màu nền cho avatar trống */
 }
 
 
@@ -329,24 +369,25 @@ body {
 /* Khung thông tin tên, email, vai trò */
 
 .account-info {
-    flex-grow: 1; /* Đẩy các nút hành động về phía bên phải */
+    flex-grow: 1;
+    /* Đẩy các nút hành động về phía bên phải */
 }
 
 
 
-    .account-info h4 {
-        margin: 0 0 5px 0;
-        font-size: 1.1rem;
-        color: #343a40;
-    }
+.account-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #343a40;
+}
 
 
 
-    .account-info p {
-        margin: 0;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
+.account-info p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
 
 
 
@@ -361,19 +402,23 @@ body {
 
 
 
-    .role.customer {
-        background-color: #e0eafc; /* Nền xanh nhạt */
+.role.customer {
+    background-color: #e0eafc;
+    /* Nền xanh nhạt */
 
-        color: #007bff; /* Chữ xanh dương */
-    }
+    color: #007bff;
+    /* Chữ xanh dương */
+}
 
 
 
-    .role.admin {
-        background-color: #f8d7da; /* Nền đỏ nhạt */
+.role.admin {
+    background-color: #f8d7da;
+    /* Nền đỏ nhạt */
 
-        color: #721c24; /* Chữ đỏ đậm */
-    }
+    color: #721c24;
+    /* Chữ đỏ đậm */
+}
 
 
 
@@ -390,9 +435,11 @@ body {
 /* Nút Reset mật khẩu */
 
 .btn-reset {
-    background-color: #ffc107; /* Màu vàng */
+    background-color: #ffc107;
+    /* Màu vàng */
 
-    color: #212529; /* Màu chữ đen */
+    color: #212529;
+    /* Màu chữ đen */
 
     border: none;
 }
@@ -402,7 +449,8 @@ body {
 /* Nút Khoá tài khoản */
 
 .btn-toggle-lock {
-    background-color: #dc3545; /* Màu đỏ */
+    background-color: #dc3545;
+    /* Màu đỏ */
 
     color: white;
     border: none;
@@ -413,7 +461,8 @@ body {
 /* Nút Mở khoá tài khoản */
 
 .btn-toggle-unlock {
-    background-color: #28a745; /* Màu xanh lá */
+    background-color: #28a745;
+    /* Màu xanh lá */
 
     color: white;
     border: none;
@@ -426,7 +475,8 @@ body {
 /* Đổi tên class nút Khoá/Mở Khoá cũ thành class mới */
 
 .btn-lock {
-    background-color: #dc3545; /* Màu đỏ */
+    background-color: #dc3545;
+    /* Màu đỏ */
 
     color: white;
     border: none;
@@ -435,7 +485,8 @@ body {
 
 
 .btn-unlock {
-    background-color: #28a745; /* Màu xanh lá */
+    background-color: #28a745;
+    /* Màu xanh lá */
 
     color: white;
     border: none;
@@ -449,12 +500,15 @@ body {
 
 .pagination {
     display: flex;
-    justify-content: center; /* Căn giữa các số trang */
+    justify-content: center;
+    /* Căn giữa các số trang */
 
     align-items: center;
-    margin-top: 30px; /* Khoảng cách với danh sách bên trên */
+    margin-top: 30px;
+    /* Khoảng cách với danh sách bên trên */
 
-    gap: 8px; /* Khoảng cách giữa các số */
+    gap: 8px;
+    /* Khoảng cách giữa các số */
 }
 
 
@@ -474,14 +528,14 @@ body {
 
 
 
-    /* Kiểu dáng cho số trang đang được chọn */
+/* Kiểu dáng cho số trang đang được chọn */
 
-    .page-number.active {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-        cursor: default;
-    }
+.page-number.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    cursor: default;
+}
 
 /* --- CSS CHO TRANG QUẢN LÍ DANH MỤC & FORM --- */
 
@@ -491,7 +545,8 @@ body {
 
 .page-header {
     display: flex;
-    justify-content: center; /* Đẩy 2 item ra 2 đầu */
+    justify-content: center;
+    /* Đẩy 2 item ra 2 đầu */
 
     align-items: center;
     margin-bottom: 25px;
@@ -501,17 +556,18 @@ body {
 
 
 
-    .page-header h1 {
-        margin: 0; /* Xóa margin mặc định của H1 */
-    }
+.page-header h1 {
+    margin: 0;
+    /* Xóa margin mặc định của H1 */
+}
 
 
 
-    /* Biến thẻ <a> thành nút "Thêm sản phẩm" */
+/* Biến thẻ <a> thành nút "Thêm sản phẩm" */
 
-    .page-header .btn-add {
-        text-decoration: none;
-    }
+.page-header .btn-add {
+    text-decoration: none;
+}
 
 
 
@@ -533,9 +589,9 @@ body {
 
 
 
-    .back-link:hover {
-        text-decoration: underline;
-    }
+.back-link:hover {
+    text-decoration: underline;
+}
 
 
 
@@ -550,10 +606,10 @@ body {
 
 
 
-    .form-container h1 {
-        margin-top: 0;
-        margin-bottom: 25px;
-    }
+.form-container h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
 
 
 
@@ -565,61 +621,66 @@ body {
 
 
 
-    .form-group label {
-        display: block; /* Cho label nằm riêng 1 dòng */
+.form-group label {
+    display: block;
+    /* Cho label nằm riêng 1 dòng */
 
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #495057;
-    }
-
-
-
-    /* Kiểu chung cho các ô input, select, textarea */
-
-    .form-group input[type="text"],
-    .form-group input[type="file"],
-    .form-group select,
-    .form-group textarea {
-        width: 100%; /* Chiếm hết chiều rộng */
-
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        font-size: 1rem;
-        box-sizing: border-box; /* Quan trọng để padding không làm tăng kích thước */
-    }
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #495057;
+}
 
 
 
-    .form-group input[type="file"] {
-        padding: 5px;
-    }
+/* Kiểu chung cho các ô input, select, textarea */
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    /* Chiếm hết chiều rộng */
+
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    /* Quan trọng để padding không làm tăng kích thước */
+}
 
 
 
-    .form-group textarea {
-        resize: vertical; /* Cho phép người dùng kéo giãn theo chiều dọc */
-    }
+.form-group input[type="file"] {
+    padding: 5px;
+}
 
 
 
-        /* Kiểu khi người dùng focus vào ô input */
+.form-group textarea {
+    resize: vertical;
+    /* Cho phép người dùng kéo giãn theo chiều dọc */
+}
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
+
+
+/* Kiểu khi người dùng focus vào ô input */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 
 
 
 /* Khung chứa nút Lưu */
 
 .form-actions {
-    text-align: right; /* Đẩy nút Lưu sang phải */
+    text-align: right;
+    /* Đẩy nút Lưu sang phải */
     flex-wrap: wrap;
     margin-top: 30px;
     gap: 10px;
@@ -645,13 +706,14 @@ body {
 
 
 .btn-save:hover {
-        background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 /* --- CSS CHO TRANG CHỦ DASHBOARD --- */
 
 /* Bỏ gạch chân cho H1 trên trang chủ */
-.main-content .dashboard-header + .stats-grid + .chart-container h1, /* Cần chỉ định cụ thể để không ảnh hưởng H1 khác */
+.main-content .dashboard-header+.stats-grid+.chart-container h1,
+/* Cần chỉ định cụ thể để không ảnh hưởng H1 khác */
 .dashboard-header h1 {
     border-bottom: none;
     padding-bottom: 0;
@@ -666,14 +728,16 @@ body {
 /* Header của Dashboard */
 .dashboard-header {
     display: flex;
-    justify-content: space-between; /* Vẫn giữ space-between */
+    justify-content: space-between;
+    /* Vẫn giữ space-between */
     align-items: center;
     margin-bottom: 30px;
 }
 
 /* Class mới cho 3 cột */
 .header-column {
-    flex-basis: 250px; /* Đặt độ rộng cho 2 cột bên, bạn có thể chỉnh số này */
+    flex-basis: 250px;
+    /* Đặt độ rộng cho 2 cột bên, bạn có thể chỉnh số này */
     flex-shrink: 0;
 }
 
@@ -686,7 +750,8 @@ body {
 .header-profile {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Đẩy icon về cuối (bên phải) của cột */
+    justify-content: flex-end;
+    /* Đẩy icon về cuối (bên phải) của cột */
     gap: 20px;
 }
 
@@ -708,7 +773,7 @@ body {
     background-color: #e9ecef;
     object-fit: cover;
     border: 2px solid #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 
@@ -716,8 +781,10 @@ body {
 /* Lưới 4 khung thống kê */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Tạo 4 cột bằng nhau */
-    gap: 20px; /* Khoảng cách giữa các khung */
+    grid-template-columns: repeat(4, 1fr);
+    /* Tạo 4 cột bằng nhau */
+    gap: 20px;
+    /* Khoảng cách giữa các khung */
     margin-bottom: 30px;
 }
 
@@ -742,27 +809,27 @@ body {
 }
 
 
-    .card-icon img {
-        width: 24px;
-        height: 24px;
-    }
+.card-icon img {
+    width: 24px;
+    height: 24px;
+}
 
-    /* Màu nền riêng cho icon của mỗi card */
-    .card-icon.online {
-        background-color: #e7f5ff;
-    }
+/* Màu nền riêng cho icon của mỗi card */
+.card-icon.online {
+    background-color: #e7f5ff;
+}
 
-    .card-icon.visits {
-        background-color: #fff4e5;
-    }
+.card-icon.visits {
+    background-color: #fff4e5;
+}
 
-    .card-icon.products {
-        background-color: #e5f9f0;
-    }
+.card-icon.products {
+    background-color: #e5f9f0;
+}
 
-    .card-icon.orders {
-        background-color: #fdeee4;
-    }
+.card-icon.orders {
+    background-color: #fdeee4;
+}
 
 .card-info {
     display: flex;
@@ -789,10 +856,10 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-    .chart-container h2 {
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
+.chart-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
 
 /* Biểu đồ tượng trưng */
 .chart-placeholder {
@@ -804,20 +871,23 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    overflow-x: auto; /* Thêm thanh cuộn ngang khi cần */
-    padding-bottom: 20px; /* Thêm khoảng đệm cho thanh cuộn */
+    overflow-x: auto;
+    /* Thêm thanh cuộn ngang khi cần */
+    padding-bottom: 20px;
+    /* Thêm khoảng đệm cho thanh cuộn */
 }
 
-    .chart-placeholder p {
-        color: #adb5bd;
-        font-size: 1.2rem;
-    }
+.chart-placeholder p {
+    color: #adb5bd;
+    font-size: 1.2rem;
+}
 
 .chart-bars {
     width: 80%;
     height: 70%;
     display: flex;
-    align-items: flex-end; /* Căn các cột xuống dưới đáy */
+    align-items: flex-end;
+    /* Căn các cột xuống dưới đáy */
     justify-content: space-around;
     gap: 10px;
 }
@@ -828,16 +898,21 @@ body {
     background-color: #007bff;
     border-radius: 5px 5px 0 0;
     animation: grow 1.5s ease-out;
-    
+
     /* --- BẮT ĐẦU THAY ĐỔI --- */
     display: flex;
-    flex-direction: column; /* Xếp dọc (số ở trên, chữ ở dưới) */
-    justify-content: flex-start; /* Đẩy 2 item LÊN TRÊN ĐẦU */
-    padding: 8px 4px; /* Thêm đệm trên/dưới và trái/phải */
-    box-sizing: border-box; /* Để padding không làm tăng chiều cao */
+    flex-direction: column;
+    /* Xếp dọc (số ở trên, chữ ở dưới) */
+    justify-content: flex-start;
+    /* Đẩy 2 item LÊN TRÊN ĐẦU */
+    padding: 8px 4px;
+    /* Thêm đệm trên/dưới và trái/phải */
+    box-sizing: border-box;
+    /* Để padding không làm tăng chiều cao */
     color: white;
     text-align: center;
 }
+
 /* --- THÊM CÁC DÒNG MỚI NÀY VÀO CUỐI FILE CSS --- */
 
 /* Định dạng cho SỐ (giá trị) */
@@ -849,19 +924,24 @@ body {
 /* Định dạng cho CHỮ (tháng) */
 .bar p {
     font-size: 0.8rem;
-    margin: 0; /* Xóa margin mặc định của <p> */
-    opacity: 0.8; /* Làm chữ tháng mờ đi 1 chút */
+    margin: 0;
+    /* Xóa margin mặc định của <p> */
+    opacity: 0.8;
+    /* Làm chữ tháng mờ đi 1 chút */
 }
+
 /* Hiệu ứng cho biểu đồ */
 @keyframes grow {
     from {
         height: 0;
     }
 }
+
 /* --- CSS CHO THANH NAV DANH MỤC --- */
 .category-nav {
     display: flex;
-    gap: 10px; /* Khoảng cách giữa các mục */
+    gap: 10px;
+    /* Khoảng cách giữa các mục */
     margin-bottom: 25px;
     border-bottom: 2px solid #dee2e6;
 }
@@ -869,11 +949,14 @@ body {
 .category-link {
     padding: 10px 18px;
     text-decoration: none;
-    color: #495057; /* Màu chữ bình thường */
+    color: #495057;
+    /* Màu chữ bình thường */
     font-weight: 500;
     font-size: 0.95rem;
-    border-bottom: 3px solid transparent; /* Gạch chân trong suốt */
-    margin-bottom: -2px; /* Nâng lên để gạch chân đè lên border-bottom chung */
+    border-bottom: 3px solid transparent;
+    /* Gạch chân trong suốt */
+    margin-bottom: -2px;
+    /* Nâng lên để gạch chân đè lên border-bottom chung */
     transition: all 0.2s ease;
 }
 
@@ -883,9 +966,12 @@ body {
 
 /* Kiểu dáng cho mục đang được chọn */
 .category-link.active {
-    color: #007bff; /* Màu chữ khi được chọn */
-    border-bottom-color: #007bff; /* Gạch chân khi được chọn */
+    color: #007bff;
+    /* Màu chữ khi được chọn */
+    border-bottom-color: #007bff;
+    /* Gạch chân khi được chọn */
 }
+
 /* --- CSS CHO TRANG QUẢN LÍ NHẬP HÀNG --- */
 
 /* Thanh tìm kiếm */
@@ -894,15 +980,19 @@ body {
     gap: 10px;
     margin-bottom: 25px;
 }
+
 .search-bar input[type="text"] {
-    flex-grow: 1; /* Cho ô tìm kiếm chiếm nhiều không gian */
+    flex-grow: 1;
+    /* Cho ô tìm kiếm chiếm nhiều không gian */
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 5px;
     font-size: 1rem;
 }
+
 .search-bar .btn-edit {
-    flex-shrink: 0; /* Không co nút tìm kiếm lại */
+    flex-shrink: 0;
+    /* Không co nút tìm kiếm lại */
 }
 
 /* Danh sách phiếu nhập */
@@ -922,12 +1012,15 @@ body {
 }
 
 .slip-info {
-    flex-grow: 1; /* Đẩy các mục khác sang phải */
+    flex-grow: 1;
+    /* Đẩy các mục khác sang phải */
 }
+
 .slip-info h4 {
     margin: 0 0 8px 0;
     font-size: 1.2rem;
 }
+
 .slip-info p {
     margin: 0;
     color: #6c757d;
@@ -938,6 +1031,7 @@ body {
     width: 120px;
     text-align: center;
 }
+
 /* Trạng thái */
 .status {
     font-size: 0.85rem;
@@ -945,10 +1039,12 @@ body {
     border-radius: 15px;
     font-weight: bold;
 }
+
 .status.pending {
     background-color: #fff0c7;
     color: #a67c00;
 }
+
 .status.completed {
     background-color: #d4edda;
     color: #155724;
@@ -957,7 +1053,8 @@ body {
 .slip-actions {
     display: flex;
     gap: 10px;
-    width: 220px; /* Đặt độ rộng cố định để các nút thẳng hàng */
+    width: 220px;
+    /* Đặt độ rộng cố định để các nút thẳng hàng */
     justify-content: flex-end;
     flex-wrap: wrap;
 }
@@ -967,6 +1064,7 @@ body {
     background-color: #28a745;
     color: white;
 }
+
 .btn-view {
     background-color: #6c757d;
     color: white;
@@ -978,8 +1076,10 @@ body {
     display: flex;
     gap: 20px;
 }
+
 .form-group-row .form-group {
-    flex: 1; /* Cho 2 form group bằng nhau */
+    flex: 1;
+    /* Cho 2 form group bằng nhau */
 }
 
 .form-section-title {
@@ -992,15 +1092,18 @@ body {
 
 .product-entry-table {
     width: 100%;
-    border-collapse: collapse; /* Gộp viền table */
+    border-collapse: collapse;
+    /* Gộp viền table */
     margin-bottom: 20px;
 }
+
 .product-entry-table th,
 .product-entry-table td {
     border: 1px solid #dee2e6;
     padding: 8px;
     text-align: left;
 }
+
 .product-entry-table th {
     background-color: #f8f9fa;
 }
@@ -1011,26 +1114,35 @@ body {
     padding: 8px;
     border: 1px solid #ced4da;
     border-radius: 5px;
-    box-sizing: border-box; /* Quan trọng */
+    box-sizing: border-box;
+    /* Quan trọng */
 }
+
 .product-entry-table input:focus {
     outline: none;
     border-color: #80bdff;
 }
+
 .product-entry-table td:nth-child(3) {
-    width: 100px; /* Cột số lượng */
+    width: 100px;
+    /* Cột số lượng */
 }
+
 .product-entry-table td:nth-child(4) {
-    width: 150px; /* Cột giá nhập */
+    width: 150px;
+    /* Cột giá nhập */
 }
+
 /* --- CSS CHO NÚT THÊM SẢN PHẨM TRONG FORM --- */
 
 /* Khung bọc H2 và nút Thêm */
 .form-section-header {
     display: flex;
-    justify-content: space-between; /* Đẩy tiêu đề và nút ra 2 bên */
+    justify-content: space-between;
+    /* Đẩy tiêu đề và nút ra 2 bên */
     align-items: center;
-    margin-bottom: 15px; /* Khoảng cách với bảng bên dưới */
+    margin-bottom: 15px;
+    /* Khoảng cách với bảng bên dưới */
 }
 
 /* Xóa gạch chân và margin của H2 khi nằm trong .form-section-header */
@@ -1042,16 +1154,20 @@ body {
 
 /* Kiểu dáng cho nút "Thêm sản phẩm nhập" */
 .btn-add-item {
-    background-color: #28a745; /* Màu xanh lá */
+    background-color: #28a745;
+    /* Màu xanh lá */
     color: white;
-    font-size: 0.9rem; /* Làm nút nhỏ hơn 1 chút */
+    font-size: 0.9rem;
+    /* Làm nút nhỏ hơn 1 chút */
     padding: 8px 12px;
 }
 
 .btn-add-item:hover {
     background-color: #218838;
-    opacity: 1; /* Ghi đè opacity mặc định của .btn:hover */
+    opacity: 1;
+    /* Ghi đè opacity mặc định của .btn:hover */
 }
+
 /* --- CSS CHO TRANG QUẢN LÍ ĐƠN HÀNG --- */
 
 /* Danh sách đơn hàng (tương tự .slip-list) */
@@ -1072,20 +1188,25 @@ body {
 }
 
 .order-details {
-    flex-grow: 1; /* Đẩy action sang phải */
+    flex-grow: 1;
+    /* Đẩy action sang phải */
 }
+
 .order-details h4 {
     margin: 0 0 8px 0;
     font-size: 1.2rem;
 }
+
 .order-details p {
     margin: 0;
     color: #6c757d;
     font-size: 0.9rem;
 }
+
 .order-details .order-total {
     font-weight: bold;
-    color: #dc3545; /* Màu đỏ cho tổng tiền */
+    color: #dc3545;
+    /* Màu đỏ cho tổng tiền */
     font-size: 1rem;
     margin-top: 5px;
 }
@@ -1114,24 +1235,30 @@ body {
     background-color: #f8f9fa;
     border-radius: 5px;
 }
+
 .order-customer-info p {
     margin: 5px 0;
 }
+
 /* --- CSS CHO TRANG QUẢN LÍ TỒN KHO --- */
 
 /* Hộp cảnh báo */
 .warning-box {
-    background-color: #fff3cd; /* Màu vàng nhạt */
+    background-color: #fff3cd;
+    /* Màu vàng nhạt */
     border: 1px solid #ffeeba;
-    color: #856404; /* Màu chữ vàng đậm */
+    color: #856404;
+    /* Màu chữ vàng đậm */
     padding: 15px 20px;
     border-radius: 8px;
     margin-bottom: 25px;
 }
+
 .warning-box h4 {
     margin: 0 0 5px 0;
     font-size: 1.1rem;
 }
+
 .warning-box p {
     margin: 0;
 }
@@ -1143,6 +1270,7 @@ body {
     margin-bottom: 25px;
     align-items: center;
 }
+
 .inventory-filter-bar input[type="text"] {
     flex-grow: 1;
     padding: 10px;
@@ -1150,9 +1278,12 @@ body {
     border-radius: 5px;
     font-size: 1rem;
 }
+
 .inventory-filter-bar .status-select {
-    width: 200px; /* Độ rộng cố định cho select */
+    width: 200px;
+    /* Độ rộng cố định cho select */
 }
+
 .inventory-filter-bar .btn-edit {
     flex-shrink: 0;
 }
@@ -1163,9 +1294,11 @@ body {
     align-items: center;
     gap: 4px;
 }
+
 .date-range-filter label {
     font-weight: 500;
 }
+
 .date-range-filter input[type="date"] {
     padding: 8px;
     border: 1px solid #ced4da;
@@ -1174,15 +1307,19 @@ body {
 
 /* Chữ đỏ cho số lượng tồn kho thấp */
 .status-low-stock {
-    color: #dc3545; /* Màu đỏ */
+    color: #dc3545;
+    /* Màu đỏ */
     font-weight: bold;
 }
+
 /* --- CSS CHO BẢNG TỒN KHO & TRA CỨU --- */
 
 /* Áp dụng cho bảng có class="price-lookup-table" */
 .price-lookup-table {
-    width: 100%; /* Cho bảng rộng hết cỡ */
-    border-collapse: collapse; /* Gộp các đường viền lại */
+    width: 100%;
+    /* Cho bảng rộng hết cỡ */
+    border-collapse: collapse;
+    /* Gộp các đường viền lại */
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
@@ -1190,24 +1327,29 @@ body {
 /* Đây là phần quan trọng nhất để sửa lỗi của bạn */
 .price-lookup-table th,
 .price-lookup-table td {
-    border: 1px solid #dee2e6; /* Thêm đường viền */
-    padding: 12px 15px;      /* Thêm khoảng cách (padding) */
-    text-align: left;        /* Căn chữ về bên trái */
+    border: 1px solid #dee2e6;
+    /* Thêm đường viền */
+    padding: 12px 15px;
+    /* Thêm khoảng cách (padding) */
+    text-align: left;
+    /* Căn chữ về bên trái */
 }
 
 /* Làm cho các ô tiêu đề (Sản phẩm, Mã SP...) đẹp hơn */
 .price-lookup-table th {
-    background-color: #f8f9fa; /* Nền xám nhạt cho tiêu đề */
+    background-color: #f8f9fa;
+    /* Nền xám nhạt cho tiêu đề */
     font-size: 0.9rem;
     text-transform: uppercase;
 }
+
 /* Cột 2 (Tiêu đề) */
 .page-header h1.page-header-title {
     /* Xóa gạch chân và margin mặc định của H1 */
     margin: 0;
     padding-bottom: 0;
     border-bottom: none;
-    
+
     /* Căn giữa chữ bên trong */
     text-align: center;
 }
@@ -1216,17 +1358,21 @@ body {
 .page-header-side .btn-add {
     margin-bottom: 0;
 }
+
 /* --- CSS CHO THANH CÔNG CỤ (DƯỚI HEADER) --- */
 .page-toolbar {
     display: flex;
-    justify-content: flex-end; /* Đẩy nút sang bên phải */
-    margin-bottom: 20px; /* Khoảng cách với danh sách bên dưới */
+    justify-content: flex-end;
+    /* Đẩy nút sang bên phải */
+    margin-bottom: 20px;
+    /* Khoảng cách với danh sách bên dưới */
 }
 
 /* Bỏ margin-bottom của nút khi nó nằm trong toolbar mới */
 .page-toolbar .btn-add {
     margin-bottom: 0;
 }
+
 /* --- CSS CHO RESPONSIVE (MÀN HÌNH NHỎ) --- */
 
 /* Áp dụng cho màn hình từ 992px trở xuống */
@@ -1234,29 +1380,39 @@ body {
 
     /* * 1. BIẾN SIDEBAR THÀNH THANH ĐIỀU HƯỚNG BÊN TRÊN 
      */
-     .container {
-        flex-direction: column; /* Bắt buộc: Xếp sidebar và nội dung theo chiều dọc */
+    .container {
+        flex-direction: column;
+        /* Bắt buộc: Xếp sidebar và nội dung theo chiều dọc */
     }
+
     .sidebar {
         position: relative;
         width: 100%;
         height: auto;
         display: flex;
-        overflow-y: hidden; /* Tắt cuộn dọc */
+        overflow-y: hidden;
+        /* Tắt cuộn dọc */
         justify-content: flex-start;
         align-items: center;
-        
+
         /* Thay đổi quan trọng */
-        flex-wrap: nowrap;   /* Bắt buộc menu nằm trên MỘT HÀNG */
-        overflow-x: auto;   /* Thêm cuộn ngang khi cần */
+        flex-wrap: nowrap;
+        /* Bắt buộc menu nằm trên MỘT HÀNG */
+        overflow-x: auto;
+        /* Thêm cuộn ngang khi cần */
     }
+
     .sidebar a {
-        padding: 10px 15px;    /* Tăng đệm 1 chút cho dễ bấm */
+        padding: 10px 15px;
+        /* Tăng đệm 1 chút cho dễ bấm */
         font-size: 0.9rem;
         flex-shrink: 0;
-        margin-bottom: 0;      /* Xóa margin-bottom không cần thiết */
-        width: auto;           /* Cho phép mục menu tự co dãn */
-        white-space: nowrap;   /* Ngăn chữ bị xuống dòng */
+        margin-bottom: 0;
+        /* Xóa margin-bottom không cần thiết */
+        width: auto;
+        /* Cho phép mục menu tự co dãn */
+        white-space: nowrap;
+        /* Ngăn chữ bị xuống dòng */
     }
 
     /* Ẩn logo đi để tiết kiệm diện tích */
@@ -1267,57 +1423,69 @@ body {
     /* * 2. ĐIỀU CHỈNH NỘI DUNG CHÍNH 
      */
     .main-content {
-        margin-left: 0; /* Xóa khoảng trống bên trái */
-        padding: 15px;  /* Giảm padding một chút */
+        margin-left: 0;
+        /* Xóa khoảng trống bên trái */
+        padding: 15px;
+        /* Giảm padding một chút */
     }
 
     /* * 3. SẮP XẾP LẠI CÁC KHỐI BÊN TRONG 
      */
-    
+
     /* Cho 4 thẻ thống kê ở trang chủ thành 2 cột */
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     /* Cho các dòng danh sách (sản phẩm, đơn hàng) xếp dọc */
     .product-item,
     .account-item,
     .order-item,
     .slip-item {
-        flex-direction: column; /* Xếp dọc */
-        align-items: flex-start; /* Căn về bên trái */
+        flex-direction: column;
+        /* Xếp dọc */
+        align-items: flex-start;
+        /* Căn về bên trái */
     }
-    
+
     /* Cho các nút hành động chiếm hết chiều rộng */
     .product-actions,
     .account-actions,
     .order-actions,
     .slip-actions {
         width: 100%;
-        margin-top: 15px; /* Thêm khoảng cách với nội dung bên trên */
+        margin-top: 15px;
+        /* Thêm khoảng cách với nội dung bên trên */
     }
-    
+
     /* Cho thanh tìm kiếm/lọc xếp dọc */
     .inventory-filter-bar {
         flex-direction: column;
-        align-items: stretch; /* Kéo dãn các item ra */
+        align-items: stretch;
+        /* Kéo dãn các item ra */
     }
+
     .date-range-filter {
         flex-direction: column;
         gap: 10px;
     }
+
     .inventory-filter-bar .status-select {
-        width: 100%; /* Chiếm hết chiều rộng */
+        width: 100%;
+        /* Chiếm hết chiều rộng */
     }
 
     /* Cho thanh header (tiêu đề, nút) xếp dọc */
     .page-header {
         flex-direction: column;
-        align-items: center; /* Căn giữa */
+        align-items: center;
+        /* Căn giữa */
         gap: 15px;
     }
+
     .page-toolbar {
-        justify-content: center; /* Căn giữa */
+        justify-content: center;
+        /* Căn giữa */
     }
 
     /* Cho các bảng tự động có thanh cuộn ngang */
@@ -1327,21 +1495,25 @@ body {
         /* Nếu chưa bọc, hãy thêm 1 div bên ngoài chúng */
         display: block;
         width: 100%;
-        overflow-x: auto; /* Đây là thanh trượt bạn muốn */
+        overflow-x: auto;
+        /* Đây là thanh trượt bạn muốn */
     }
 }
+
 /* --- SỬA LỖI VỠ CHỮ HEADER TRANG CHỦ --- */
 
 /* Áp dụng cho màn hình từ 768px trở xuống */
 @media (max-width: 768px) {
 
     .dashboard-header {
-        flex-direction: column; /* Xếp 3 cột thành hàng dọc */
+        flex-direction: column;
+        /* Xếp 3 cột thành hàng dọc */
         gap: 20px;
     }
 
     .header-column {
-        flex-basis: auto; /* Tắt độ rộng cố định 250px */
+        flex-basis: auto;
+        /* Tắt độ rộng cố định 250px */
         width: 100%;
     }
 
@@ -1358,15 +1530,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: 
+    background-image:
         /* 1. Lớp phủ màu đen mờ*/
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)),
         /* 2. Ảnh nền*/
         url('Image/hinhmaytinh.avif');
-    background-size: cover;       /* Cho ảnh lấp đầy toàn bộ màn hình */
-    background-position: center;  /* Căn ảnh ra giữa */
-    background-repeat: no-repeat; /* Không lặp lại ảnh */
-    
+    background-size: cover;
+    /* Cho ảnh lấp đầy toàn bộ màn hình */
+    background-position: center;
+    /* Căn ảnh ra giữa */
+    background-repeat: no-repeat;
+    /* Không lặp lại ảnh */
+
 }
 
 .login-wrapper {
@@ -1377,9 +1552,11 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
 }
+
 .login-wrapper form {
     width: 90%;
 }
+
 /* Hai khung trái/phải */
 .login-box {
     background: white;
@@ -1387,11 +1564,15 @@ body {
     border-radius: 10px;
     width: 290px;
 }
+
 /* CSS cho tiêu đề Đăng Nhập Admin */
 .login-box h2 {
-    margin-top: 0;      /* Xóa lề trên để kéo chữ lên */
-    text-align: center; /* Đảm bảo chữ vẫn ở giữa */
-    margin-bottom: 25px; /* Đặt khoảng cách với form bên dưới cho đẹp */
+    margin-top: 0;
+    /* Xóa lề trên để kéo chữ lên */
+    text-align: center;
+    /* Đảm bảo chữ vẫn ở giữa */
+    margin-bottom: 25px;
+    /* Đặt khoảng cách với form bên dưới cho đẹp */
 }
 
 /* Input */
@@ -1404,6 +1585,7 @@ body {
     border-radius: 5px;
     box-sizing: border-box;
 }
+
 /* Nút đăng nhập */
 .buttonsign {
     background: #050af9;
@@ -1423,26 +1605,35 @@ body {
 .remember-forgot label {
     display: inline-flex;
     align-items: center;
-    gap:0px;
+    gap: 0px;
 }
+
 .remember-forgot input[type="checkbox"] {
     margin-right: 10px;
     width: 15px;
     height: 15px;
 }
+
 .remember-forgot {
-    display: flex;/* 1. Biến nó thành flex container */
-    justify-content: space-between; /* 2. Đẩy 2 con ra 2 bên */
-    align-items: center;/* 3. Căn giữa theo chiều dọc */
-    margin-bottom: 20px;/*để tạo khoảng cách với nút "Đăng nhập" bên dưới */
-    }
+    display: flex;
+    /* 1. Biến nó thành flex container */
+    justify-content: space-between;
+    /* 2. Đẩy 2 con ra 2 bên */
+    align-items: center;
+    /* 3. Căn giữa theo chiều dọc */
+    margin-bottom: 20px;
+    /*để tạo khoảng cách với nút "Đăng nhập" bên dưới */
+}
 
 .admin-avatar img {
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Biến ảnh thành hình tròn */
-    object-fit: cover;  /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
+    border-radius: 50%;
+    /* Biến ảnh thành hình tròn */
+    object-fit: cover;
+    /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
 }
+
 /* --- CHỮ Ở GIỮA --- */
 .divider {
     display: flex;
@@ -1451,6 +1642,7 @@ body {
     height: 100%;
     padding: 0 20px;
 }
+
 .divider span {
     font-size: 19px;
     background: #fff;
@@ -1484,39 +1676,57 @@ body {
     font-size: 15px;
 }
 
-.google, .facebook, .apple {
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  gap: 10px;
-  width: 300px;height: 50px; ;
-  padding: 16px;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  font-weight: 650;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
+.google,
+.facebook,
+.apple {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+    width: 300px;
+    height: 50px;
+    ;
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
 }
-.google img,.facebook img,.apple img{
+
+.google img,
+.facebook img,
+.apple img {
     width: 17px;
 }
 
-.google { background: #db4437; }
-.facebook { background: #3b5998; }
-.apple { background: #000; }
+.google {
+    background: #db4437;
+}
 
-.google:hover, .facebook:hover, .apple:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
+.facebook {
+    background: #3b5998;
+}
+
+.apple {
+    background: #000;
+}
+
+.google:hover,
+.facebook:hover,
+.apple:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
 }
 
 .login-box.right button:hover {
     opacity: 0.9;
 }
-.buttonsign a{
+
+.buttonsign a {
     color: white;
     text-decoration: none;
 }
@@ -1524,14 +1734,17 @@ body {
 /*---- phần đăng xuất -----*/
 /* 1. CSS cho thẻ bọc ngoài */
 .profile-dropdown {
-    position: relative; /* Giữ nguyên để định vị menu con */
+    position: relative;
+    /* Giữ nguyên để định vị menu con */
 }
 
 /* 2. CSS cho avatar (thẻ summary) */
 .admin-avatar {
-    list-style: none; /* Ẩn mũi tên mặc định của <details> */
+    list-style: none;
+    /* Ẩn mũi tên mặc định của <details> */
     cursor: pointer;
-    display: inline-block; /*để ảnh không bị lỗi hiển thị */
+    display: inline-block;
+    /*để ảnh không bị lỗi hiển thị */
 }
 
 /* Ẩn mũi tên mặc định trên các trình duyệt Webkit (Chrome, Safari) */
@@ -1545,16 +1758,19 @@ body {
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    
-vertical-align: middle; /* để ảnh không bị dính vào viền khi click */
+
+    vertical-align: middle;
+    /* để ảnh không bị dính vào viền khi click */
 }
 
 /* 4. CSS cho menu xổ xuống */
 .dropdown-menu {
     /* Trình duyệt tự động ẩn/hiện, không cần "display: none" */
-    position: absolute; 
-    top: 110%; /* Vị trí: ngay dưới avatar */
-    right: 0;  /* Căn về bên phải */
+    position: absolute;
+    top: 110%;
+    /* Vị trí: ngay dưới avatar */
+    right: 0;
+    /* Căn về bên phải */
     background: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
@@ -1575,6 +1791,7 @@ vertical-align: middle; /* để ảnh không bị dính vào viền khi click *
 .dropdown-menu a:hover {
     background-color: #f5f5f5;
 }
+
 /* --- CSS CHO TRANG CHI TIẾT ĐƠN HÀNG --- */
 .order-customer-info {
     margin-bottom: 20px;
@@ -1583,10 +1800,12 @@ vertical-align: middle; /* để ảnh không bị dính vào viền khi click *
     border-radius: 5px;
     border: 1px solid #e9ecef;
 }
+
 .order-customer-info p {
     margin: 8px 0;
     font-size: 1rem;
 }
+
 .order-customer-info p strong {
     min-width: 120px;
     display: inline-block;
@@ -1600,7 +1819,19 @@ vertical-align: middle; /* để ảnh không bị dính vào viền khi click *
     border-radius: 50%;
     margin-right: 5px;
 }
-.status-pending { background-color: #ffc107; }
-.status-confirmed { background-color: #007bff; }
-.status-completed { background-color: #28a745; }
-.status-cancelled { background-color: #dc3545; }
+
+.status-pending {
+    background-color: #ffc107;
+}
+
+.status-confirmed {
+    background-color: #007bff;
+}
+
+.status-completed {
+    background-color: #28a745;
+}
+
+.status-cancelled {
+    background-color: #dc3545;
+}

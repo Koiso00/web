@@ -40,4 +40,3 @@ if ($id > 0) {
 }
 // Quay lại trang danh sách
 echo "<script>window.location.href='quanlidanhmuc.php';</script>";
-?>

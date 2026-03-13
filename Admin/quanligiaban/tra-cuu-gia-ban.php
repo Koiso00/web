@@ -21,12 +21,14 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Tra Cứu Giá Bán</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/Do_an_Web/sidebar.php'; ?>
@@ -35,11 +37,11 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
             <div class="page-header">
                 <h1 class="page-header-title">Tra cứu giá bán sản phẩm</h1>
             </div>
-            
+
             <nav class="category-nav">
-                <?php foreach($loaiSanPhams as $loai): ?>
-                    <a href="tra-cuu-gia-ban.php?maloai=<?= $loai['MaLoai'] ?>" 
-                       class="category-link <?= ($loai['MaLoai'] == $maLoaiActive) ? 'active' : '' ?>">
+                <?php foreach ($loaiSanPhams as $loai): ?>
+                    <a href="tra-cuu-gia-ban.php?maloai=<?= $loai['MaLoai'] ?>"
+                        class="category-link <?= ($loai['MaLoai'] == $maLoaiActive) ? 'active' : '' ?>">
                         <?= htmlspecialchars($loai['TenLoai']) ?>
                     </a>
                 <?php endforeach; ?>
@@ -55,21 +57,21 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(count($sanPhams) > 0): ?>
-                        <?php foreach($sanPhams as $sp): 
+                    <?php if (count($sanPhams) > 0): ?>
+                        <?php foreach ($sanPhams as $sp):
                             // Công thức tính giá bán theo yêu cầu đề bài
                             $giaVon = $sp['GiaNhapBinhQuan'];
                             $tiLe = $sp['TiLeLoiNhuan'];
                             $giaBan = $giaVon * (1 + $tiLe);
                         ?>
-                        <tr>
-                            <td><?= htmlspecialchars($sp['TenSP']) ?></td>
-                            <td class="text-right"><?= number_format($giaVon, 0, ',', '.') ?>đ</td>
-                            <td class="text-right"><?= $tiLe * 100 ?>%</td>
-                            <td class="text-right strong-price" style="color: #dc3545; font-weight: bold;">
-                                <?= number_format($giaBan, 0, ',', '.') ?>đ
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?= htmlspecialchars($sp['TenSP']) ?></td>
+                                <td class="text-right"><?= number_format($giaVon, 0, ',', '.') ?>đ</td>
+                                <td class="text-right"><?= $tiLe * 100 ?>%</td>
+                                <td class="text-right strong-price" style="color: #dc3545; font-weight: bold;">
+                                    <?= number_format($giaBan, 0, ',', '.') ?>đ
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
@@ -78,11 +80,12 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
                 </tbody>
             </table>
-            
+
             <div class="form-actions" style="margin-top: 20px;">
                 <a href="quanligiaban.php?maloai=<?= $maLoaiActive ?>" class="btn btn-deleteback">← Quay lại trang cài đặt</a>
             </div>
         </main>
     </div>
 </body>
+
 </html>

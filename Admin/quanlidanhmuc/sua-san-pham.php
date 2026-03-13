@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $donViTinh = $_POST['product-unit'];
     $tiLeLoiNhuan = $_POST['product-margin'] / 100;
     $hienTrang = $_POST['product-status'];
-    
+
     $hinhAnhMoi = $sp['HinhAnh']; // Mặc định giữ ảnh cũ nếu không chọn ảnh mới
 
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
@@ -51,11 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Chỉnh Sửa Sản Phẩm</title>
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once '../sidebar.php'; ?>
@@ -67,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label>Loại sản phẩm</label>
                         <select name="product-category" required>
-                            <?php foreach($loaiSanPhams as $loai): ?>
+                            <?php foreach ($loaiSanPhams as $loai): ?>
                                 <option value="<?= $loai['MaLoai'] ?>" <?= ($loai['MaLoai'] == $sp['MaLoai']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($loai['TenLoai']) ?>
                                 </option>
@@ -111,4 +113,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </main>
     </div>
 </body>
+
 </html>

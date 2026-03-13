@@ -22,18 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập hệ thống</title>
     <link rel="stylesheet" href="Style.css">
 </head>
+
 <body>
     <h1 class="login-page-logo">TechZone</h1>
     <section class="login-section">
         <div class="login-wrapper">
             <div class="login-box">
                 <h2>Đăng Nhập Admin</h2>
-                <?php if($error) echo "<p style='color:red; text-align:center;'>$error</p>"; ?>
+                <?php if ($error) echo "<p style='color:red; text-align:center;'>$error</p>"; ?>
                 <form method="POST">
                     <label>Tên đăng nhập:</label>
                     <input type="text" name="username" required>
@@ -45,4 +47,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </section>
 </body>
+
 </html>

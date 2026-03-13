@@ -39,12 +39,14 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Giá Bán</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/Do_an_Web/sidebar.php'; ?>
@@ -55,9 +57,9 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <nav class="category-nav">
-                <?php foreach($loaiSanPhams as $loai): ?>
-                    <a href="quanligiaban.php?maloai=<?= $loai['MaLoai'] ?>" 
-                       class="category-link <?= ($loai['MaLoai'] == $maLoaiActive) ? 'active' : '' ?>">
+                <?php foreach ($loaiSanPhams as $loai): ?>
+                    <a href="quanligiaban.php?maloai=<?= $loai['MaLoai'] ?>"
+                        class="category-link <?= ($loai['MaLoai'] == $maLoaiActive) ? 'active' : '' ?>">
                         <?= htmlspecialchars($loai['TenLoai']) ?>
                     </a>
                 <?php endforeach; ?>
@@ -69,8 +71,8 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
 
             <form method="POST" action="">
                 <div class="product-list">
-                    <?php if(count($sanPhams) > 0): ?>
-                        <?php foreach($sanPhams as $sp): ?>
+                    <?php if (count($sanPhams) > 0): ?>
+                        <?php foreach ($sanPhams as $sp): ?>
                             <div class="product-item">
                                 <img src="../Image/<?= htmlspecialchars($sp['HinhAnh']) ?>" alt="Hình ảnh" class="product-image">
                                 <div class="product-details">
@@ -87,15 +89,16 @@ $sanPhams = $stmtSP->fetchAll(PDO::FETCH_ASSOC);
                     <?php else: ?>
                         <p style="padding: 20px;">Chưa có sản phẩm nào trong danh mục này.</p>
                     <?php endif; ?>
-                    
-                    <?php if(count($sanPhams) > 0): ?>
-                    <div class="form-actions">
-                        <button type="submit" name="btn_update_profit" class="btn btn-save">Lưu tình trạng tất cả</button>
-                    </div>
+
+                    <?php if (count($sanPhams) > 0): ?>
+                        <div class="form-actions">
+                            <button type="submit" name="btn_update_profit" class="btn btn-save">Lưu tình trạng tất cả</button>
+                        </div>
                     <?php endif; ?>
                 </div>
             </form>
         </main>
     </div>
 </body>
+
 </html>

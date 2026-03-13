@@ -33,11 +33,13 @@ $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Báo cáo Nhập-Xuất-Tồn</title>
     <link rel="stylesheet" href="../Style.css">
 </head>
+
 <body>
     <div class="container">
         <?php include_once '../sidebar.php'; ?>
@@ -48,7 +50,7 @@ $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <nav class="category-nav">
-                <a href="quan-li-ton-kho.php" class="category-link">Tồn kho hiện tại</a>
+                <a href="quanlitonkho.php" class="category-link">Tồn kho hiện tại</a>
                 <a href="bao-cao-nhap-xuat-ton.php" class="category-link active">Báo cáo Nhập-Xuất-Tồn</a>
             </nav>
 
@@ -76,17 +78,18 @@ $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <?php foreach ($report as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['TenSP']) ?></td>
-                        <td>SP<?= str_pad($row['MaSP'], 3, '0', STR_PAD_LEFT) ?></td>
-                        <td class="text-right" style="color: green; font-weight: bold;">+ <?= $row['TongNhap'] ?></td>
-                        <td class="text-right" style="color: red; font-weight: bold;">- <?= $row['TongXuat'] ?></td>
-                        <td class="text-right strong-price"><?= $row['TonCuoiKy'] ?></td>
-                    </tr>
+                        <tr>
+                            <td><?= htmlspecialchars($row['TenSP']) ?></td>
+                            <td>SP<?= str_pad($row['MaSP'], 3, '0', STR_PAD_LEFT) ?></td>
+                            <td class="text-right" style="color: green; font-weight: bold;">+ <?= $row['TongNhap'] ?></td>
+                            <td class="text-right" style="color: red; font-weight: bold;">- <?= $row['TongXuat'] ?></td>
+                            <td class="text-right strong-price"><?= $row['TonCuoiKy'] ?></td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </main>
     </div>
 </body>
+
 </html>
