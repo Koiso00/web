@@ -1,335 +1,265 @@
-<?php session_start(); ?>
+<?php
+include("config.php");
+
+/* Lấy danh sách sản phẩm đang bán */
+$sql = "SELECT * FROM SanPham WHERE HienTrang = 1 ORDER BY MaSP DESC LIMIT 12";
+$stmt = $conn->query($sql);
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechZone - Phụ kiện máy tính chính hãng</title>
-    <link rel="shortcut icon" href="picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TechZone - Phụ kiện máy tính</title>
+
+<link rel="shortcut icon" href="picture/logo.png">
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-    
-    <header>
-        <a href="trangchu.php" class="logo">TechZone</a>
 
-        <div class="search-bar" role="search" aria-label="Search site">
-            <input type="checkbox" id="menu-toggle" hidden>
-            <label for="menu-toggle" class="menu-btn" aria-hidden="true">
-                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
-            </label>
+<header>
 
-            <div class="dropdown-content" aria-hidden="true">
-                <a href="sanpham-banphim-chuadangnhap.php">Bàn phím</a>
-                <a href="sanpham-chuot-chuadangnhap.php">Chuột</a>
-                <a href="sanpham-banphim-chuadangnhap.php">Tai nghe</a>
-                <a href="sanpham-chuot-chuadangnhap.php">Màn hình</a>
-            </div>
+<a href="trangchu.php" class="logo">TechZone</a>
 
-            <form action="timkiembanphim-chua-dang-nhap.php" method="GET" class="search-form">
-                <label for="search-box" class="visually-hidden">Tìm kiếm</label>
-                <input type="search" id="search-box" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu..." aria-label="Tìm kiếm" autocomplete="off">
-                <button type="submit" class="search-submit" aria-label="Tìm kiếm">
-                    <img src="picture/magnifying-glass.png" alt="">
-                </button>
-            </form>
-        </div>
-        <nav class="navbar">
-        <a href="#">Trang chủ</a> 
-        <a href="#products">Sản Phẩm</a> 
-        <a href="#bottom">Liên hệ</a>     
-        </nav>
+<div class="search-bar">
 
-        <div class="icon">
-            <div><a href="#" class="shopping-cart"><img src="picture/shopping.png" alt="Giỏ hàng"></a></div>
+<input type="checkbox" id="menu-toggle" hidden>
 
-            <div class="user"> <a href="trangdangnhap.php" ><img src="picture/user.png" alt="Người dùng"><span>Đăng nhập</span></a><a href="trangdangki.php" class="dangky">Đăng ký</a></div>
-        </div>
-    </header>
-    <!-- gioi thieu trang ban hang  -->
-    <section class="home" id="home">
-        <div class="content">
-            <h3>TechZone</h3>
-            <span>Chất lượng , chuyên nghiệp</span>
-            <p>techzone với chất lượng sản phẩm luôn được đặt lên hàng đầu , chúng tôi cam kết không bán hàng kém chất lượng</p>
-            <a href="#products" class="btn">mua ngay</a>
-        </div>
-    </section>
-    <!-- the hien muc do bao hinh  -->
-    <section class="icons-container">
+<label for="menu-toggle" class="menu-btn">
+<img src="picture/menu-burger.png" class="menu-icon">
+</label>
 
-        <div class="icon">
-            <img src="picture/hinh1.png" alt="" style="width: 20%; height: auto;">
-            <div class="info">
-                <h3>miễn phí vận chuyển </h3>
-                <span>trên toàn bộ đơn hàng</span>
-            </div>
-        </div>
+<div class="dropdown-content">
+<a href="#">Bàn phím</a>
+<a href="#">Chuột</a>
+<a href="#">Tai nghe</a>
+<a href="#">Màn hình</a>
+</div>
 
-        <div class="icon">
-            <img src="picture/hinh2.png" alt="" style="width: 20%; height: auto;">
-            <div class="info">
-                <h3>trả hàng trong 30 ngày</h3>
-                <span>đảm bảo hoàn tiền</span>
-            </div>
-        </div>
+<form action="timkiem.php" method="GET" class="search-form">
 
-        <div class="icon">
-            <img src="picture/hinh3.png" alt="" style="width: 20%; height: auto;">
-            <div class="info" >
-                <h3>quà và voucher bao la</h3>
-                <span>trên toàn bộ đơn hàng</span>
-            </div>
-        </div>
+<input type="search" name="q" placeholder="Tìm kiếm sản phẩm...">
 
-        <div class="icon">
-            <img src="picture/hinh4.png" alt="" style="width: 20%; height: auto;">
-            <div class="info">
-                <h3>hàng chính hãng 100%</h3>
-                <span>đảm bảo chất lượng</span>
-            </div>
-        </div>
-    </section>
-<!-- bat dau gan san pham len  -->
+<button type="submit">
+<img src="picture/magnifying-glass.png">
+</button>
 
-    <section class="products" id="products">
-        <h1 class="heading">latest <span>products</span></h1>
-        <br>
-        <div class="box-content">
-           <div class="box">
-                <span class="discount">-10%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product1.png" alt="">
-                    </a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>AKKO TAC87 Black&Gold Mirror Switch</h3>
-                        <div class="price">1,250,000 ₫<span> 1,390,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+</form>
 
-            <div class="box">
-                <span class="discount">-10%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product2.png" alt=""></a>
-                    <div class="icon">
-                       <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>AKKO 5075B Plus Dragon Ball Super</h3>
-                        <div class="price">2,000,000 ₫<span> 2,999,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+</div>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product3.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>Bàn phím cơ AKKO 3087 RF Black on White</h3>
-                        <div class="price">1,870,000 ₫<span> 1,999,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<nav class="navbar">
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product4.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>Bàn phím cơ AKKO 3087 RF Ocean Star</h3>
-                        <div class="price">1,389,000 ₫<span> 1,499,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<a href="#">Trang chủ</a>
+<a href="#products">Sản phẩm</a>
+<a href="#bottom">Liên hệ</a>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product5.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>AKKO PC75B Plus Blue on White Keyboard</h3>
-                        <div class="price">2,389,000 ₫<span> 2,499,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+</nav>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product1.1.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>Bàn phím cơ AKKO 5075B Plus Naruto</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<div class="icon">
 
-             <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product6.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>YUNZII YZ75 Pro Wireless Mechanical Keyboard</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                     <a href="thongtinsanpham.php">
-                    <img src="picture/product7.png" alt="">
-                    </a>
-                    <div class="name-product">
-                        <h3>YUNZII B75 Pro Dark Gray Wireless Mechanical Keyboard</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product2.1.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>AULA SC580 Tri-Mode Wireless Gaming Mouse</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<a href="#"><img src="picture/shopping.png"></a>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product2.2.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>VXE R1 SE+ Tri-Mode Wireless Gaming Mouse</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<div class="user">
+<a href="trangdangnhap.php">
+<img src="picture/user.png">
+<span>Đăng nhập</span>
+</a>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                     <a href="thongtinsanpham.php">
-                    <img src="picture/product2.3.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>Ajazz AJ159 Dual Mode Gaming Mouse</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
+<a href="trangdangki.php" class="dangky">Đăng ký</a>
+</div>
 
-            <div class="box">
-                <span class="discount">-19%</span>
-                <div class="image">
-                    <a href="thongtinsanpham.php">
-                    <img src="picture/product2.4.png" alt=""></a>
-                    <div class="icon">
-                        <a href="#" class="fas fa-shopping-cart">mua ngay </a>
-                    </div>
-                    <div class="name-product">
-                        <h3>YUNZII C2 Silent Silicone Wireless Gaming Mouse</h3>
-                        <div class="price"> 2,889,000 ₫<span> 3,534,000 ₫</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+</div>
 
-    </section>
+</header>
+
+
+<section class="home" id="home">
+
+<div class="content">
+
+<h3>TechZone</h3>
+
+<span>Chất lượng , chuyên nghiệp</span>
+
+<p>
+Techzone với chất lượng sản phẩm luôn được đặt lên hàng đầu.
+Chúng tôi cam kết không bán hàng kém chất lượng.
+</p>
+
+<a href="#products" class="btn">Mua ngay</a>
+
+</div>
+
+</section>
+
+
+<section class="icons-container">
+
+<div class="icon">
+<img src="picture/hinh1.png" style="width:20%">
+<div class="info">
+<h3>Miễn phí vận chuyển</h3>
+<span>trên toàn bộ đơn hàng</span>
+</div>
+</div>
+
+<div class="icon">
+<img src="picture/hinh2.png" style="width:20%">
+<div class="info">
+<h3>Trả hàng trong 30 ngày</h3>
+<span>đảm bảo hoàn tiền</span>
+</div>
+</div>
+
+<div class="icon">
+<img src="picture/hinh3.png" style="width:20%">
+<div class="info">
+<h3>Voucher hấp dẫn</h3>
+<span>cho mọi đơn hàng</span>
+</div>
+</div>
+
+<div class="icon">
+<img src="picture/hinh4.png" style="width:20%">
+<div class="info">
+<h3>Hàng chính hãng</h3>
+<span>đảm bảo 100%</span>
+</div>
+</div>
+
+</section>
 
 
 
-    <footer id="bottom">
-        <section class="footer">
-        <div class="footer-box">
-            <ul>
-                <a href="#"><li><b>dịch vụ khách hàng</b></li></a>
-                <br>
-                <a href="#"><li>trung tâm trợ giúp techzone</li></a>
-                <a href="#"><li>hướng dẫn mua hàng / đặt hàng</li></a>
-                <a href="#"><li>đơn hàng</li></a>
-                <a href="#"><li>trả hàng / hoàn tiền </li></a>
-                <a href="#"><li>liên hệ techzone</li></a>
-                <a href="#"><li>chính sách bảo hành</li></a>
-                
-            </ul>
-            </div>
-        <div class="footer-box">
-            <ul>
-                <a href="#"><li><b>techzone việt nam</b></li></a>
-                <br>
-                <a href="#"><li>về techzone</li></a>
-                <a href="#"><li>tuyển dụng</li></a>
-                <a href="#"><li>điều khoản techzone</li></a>
-                <a href="#"><li>chính sách bảo mật</li></a>
-                <a href="#"><li>tiếp thị liên hệ</li></a>
-            </ul>
-        </div>
-        <div class="footer-box">
-            <ul>
-                <a href="#"><li><b>thanh toán</b></li></a>
-            </ul>
-            <div class="payment">
-                <table>
-                    <tr>
-                    <td><img src="picture/thanhtoan1.png" alt=""></td>
-                    <td> <img src="picture/thanhtoan2.png" alt=""></td>
-                    <td><img src="picture/thanhtoan3.png" alt="">  </td>
-                    <td><img src="picture/thanhtoan7.png" alt=""></td>
-                    </tr>
-                    <tr>
-                        <td> <img src="picture/thanhtoan4.png" alt=""></td>
-                        <td><img src="picture/thanhtoan5.png" alt=""></td>
-                        <td> <img src="picture/thanhtoan6.png" alt=""></td>
-                    </tr>
-                    
-                </table>
-        </div>
-        </div>
-        </section>
-    </footer>
+<section class="products" id="products">
+
+<h1 class="heading">Latest <span>Products</span></h1>
+
+<br>
+
+<div class="box-content">
+
+<?php foreach($products as $row): ?>
+
+<div class="box">
+
+<div class="image">
+
+<a href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">
+
+<img src="picture/<?php echo $row['HinhAnh']; ?>" alt="">
+
+</a>
+
+<div class="icon">
+<a href="giohang.php?id=<?php echo $row['MaSP']; ?>" class="fas fa-shopping-cart">
+Mua ngay
+</a>
+</div>
+
+<div class="name-product">
+
+<h3><?php echo $row['TenSP']; ?></h3>
+
+<div class="price">
+
+<?php echo number_format($row['GiaNhapBinhQuan'],0,',','.'); ?> ₫
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<?php endforeach; ?>
+
+</div>
+
+</section>
+
+
+
+<footer id="bottom">
+
+<section class="footer">
+
+<div class="footer-box">
+
+<ul>
+
+<li><b>Dịch vụ khách hàng</b></li>
+
+<li>Trung tâm trợ giúp</li>
+<li>Hướng dẫn mua hàng</li>
+<li>Đơn hàng</li>
+<li>Trả hàng / hoàn tiền</li>
+<li>Chính sách bảo hành</li>
+
+</ul>
+
+</div>
+
+
+<div class="footer-box">
+
+<ul>
+
+<li><b>TechZone Việt Nam</b></li>
+
+<li>Về TechZone</li>
+<li>Tuyển dụng</li>
+<li>Điều khoản</li>
+<li>Chính sách bảo mật</li>
+
+</ul>
+
+</div>
+
+
+<div class="footer-box">
+
+<ul>
+<li><b>Thanh toán</b></li>
+</ul>
+
+<div class="payment">
+
+<table>
+
+<tr>
+
+<td><img src="picture/thanhtoan1.png"></td>
+<td><img src="picture/thanhtoan2.png"></td>
+<td><img src="picture/thanhtoan3.png"></td>
+<td><img src="picture/thanhtoan7.png"></td>
+
+</tr>
+
+<tr>
+
+<td><img src="picture/thanhtoan4.png"></td>
+<td><img src="picture/thanhtoan5.png"></td>
+<td><img src="picture/thanhtoan6.png"></td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</footer>
+
 </body>
 </html>
