@@ -19,7 +19,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 }
 
 // Lấy danh sách tài khoản
-$stmt = $conn->query("SELECT * FROM TaiKhoan ORDER BY VaiTro DESC, MaTK DESC");
+$stmt = $conn->query("SELECT t.*, d.DiaChiChiTiet, d.PhuongXa 
+                      FROM TaiKhoan t 
+                      LEFT JOIN DiaChiKhachHang d ON t.MaTK = d.MaTK 
+                      ORDER BY t.VaiTro DESC, t.MaTK DESC");
 $danhSachTK = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
