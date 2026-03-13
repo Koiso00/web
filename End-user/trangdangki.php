@@ -9,7 +9,7 @@ if(isset($_POST['dangky'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
-    $sdt = $_POST['phone'];
+    $sdt = $_POST['phone']; 
 
     if($password != $confirm){
         echo "<script>alert('Mật khẩu không khớp');</script>";
@@ -86,8 +86,8 @@ if(isset($_POST['dangky'])){
 
 <nav class="navbar">
 <a href="trangchu.php">Trang chủ</a>
-<a href="#">Sản Phẩm</a>
-<a href="#">Liên hệ</a>
+<a href="trangchu.php#products">Sản phẩm</a>
+<a href="#bottom">Liên hệ</a>
 </nav>
 
 <div class="icon">

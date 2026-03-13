@@ -75,8 +75,8 @@ if(isset($_POST['dangnhap'])){
 
 <nav class="navbar">
 <a href="trangchu.php">Trang chủ</a>
-<a href="#">Sản Phẩm</a>
-<a href="#">Liên hệ</a>
+<a href="trangchu.php#products">Sản phẩm</a>
+<a href="#bottom">Liên hệ</a>
 </nav>
 
 <div class="icon">
