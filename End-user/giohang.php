@@ -9,6 +9,7 @@ include 'connect.php'; // Kết nối cơ sở dữ liệu
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giỏ hàng - TechZone</title>
   <link rel="stylesheet" href="giohang.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -59,13 +60,28 @@ include 'connect.php'; // Kết nối cơ sở dữ liệu
                         $tong_tien_gio_hang += $thanh_tien;
             ?>
             <tr>
-               <td><input type="checkbox"></td> 
+            <td>
+            <?php 
+                // Kiểm tra xem sản phẩm này có nằm trong danh sách đang được chọn không
+                $is_checked = "";
+                if (isset($_SESSION['sp_chon'])) {
+                    // Nếu có session lưu trạng thái, kiểm tra xem ID này có trong đó không
+                    if (in_array($id_sp, $_SESSION['sp_chon'])) {
+                        $is_checked = "checked";
+                    }
+                } else {
+                    // Nếu mới vào giỏ hàng lần đầu (chưa bấm gì), mặc định chọn hết cho tiện
+                    $is_checked = "checked";
+                }
+            ?>
+<input type="checkbox" name="sp_chon[]" value="<?php echo $id_sp; ?>" class="chon-sp" data-price="<?php echo $thanh_tien; ?>" <?php echo $is_checked; ?>>
+              </td> 
               <td><img src="picture/<?php echo $row['HinhAnh']; ?>" alt="" style="width: 50px;"></td>
               <td data-label="Tên"><?php echo htmlspecialchars($row['TenSP']); ?></td>
               <td data-label="Giá"><?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫</td>
               
               <td data-label="Số lượng">
-                  <input type="number" name="soluong[<?php echo $id_sp; ?>]" value="<?php echo $so_luong; ?>" min="1">
+                <input type="number" name="soluong[<?php echo $id_sp; ?>]" value="<?php echo $so_luong; ?>" min="1" onchange="this.form.submit()">
               </td>
               
               <td data-label="Tổng"><?php echo number_format($thanh_tien, 0, ',', '.'); ?> ₫</td>
@@ -87,16 +103,113 @@ include 'connect.php'; // Kết nối cơ sở dữ liệu
         </table>
 
         <div class="cart-summary">
-          <p class="total">Tổng cộng: <?php echo number_format($tong_tien_gio_hang, 0, ',', '.'); ?> ₫</p>
-          
+          <p class="total">Tổng cộng: <span id="tong-tien-hien-thi"><?php echo number_format($tong_tien_gio_hang, 0, ',', '.'); ?></span> ₫</p>
           <?php if($tong_tien_gio_hang > 0): ?>
-              
-              <button type="button" class="checkout-btn"><a href="thanhtoan.php" style="color: white; text-decoration: none;">Thanh toán</a></button>
+          <button type="submit" formaction="thanhtoan.php" class="checkout-btn" style="color: white; text-decoration: none;">Thanh toán</button>
           <?php else: ?>
-              <button type="button" class="checkout-btn" style="background: #ccc; cursor: not-allowed;" disabled>Thanh toán</button>
+          <button type="button" class="checkout-btn" style="background: #ccc; cursor: not-allowed;" disabled>Thanh toán</button>
           <?php endif; ?>
         </div>
     </form> </section>
 
+    <footer id="bottom">
+
+    <section class="footer">
+
+    <div class="footer-box">
+
+    <ul>
+
+      <li><b>Dịch vụ khách hàng</b></li>
+
+      <li>Trung tâm trợ giúp</li>
+      <li>Hướng dẫn mua hàng</li>
+      <li>Đơn hàng</li>
+      <li>Trả hàng / hoàn tiền</li>
+      <li>Chính sách bảo hành</li>
+
+    </ul>
+
+    </div>
+
+
+    <div class="footer-box">
+
+    <ul>
+
+      <li><b>TechZone Việt Nam</b></li>
+
+      <li>Về TechZone</li>
+      <li>Tuyển dụng</li>
+      <li>Điều khoản</li>
+      <li>Chính sách bảo mật</li>
+
+    </ul>
+
+    </div>
+
+
+    <div class="footer-box">
+
+    <ul>
+      <li><b>Thanh toán</b></li>
+    </ul>
+
+    <div class="payment">
+
+    <table>
+
+    <tr>
+
+      <td><img src="picture/thanhtoan1.png"></td>
+      <td><img src="picture/thanhtoan2.png"></td>
+      <td><img src="picture/thanhtoan3.png"></td>
+      <td><img src="picture/thanhtoan7.png"></td>
+
+    </tr>
+
+    <tr>
+
+      <td><img src="picture/thanhtoan4.png"></td>
+      <td><img src="picture/thanhtoan5.png"></td>
+      <td><img src="picture/thanhtoan6.png"></td>
+
+    </tr>
+
+    </table>
+
+  </div>
+
+</div>
+
+</section>
+
+</footer>
+<script>
+  // Tìm tất cả các ô checkbox và chỗ hiển thị tổng tiền
+  const checkboxes = document.querySelectorAll('.chon-sp');
+  const tongTienEl = document.getElementById('tong-tien-hien-thi');
+
+  // Hàm tính lại tiền dựa trên những ô đang được tích
+  function tinhTongTien() {
+      let tong = 0;
+      checkboxes.forEach(cb => {
+          if(cb.checked) {
+              // Cộng dồn tiền của món đó (lấy từ thuộc tính data-price)
+              tong += parseInt(cb.getAttribute('data-price'));
+          }
+      });
+      // Định dạng lại thành số tiền VNĐ và in ra màn hình
+      tongTienEl.innerText = tong.toLocaleString('vi-VN');
+  }
+
+  // Lắng nghe sự kiện: hễ khách bấm tích/bỏ tích là tính lại tiền ngay
+  checkboxes.forEach(cb => {
+      cb.addEventListener('change', tinhTongTien);
+  });
+
+  // Gọi hàm 1 lần khi trang vừa load xong để hiển thị đúng số tiền của các ô đang tích sẵn
+  tinhTongTien();
+</script>
 </body>
 </html>

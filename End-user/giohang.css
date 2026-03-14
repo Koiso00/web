@@ -14,11 +14,15 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* 🔹 Đã sửa font-size về 16px để chữ không bị khổng lồ, đồng thời thiết lập làm mốc cho Footer */
 body {
   background: var(--light-bg);
   color: var(--text);
-  font-size: 0.8rem; /* 🔹 Giảm ~20% từ 1.4rem */
+  font-size: 16px; 
   line-height: 1.4;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 250px; /* Chừa khoảng trống cho Footer */
 }
 
 /* ===== HEADER ===== */
@@ -31,7 +35,6 @@ body {
   align-items: center;
 }
 
-
 .logo {
   font-size: 26px;
   font-weight: bold;
@@ -43,10 +46,7 @@ nav a {
   color: var(--text);
   margin-left: 16px;
   font-size: 16px;
-}
-
-nav a:hover {
-  color: var(--blue);
+  transition: 0.3s;
 }
 
 nav a:hover {
@@ -60,7 +60,7 @@ nav a.active {
   padding-bottom: 2px;
 }
 
-/* ===== CONTAINER ===== */
+/* ===== CONTAINER GIỎ HÀNG ===== */
 .cart-container {
   max-width: 950px;
   margin: 95px auto;
@@ -81,7 +81,6 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.12rem;
 }
 
 th, td {
@@ -103,13 +102,20 @@ td img {
   border-radius: 5px;
 }
 
-td input[type="number"] {
-  width: 45px;
+/* 🔹 Tăng tính cụ thể (Specificity) để làm to chữ trong bảng mà không cần !important */
+.cart-container table tbody td {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.cart-container table tbody td input[type="number"] {
+  width: 50px;
   text-align: center;
-  padding: 4px;
+  padding: 6px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 td input[type="checkbox"] {
@@ -148,8 +154,8 @@ td input[type="checkbox"] {
   background: var(--blue);
   color: white;
   border: none;
-  padding: 8px 20px;
-  font-size: 1.25rem;
+  padding: 15px 20px;
+  font-size: 1.5rem;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
@@ -162,6 +168,40 @@ td input[type="checkbox"] {
 .checkout-btn a {
   color: white;
   text-decoration: none;
+}
+
+/* ===== FOOTER (Dùng ID #bottom làm gốc để tăng độ ưu tiên) ===== */
+#bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 0;
+}
+
+#bottom .footer {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+#bottom .footer-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+#bottom .footer-box li {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+#bottom .footer-box b {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 12px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -211,5 +251,13 @@ td input[type="checkbox"] {
 
   .checkout-btn {
     width: 100%;
+  }
+  
+  /* Cấu hình lại Footer cho điện thoại */
+  #bottom .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
   }
 }
