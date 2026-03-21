@@ -30,13 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tiLeLoiNhuan = $_POST['product-margin'] / 100;
     $hienTrang = $_POST['product-status'];
 
-    $hinhAnhMoi = $sp['HinhAnh']; // Mặc định giữ ảnh cũ nếu không chọn ảnh mới
+    $hinhAnhMoi = $sp['HinhAnh']; // Giữ ảnh cũ nếu không chọn ảnh mới
 
     if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
         $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         if (in_array(strtolower($ext), $allowed)) {
-            $hinhAnhMoi = time() . '_' . $_FILES['product-image']['name'];
+            $hinhAnhMoi = 'sp_' . $id . '.' . strtolower($ext);
             move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnhMoi);
         }
     }

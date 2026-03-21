@@ -2,13 +2,11 @@
 session_start();
 require_once '../config.php';
 
-// Kiểm tra đăng nhập
 if (!isset($_SESSION['admin'])) {
     header("Location: ../Trang-dang-nhap.php");
     exit();
 }
 
-// Lấy danh sách loại sản phẩm cho ô Select
 $stmtLoai = $conn->query("SELECT * FROM LoaiSanPham");
 $loaiSanPhams = $stmtLoai->fetchAll(PDO::FETCH_ASSOC);
 
@@ -17,36 +15,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $maLoai = $_POST['product-category'];
     $moTa = $_POST['product-description'];
     $donViTinh = $_POST['product-unit'];
-    $tiLeLoiNhuan = $_POST['product-margin'] / 100; // Đổi % ra hệ số thập phân
+    $tiLeLoiNhuan = $_POST['product-margin'] / 100;
     $hienTrang = $_POST['product-status'];
 
-    // Sửa Lỗi 1: Đồng bộ ảnh mặc định
-    $hinhAnh = "product0.png";
-
-    // Xử lý Upload ảnh
-    if (isset($_FILES['product-image']) && $_FILES['product-image']['error'] == 0) {
-
-        // Sửa Lỗi 2: Kiểm tra dung lượng file (Giới hạn 2MB = 2097152 bytes)
-        if ($_FILES['product-image']['size'] > 2097152) {
-            echo "<script>alert('Lỗi: File ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB.'); window.history.back();</script>";
-            exit();
-        }
-
-        $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
-        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-        if (in_array(strtolower($ext), $allowed)) {
-            $hinhAnh = time() . '_' . $_FILES['product-image']['name'];
-            move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
-        } else {
-            echo "<script>alert('Lỗi: Chỉ cho phép upload định dạng ảnh (jpg, png, gif, webp)!'); window.history.back();</script>";
-            exit();
-        }
+    if (!isset($_FILES['product-image']) || $_FILES['product-image']['error'] != 0) {
+        echo "<script>alert('Vui lòng chọn ảnh!'); window.history.back();</script>";
+        exit();
+    }
+    if ($_FILES['product-image']['size'] > 2097152) {
+        echo "<script>alert('File ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB.'); window.history.back();</script>";
+        exit();
+    }
+    $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    if (!in_array(strtolower($ext), $allowed)) {
+        echo "<script>alert('Chỉ cho phép upload ảnh (jpg, png, gif, webp)!'); window.history.back();</script>";
+        exit();
     }
 
+    // 1. INSERT trước với ảnh tạm
     $sql = "INSERT INTO SanPham (TenSP, MaLoai, MoTa, DonViTinh, HinhAnh, TiLeLoiNhuan, HienTrang) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$tenSP, $maLoai, $moTa, $donViTinh, $hinhAnh, $tiLeLoiNhuan, $hienTrang]);
+    $stmt->execute([$tenSP, $maLoai, $moTa, $donViTinh, 'product0.png', $tiLeLoiNhuan, $hienTrang]);
+
+    // 2. Lấy MaSP vừa tạo
+    $maSP = $conn->lastInsertId();
+
+    // 3. Đặt tên file theo MaSP và upload
+    $hinhAnh = 'sp_' . $maSP . '.' . strtolower($ext);
+    move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
+
+    // 4. Cập nhật lại tên ảnh
+    $conn->prepare("UPDATE SanPham SET HinhAnh = ? WHERE MaSP = ?")->execute([$hinhAnh, $maSP]);
 
     echo "<script>alert('Thêm sản phẩm thành công!'); window.location.href='quanlidanhmuc.php';</script>";
 }

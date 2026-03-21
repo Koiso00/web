@@ -100,7 +100,7 @@ $arrTrangThai = [
 
 <body>
     <div class="container">
-        <?php include_once $_SERVER['DOCUMENT_ROOT'] . '/Do_an_Web/sidebar.php'; ?>
+        <?php include_once '../sidebar.php'; ?>
 
         <main class="main-content">
             <div class="page-header">

@@ -25,15 +25,13 @@ if (!$loai) {
 // 4. Xử lý khi người dùng nhấn nút "Lưu thay đổi"
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tenMoi = trim($_POST['ten-loai']);
-    $hinhAnhMoi = $loai['HinhAnh']; // Mặc định giữ lại ảnh cũ
+    $hinhAnhMoi = $loai['HinhAnh']; // Giữ ảnh cũ
 
-    // Xử lý upload ảnh mới nếu có
     if (isset($_FILES['hinh-anh']) && $_FILES['hinh-anh']['error'] == 0) {
         $ext = pathinfo($_FILES['hinh-anh']['name'], PATHINFO_EXTENSION);
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
         if (in_array(strtolower($ext), $allowed)) {
-            $hinhAnhMoi = time() . '_' . $_FILES['hinh-anh']['name'];
+            $hinhAnhMoi = 'loai_' . $id . '.' . strtolower($ext);
             move_uploaded_file($_FILES['hinh-anh']['tmp_name'], '../Image/' . $hinhAnhMoi);
         }
     }
