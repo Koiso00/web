@@ -155,7 +155,7 @@ $result = mysqli_query($conn, $sql);
         ?>
         <div class="box">
             <div class="image">
-                <a href="chitietsanpham.php?id=<?php echo $row['MaSP']; ?>">
+                <a href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">
                     <img src="picture/<?php echo $row['HinhAnh']; ?>" alt="">
                 </a>
             </div>
