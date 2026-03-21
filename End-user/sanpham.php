@@ -2,6 +2,27 @@
 session_start(); 
 include 'connect.php'; // Nhúng file kết nối DB
 
+// Hàm tính giá bán theo chuẩn FIFO
+function getGiaBanFIFO($conn, $maSP, $tiLeLoiNhuan) {
+    $sql_fifo = "SELECT ctpn.GiaNhap 
+                 FROM chitietphieunhap ctpn 
+                 JOIN phieunhap pn ON ctpn.MaPN = pn.MaPN 
+                 WHERE ctpn.MaSP = $maSP 
+                 -- Sửa lại đúng tên cột trong DB của bạn là SoLuongNhap
+                 AND ctpn.SoLuongNhap > 0 
+                 ORDER BY pn.NgayNhap ASC 
+                 LIMIT 1";
+                 
+    $result_fifo = mysqli_query($conn, $sql_fifo);
+    
+    if ($row_fifo = mysqli_fetch_assoc($result_fifo)) {
+        $giaNhapLieu = $row_fifo['GiaNhap'];
+        return $giaNhapLieu * (1 + $tiLeLoiNhuan);
+    }
+    
+    return 0; 
+}
+
 // --- ĐẾM SỐ LƯỢNG GIỎ HÀNG KHI LOAD TRANG ---
 $tong_gio_hang = 0;
 if(isset($_SESSION['giohang'])) {
@@ -19,17 +40,44 @@ $result_tenloai = mysqli_query($conn, $sql_tenloai);
 $row_tenloai = mysqli_fetch_assoc($result_tenloai);
 $ten_danh_muc = $row_tenloai ? $row_tenloai['TenLoai'] : "Sản phẩm";
 
-// --- XỬ LÝ PHÂN TRANG ---
+// --- XỬ LÝ PHÂN TRANG VÀ ĐIỀU KIỆN LỌC ---
 $limit = 6; 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
-$sql_count = "SELECT COUNT(*) as total FROM SanPham WHERE MaLoai = $ma_loai AND HienTrang = 1";
+// 1. Xây dựng câu lệnh điều kiện (WHERE clause) cơ bản
+$where_clause = "MaLoai = $ma_loai AND HienTrang = 1";
+
+// 2. Nếu người dùng có chọn Hãng (Mảng hang[])
+if (!empty($_GET['hang'])) {
+    $hang_conditions = [];
+    foreach ($_GET['hang'] as $hang) {
+        $hang_safe = mysqli_real_escape_string($conn, $hang);
+        $hang_conditions[] = "TenSP LIKE '%$hang_safe%'"; 
+    }
+    // Ghép các hãng lại (VD: TenSP LIKE '%Logitech%' OR TenSP LIKE '%Razer%')
+    $where_clause .= " AND (" . implode(" OR ", $hang_conditions) . ")";
+}
+
+// 3. Nếu người dùng có chọn Mức giá
+if (!empty($_GET['gia'])) {
+    $range = explode('-', $_GET['gia']); 
+    $min_price = (int)$range[0];
+    $max_price = (int)$range[1];
+    $where_clause .= " AND (GiaNhapBinhQuan * (1 + TiLeLoiNhuan)) BETWEEN $min_price AND $max_price";
+}
+
+// 4. Đếm tổng số sản phẩm SAU KHI LỌC để chia trang cho đúng
+$sql_count = "SELECT COUNT(*) as total FROM SanPham WHERE $where_clause";
 $result_count = mysqli_query($conn, $sql_count);
 $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];
 $total_pages = ceil($total_records / $limit);
+
+// 5. Câu truy vấn lấy dữ liệu để hiển thị
+$sql = "SELECT * FROM SanPham WHERE $where_clause LIMIT $limit OFFSET $offset";
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -92,20 +140,26 @@ $total_pages = ceil($total_records / $limit);
     <main class="container">
         <br>
         <div class="layout">
-            <aside class="sidebar">
-                <h3>Mức giá</h3>
-                <label><input type="checkbox"> Dưới 500k</label><br>
-                <label><input type="checkbox"> 500k - 1 triệu</label><br>
-                <label><input type="checkbox"> 1 triệu - 2 triệu</label><br>
-                <label><input type="checkbox"> Trên 2 triệu</label><br><br>
-          
-                <h3>Hãng</h3>
-                <label><input type="checkbox"> Logitech</label><br>
-                <label><input type="checkbox"> Razer</label><br>
-                <label><input type="checkbox"> Corsair</label><br>
-                <label><input type="checkbox"> AKKO</label><br>
-                <label><input type="checkbox"> MSI</label><br>
-            </aside>
+        <aside class="sidebar">
+        <form action="sanpham.php" method="GET" id="filter-form">
+            <input type="hidden" name="loai" value="<?php echo $ma_loai; ?>">
+            
+            <h3>Hãng sản xuất</h3>
+            <label><input type="checkbox" name="hang[]" value="Logitech" <?php echo (isset($_GET['hang']) && in_array('Logitech', $_GET['hang'])) ? 'checked' : ''; ?>> Logitech</label><br>
+            <label><input type="checkbox" name="hang[]" value="Razer" <?php echo (isset($_GET['hang']) && in_array('Razer', $_GET['hang'])) ? 'checked' : ''; ?>> Razer</label><br>
+            <label><input type="checkbox" name="hang[]" value="Corsair" <?php echo (isset($_GET['hang']) && in_array('Corsair', $_GET['hang'])) ? 'checked' : ''; ?>> Corsair</label><br>
+            <label><input type="checkbox" name="hang[]" value="AKKO" <?php echo (isset($_GET['hang']) && in_array('AKKO', $_GET['hang'])) ? 'checked' : ''; ?>> AKKO</label><br>
+            <label><input type="checkbox" name="hang[]" value="MSI" <?php echo (isset($_GET['hang']) && in_array('MSI', $_GET['hang'])) ? 'checked' : ''; ?>> MSI</label><br><br>
+
+            <h3>Mức giá</h3>
+            <label><input type="radio" name="gia" value="0-500000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '0-500000') ? 'checked' : ''; ?>> Dưới 500k</label><br>
+            <label><input type="radio" name="gia" value="500000-1000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '500000-1000000') ? 'checked' : ''; ?>> 500k - 1 triệu</label><br>
+            <label><input type="radio" name="gia" value="1000000-2000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '1000000-2000000') ? 'checked' : ''; ?>> 1 triệu - 2 triệu</label><br>
+            <label><input type="radio" name="gia" value="2000000-999999999" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '2000000-999999999') ? 'checked' : ''; ?>> Trên 2 triệu</label><br><br>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">Lọc sản phẩm</button>
+        </form>
+    </aside>
     
             <section class="products">
                 <h1>Keyboard | <?php echo $ten_danh_muc; ?></h1>
@@ -118,7 +172,7 @@ $total_pages = ceil($total_records / $limit);
 
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
-                            $gia_ban = $row['GiaNhapBinhQuan'] * (1 + $row['TiLeLoiNhuan']);
+                            $gia_ban = getGiaBanFIFO($conn, $row['MaSP'], $row['TiLeLoiNhuan']);
                     ?>
                     <article class="card">
                         <div class="img">
@@ -127,7 +181,15 @@ $total_pages = ceil($total_records / $limit);
                             </a>
                         </div>
                         <h3><?php echo htmlspecialchars($row['TenSP']); ?></h3>
-                        <div class="price"><?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫</div>
+                        <div class="price">
+                            <?php 
+                            if ($gia_ban > 0) {
+                                echo number_format($gia_ban, 0, ',', '.') . ' ₫';
+                            } else {
+                                echo '<span style="color:red; font-size: 14px; font-weight: bold;">Tạm hết hàng</span>';
+                            }
+                            ?>
+                        </div>
                         <div class="actions">
                             <a class="btn btn-primary" href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">Chi tiết</a>
                             <button class="btn btn-outline btn-add-cart" data-id="<?php echo $row['MaSP']; ?>">Thêm vào giỏ</button>
@@ -142,21 +204,28 @@ $total_pages = ceil($total_records / $limit);
                 </div>
 
                 <?php if ($total_pages > 1): ?>
-                <div class="pagination">
-                    <?php if($page > 1): ?>
-                        <a href="?loai=<?php echo $ma_loai; ?>&page=<?php echo $page - 1; ?>" class="prev">« Trở về </a>
-                    <?php endif; ?>
+                    <div class="pagination">
+                        <?php 
+                        // Tự động giữ lại các bộ lọc (hang, gia, loai) trên URL
+                        $current_get = $_GET;
+                        unset($current_get['page']); 
+                        $url_query = http_build_query($current_get); 
+                        ?>
 
-                    <?php for($i = 1; $i <= $total_pages; $i++): ?>
-                        <a href="?loai=<?php echo $ma_loai; ?>&page=<?php echo $i; ?>" class="page <?php echo ($i == $page) ? 'active' : ''; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                    <?php endfor; ?>
+                        <?php if($page > 1): ?>
+                            <a href="?<?php echo $url_query; ?>&page=<?php echo $page - 1; ?>" class="prev">« Trở về </a>
+                        <?php endif; ?>
 
-                    <?php if($page < $total_pages): ?>
-                        <a href="?loai=<?php echo $ma_loai; ?>&page=<?php echo $page + 1; ?>" class="next">Tiếp tục »</a>
-                    <?php endif; ?>
-                </div>
+                        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                            <a href="?<?php echo $url_query; ?>&page=<?php echo $i; ?>" class="page <?php echo ($i == $page) ? 'active' : ''; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <?php if($page < $total_pages): ?>
+                            <a href="?<?php echo $url_query; ?>&page=<?php echo $page + 1; ?>" class="next">Tiếp tục »</a>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
             </section>
         </div>
