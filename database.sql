@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 13, 2026 lúc 05:53 PM
+-- Thời gian đã tạo: Th3 26, 2026 lúc 04:30 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -141,9 +141,9 @@ CREATE TABLE `loaisanpham` (
 --
 
 INSERT INTO `loaisanpham` (`MaLoai`, `TenLoai`, `HinhAnh`) VALUES
-(1, 'Bàn phím cơ', '1773416851_product6.png'),
-(2, 'Chuột Gaming', '1773416817_product2.1.png'),
-(3, 'Tai nghe & Âm thanh', '1773416798_tainghe.png');
+(1, 'Bàn phím cơ', 'loai_1.jpg'),
+(2, 'Chuột Gaming', 'loai_2.png'),
+(3, 'Tai nghe & Âm thanh', 'loai_3.png');
 
 -- --------------------------------------------------------
 
@@ -193,26 +193,26 @@ CREATE TABLE `sanpham` (
 --
 
 INSERT INTO `sanpham` (`MaSP`, `TenSP`, `MaLoai`, `MoTa`, `DonViTinh`, `HinhAnh`, `SoLuongTon`, `TiLeLoiNhuan`, `GiaNhapBinhQuan`, `HienTrang`) VALUES
-(1, 'Bàn phím cơ AULA F99', 1, 'Bàn phím cơ không dây 3 mode, mạch xuôi, cấu trúc gasket mount gõ êm ái, pin trâu.', 'Cái', '1773419480_aula-f99.png', 15, 0.25, 1200000.00, 1),
-(2, 'Bàn phím cơ Akko 5108S', 1, 'Bàn phím fullsize 108 phím, LED RGB rực rỡ, switch custom êm ái, keycap PBT siêu bền.', 'Cái', '1773419450_ban-phim-co-akko-5108s-black-pink-ava-510x631.jpg', 10, 0.20, 1500000.00, 1),
-(3, 'Bàn phím cơ Keychron K2 V2', 1, 'Layout 75% nhỏ gọn, hỗ trợ Mac/Windows hoàn hảo, kết nối Bluetooth tiện lợi cho dân văn phòng.', 'Cái', '1773419426_Keychron-K2-V2-vo-nhua.jpg', 25, 0.30, 1650000.00, 1),
-(4, 'Bàn phím cơ DareU EK87', 1, 'Bàn phím cơ quốc dân giá rẻ cho học sinh sinh viên, switch D độc quyền siêu bền bỉ.', 'Cái', '1773419399_Bàn phím cơ DareU EK87.png', 50, 0.35, 450000.00, 1),
-(5, 'Bàn phím cơ Logitech G Pro X', 1, 'Bàn phím TKL chuyên dụng cho game thủ eSports, khả năng thay nóng switch (hot-swap) linh hoạt.', 'Cái', '1773419369_Bàn phím cơ Logitech G Pro X.png', 8, 0.25, 2800000.00, 1),
-(6, 'Bàn phím cơ Razer BlackWidow V3', 1, 'Switch xanh lá đặc trưng của Razer, tiếng clicky đã tai, kê tay nam châm êm ái, LED Chroma.', 'Cái', '1773419328_Razer BlackWidow V3.png', 12, 0.20, 3100000.00, 1),
-(7, 'Bàn phím cơ Corsair K70 RGB', 1, 'Khung nhôm xước phay nguyên khối sang trọng, switch Cherry MX chuẩn Đức, phím media cuộn tiện lợi.', 'Cái', '1773419295_n.com-products-corsair-k70-rgb.png', 5, 0.15, 3800000.00, 1),
-(8, 'Bàn phím cơ RK Royal Kludge RK61', 1, 'Bàn phím mini 60% siêu nhỏ gọn, kết nối 3 chế độ (Dây, Bluetooth, 2.4Ghz), dễ dàng mang theo.', 'Cái', '1773419246_RK Royal Kludge RK61.png', 30, 0.40, 850000.00, 1),
-(9, 'Bàn phím cơ E-Dra EK387', 1, 'Thiết kế cổ điển, build cực kỳ chắc chắn, giá cả phải chăng, phù hợp cho phòng net.', 'Cái', '1773419148_n.com-products-ban-phim-e-dra-ek387.png', 40, 0.30, 550000.00, 1),
-(10, 'Bàn phím cơ FL-Esports CMK87', 1, 'Bàn phím cận cao cấp, build kim loại đầm tay, âm thanh gõ cực thock không cần mod lại. Phiên bản CPM Metal Heart ', 'Cái', '1773419099_ban-phim-co-fl-esports-cmk87cpm-metal-heart-3-mode.jpg', 7, 0.30, 2500000.00, 1),
-(11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'product0.png', 20, 0.30, 450000.00, 1),
-(12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'product0.png', 12, 0.20, 600000.00, 1),
-(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'product0.png', 60, 0.35, 350000.00, 1),
-(14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'product0.png', 15, 0.25, 1100000.00, 1),
-(15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'product0.png', 25, 0.30, 750000.00, 1),
-(16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'product0.png', 10, 0.15, 1650000.00, 1),
-(17, 'Chuột SteelSeries Rival 3', 2, 'Cảm biến TrueMove Core chính xác, chất liệu nhựa nhám chống mồ hôi cực tốt.', 'Cái', 'product0.png', 18, 0.25, 650000.00, 1),
-(18, 'Chuột Corsair Harpoon RGB', 2, 'Chuột không dây giá mềm của Corsair, công nghệ Slipstream độ trễ siêu thấp.', 'Cái', 'product0.png', 22, 0.20, 1150000.00, 1),
-(19, 'Chuột Asus ROG Gladius II', 2, 'Có thể tự thay switch dễ dàng với socket push-fit, LED Aura Sync đồng bộ hệ sinh thái Asus.', 'Cái', 'product0.png', 8, 0.20, 1450000.00, 1),
-(20, 'Tai nghe HyperX Cloud II', 3, 'Huyền thoại tai nghe gaming, giả lập âm thanh vòm 7.1, đệm tai mút hoạt tính cực êm đeo cả ngày không đau.', 'Cái', 'product0.png', 15, 0.25, 1950000.00, 1);
+(1, 'Bàn phím cơ AULA F99', 1, 'Bàn phím cơ không dây 3 mode, mạch xuôi, cấu trúc gasket mount gõ êm ái, pin trâu.', 'Cái', 'aula-f99.png', 15, 0.25, 1200000.00, 1),
+(2, 'Bàn phím cơ Akko 5108S', 1, 'Bàn phím fullsize 108 phím, LED RGB rực rỡ, switch custom êm ái, keycap PBT siêu bền.', 'Cái', 'ban-phim-co-akko-5108s-black-pink-ava-510x631.jpg', 10, 0.20, 1500000.00, 1),
+(3, 'Bàn phím cơ Keychron K2 V2', 1, 'Layout 75% nhỏ gọn, hỗ trợ Mac/Windows hoàn hảo, kết nối Bluetooth tiện lợi cho dân văn phòng.', 'Cái', 'Keychron-K2-V2-vo-nhua.jpg', 25, 0.30, 1650000.00, 1),
+(4, 'Bàn phím cơ DareU EK87', 1, 'Bàn phím cơ quốc dân giá rẻ cho học sinh sinh viên, switch D độc quyền siêu bền bỉ.', 'Cái', 'Bàn phím cơ DareU EK87.png', 50, 0.35, 450000.00, 1),
+(5, 'Bàn phím cơ Logitech G Pro X', 1, 'Bàn phím TKL chuyên dụng cho game thủ eSports, khả năng thay nóng switch (hot-swap) linh hoạt.', 'Cái', 'Bàn phím cơ Logitech G Pro X.png', 8, 0.25, 2800000.00, 1),
+(6, 'Bàn phím cơ Razer BlackWidow V3', 1, 'Switch xanh lá đặc trưng của Razer, tiếng clicky đã tai, kê tay nam châm êm ái, LED Chroma.', 'Cái', 'Razer BlackWidow V3.png', 12, 0.20, 3100000.00, 1),
+(7, 'Bàn phím cơ Corsair K70 RGB', 1, 'Khung nhôm xước phay nguyên khối sang trọng, switch Cherry MX chuẩn Đức, phím media cuộn tiện lợi.', 'Cái', 'n.com-products-corsair-k70-rgb.png', 5, 0.15, 3800000.00, 1),
+(8, 'Bàn phím cơ RK Royal Kludge RK61', 1, 'Bàn phím mini 60% siêu nhỏ gọn, kết nối 3 chế độ (Dây, Bluetooth, 2.4Ghz), dễ dàng mang theo.', 'Cái', 'RK Royal Kludge RK61.png', 30, 0.40, 850000.00, 1),
+(9, 'Bàn phím cơ E-Dra EK387', 1, 'Thiết kế cổ điển, build cực kỳ chắc chắn, giá cả phải chăng, phù hợp cho phòng net.', 'Cái', 'n.com-products-ban-phim-e-dra-ek387.png', 40, 0.30, 550000.00, 1),
+(10, 'Bàn phím cơ FL-Esports CMK87', 1, 'Bàn phím cận cao cấp, build kim loại đầm tay, âm thanh gõ cực thock không cần mod lại. Phiên bản CPM Metal Heart ', 'Cái', 'ban-phim-co-fl-esports-cmk87cpm-metal-heart-3-mode.jpg', 7, 0.30, 2500000.00, 1),
+(11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'sp_11.jpg', 20, 0.30, 450000.00, 1),
+(12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'sp_12.jpg', 12, 0.20, 600000.00, 1),
+(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'sp_13.png', 60, 0.35, 350000.00, 1),
+(14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'sp_14.jpg', 15, 0.25, 1100000.00, 1),
+(15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'sp_15.jpg', 25, 0.30, 750000.00, 1),
+(16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'sp_16.jpg', 10, 0.15, 1650000.00, 1),
+(17, 'Chuột SteelSeries Rival 3', 2, 'Cảm biến TrueMove Core chính xác, chất liệu nhựa nhám chống mồ hôi cực tốt.', 'Cái', 'sp_17.png', 18, 0.25, 650000.00, 1),
+(18, 'Chuột Corsair Harpoon RGB', 2, 'Chuột không dây giá mềm của Corsair, công nghệ Slipstream độ trễ siêu thấp.', 'Cái', 'sp_18.jpg', 22, 0.20, 1150000.00, 1),
+(19, 'Chuột Asus ROG Gladius II', 2, 'Có thể tự thay switch dễ dàng với socket push-fit, LED Aura Sync đồng bộ hệ sinh thái Asus.', 'Cái', 'sp_19.jpg', 8, 0.20, 1450000.00, 1),
+(20, 'Tai nghe HyperX Cloud II', 3, 'Huyền thoại tai nghe gaming, giả lập âm thanh vòm 7.1, đệm tai mút hoạt tính cực êm đeo cả ngày không đau.', 'Cái', 'sp_20.png', 15, 0.25, 1950000.00, 1);
 
 -- --------------------------------------------------------
 
