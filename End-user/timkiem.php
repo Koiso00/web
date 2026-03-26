@@ -62,11 +62,29 @@ if (!empty($_GET['hang'])) {
     $where_clause .= " AND (" . implode(" OR ", $hang_conditions) . ")";
 }
 
-// Nếu người dùng có chọn Mức giá từ Sidebar
-if (!empty($_GET['gia'])) {
-    $range = explode('-', $_GET['gia']);
-    $min_price = (int)$range[0];
-    $max_price = (int)$range[1];
+// 3. XỬ LÝ LỌC GIÁ (Kết hợp cả Radio Button và Ô nhập tay)
+$min_price = -1;
+$max_price = -1;
+
+// Ưu tiên 1: Kiểm tra xem người dùng CÓ TỰ NHẬP số vào ô "Từ... Đến..." hay không
+if ((isset($_GET['gia_min']) && $_GET['gia_min'] !== '') || (isset($_GET['gia_max']) && $_GET['gia_max'] !== '')) {
+    
+    $min_price = (isset($_GET['gia_min']) && $_GET['gia_min'] !== '') ? (int)$_GET['gia_min'] : 0;
+    $max_price = (isset($_GET['gia_max']) && $_GET['gia_max'] !== '') ? (int)$_GET['gia_max'] : 999999999;
+
+} 
+// Ưu tiên 2: Nếu khách không nhập tay, thì kiểm tra xem khách có bấm nút Radio không
+elseif (!empty($_GET['gia'])) {
+    
+    $range = explode('-', $_GET['gia']); 
+    if (count($range) == 2) {
+        $min_price = (int)$range[0];
+        $max_price = (int)$range[1];
+    }
+}
+
+// Nếu lấy được mức giá (từ 1 trong 2 cách trên) thì đưa vào câu lệnh SQL
+if ($min_price >= 0 && $max_price >= 0) {
     $where_clause .= " AND (GiaNhapBinhQuan * (1 + TiLeLoiNhuan)) BETWEEN $min_price AND $max_price";
 }
 
@@ -167,8 +185,13 @@ $result = mysqli_query($conn, $sql);
                     <label><input type="radio" name="gia" value="0-500000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '0-500000') ? 'checked' : ''; ?>> Dưới 500k</label><br>
                     <label><input type="radio" name="gia" value="500000-1000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '500000-1000000') ? 'checked' : ''; ?>> 500k - 1 triệu</label><br>
                     <label><input type="radio" name="gia" value="1000000-2000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '1000000-2000000') ? 'checked' : ''; ?>> 1 triệu - 2 triệu</label><br>
-                    <label><input type="radio" name="gia" value="2000000-999999999" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '2000000-999999999') ? 'checked' : ''; ?>> Trên 2 triệu</label><br><br>
-
+                    <label><input type="radio" name="gia" value="2000000-999999999" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '2000000-999999999') ? 'checked' : ''; ?>> Trên 2 triệu</label><br>
+                    <label><input type="radio" name="gia" value="" <?php echo (empty($_GET['gia'])) ? 'checked' : ''; ?>> <i>Tất cả mức giá</i></label><br><br>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <input type="number" name="gia_min" placeholder="Từ..." min="0" value="<?php echo isset($_GET['gia_min']) ? htmlspecialchars($_GET['gia_min']) : ''; ?>" style="width: 45%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                        <span> - </span>
+                        <input type="number" name="gia_max" placeholder="Đến..." min="0" value="<?php echo isset($_GET['gia_max']) ? htmlspecialchars($_GET['gia_max']) : ''; ?>" style="width: 45%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">Lọc kết quả</button>
                 </form>
             </aside>

@@ -61,11 +61,17 @@ if (!empty($_GET['hang'])) {
     $where_clause .= " AND (" . implode(" OR ", $hang_conditions) . ")";
 }
 
-// 3. Nếu người dùng có chọn Mức giá
-if (!empty($_GET['gia'])) {
-    $range = explode('-', $_GET['gia']);
-    $min_price = (int)$range[0];
-    $max_price = (int)$range[1];
+// 3. Nếu người dùng TỰ NHẬP khoảng giá
+// Kiểm tra xem có nhập giá Min hoặc Max không
+if ((isset($_GET['gia_min']) && $_GET['gia_min'] !== '') || (isset($_GET['gia_max']) && $_GET['gia_max'] !== '')) {
+    
+    // Nếu để trống ô Min thì mặc định là 0
+    $min_price = (isset($_GET['gia_min']) && $_GET['gia_min'] !== '') ? (int)$_GET['gia_min'] : 0;
+    
+    // Nếu để trống ô Max thì mặc định là 1 con số cực lớn
+    $max_price = (isset($_GET['gia_max']) && $_GET['gia_max'] !== '') ? (int)$_GET['gia_max'] : 999999999;
+    
+    // Ghép vào câu truy vấn
     $where_clause .= " AND (GiaNhapBinhQuan * (1 + TiLeLoiNhuan)) BETWEEN $min_price AND $max_price";
 }
 
@@ -155,11 +161,11 @@ $result = mysqli_query($conn, $sql);
                     <label><input type="checkbox" name="hang[]" value="MSI" <?php echo (isset($_GET['hang']) && in_array('MSI', $_GET['hang'])) ? 'checked' : ''; ?>> MSI</label><br><br>
 
                     <h3>Mức giá</h3>
-                    <label><input type="radio" name="gia" value="0-500000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '0-500000') ? 'checked' : ''; ?>> Dưới 500k</label><br>
-                    <label><input type="radio" name="gia" value="500000-1000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '500000-1000000') ? 'checked' : ''; ?>> 500k - 1 triệu</label><br>
-                    <label><input type="radio" name="gia" value="1000000-2000000" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '1000000-2000000') ? 'checked' : ''; ?>> 1 triệu - 2 triệu</label><br>
-                    <label><input type="radio" name="gia" value="2000000-999999999" <?php echo (isset($_GET['gia']) && $_GET['gia'] == '2000000-999999999') ? 'checked' : ''; ?>> Trên 2 triệu</label><br><br>
-
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <input type="number" name="gia_min" placeholder="Từ..." min="0" value="<?php echo isset($_GET['gia_min']) ? htmlspecialchars($_GET['gia_min']) : ''; ?>" style="width: 45%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                        <span> - </span>
+                        <input type="number" name="gia_max" placeholder="Đến..." min="0" value="<?php echo isset($_GET['gia_max']) ? htmlspecialchars($_GET['gia_max']) : ''; ?>" style="width: 45%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">Lọc sản phẩm</button>
                 </form>
             </aside>
