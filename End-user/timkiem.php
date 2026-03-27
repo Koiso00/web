@@ -113,58 +113,10 @@ $result = mysqli_query($conn, $sql);
 </head>
 
 <body>
-    <header>
-        <a href="trangchu.php" class="logo">TechZone</a>
-
-        <div class="search-bar" role="search" aria-label="Search site">
-            <input type="checkbox" id="menu-toggle" hidden>
-            <label for="menu-toggle" class="menu-btn" aria-hidden="true">
-                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
-            </label>
-
-            <div class="dropdown-content" aria-hidden="true">
-                <a href="sanpham.php?loai=1">Bàn phím</a>
-                <a href="sanpham.php?loai=2">Chuột</a>
-                <a href="sanpham.php?loai=4">Màn hình</a>
-                <a href="sanpham.php?loai=3">Tai nghe</a>
-            </div>
-
-            <form action="timkiem.php" method="GET" class="search-form">
-                <label for="search-box" class="visually-hidden">Tìm kiếm</label>
-                <input type="search" id="search-box" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Tìm kiếm sản phẩm, thương hiệu..." aria-label="Tìm kiếm" autocomplete="off">
-                <button type="submit" class="search-submit" aria-label="Tìm kiếm">
-                    <img src="picture/magnifying-glass.png" alt="">
-                </button>
-            </form>
-        </div>
-
-        <nav class="navbar">
-            <a href="trangchu.php">Trang chủ</a>
-            <a href="sanpham.php?loai=1">Sản Phẩm</a>
-            <a href="#">Liên hệ</a>
-        </nav>
-
-        <div class="icon" style="display: flex; align-items: center;">
-            <div style="position: relative; margin-right: 15px;">
-                <a href="giohang.php" class="shopping-cart">
-                    <img src="picture/shopping.png" alt="Giỏ hàng">
-                </a>
-                <span id="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold; line-height: 1;">
-                    <?php echo isset($tong_gio_hang) ? $tong_gio_hang : 0; ?>
-                </span>
-            </div>
-
-            <div class="user">
-                <?php if (isset($_SESSION['MaTK'])): ?>
-                    <a href="suathongtin.php"><img src="picture/user.png" alt="Người dùng" style="margin-right: 5px;"><span><?php echo htmlspecialchars($_SESSION['HoTen']); ?></span></a>
-                    <a href="dangxuat.php" class="dangky" style="margin-left: 10px;">Thoát</a>
-                <?php else: ?>
-                    <a href="trangdangnhap.php"><img src="picture/user.png" alt="Người dùng" style="margin-right: 5px;"><span>Đăng nhập</span></a>
-                    <a href="trangdangki.php" class="dangky" style="margin-left: 10px;">Đăng ký</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </header>
+<?php 
+    // Gọi file header vào đây
+    include 'header.php'; 
+    ?>
 
     <main class="container">
         <br>
