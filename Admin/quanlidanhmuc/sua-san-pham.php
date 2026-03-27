@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $ext = pathinfo($_FILES['product-image']['name'], PATHINFO_EXTENSION);
         $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         if (in_array(strtolower($ext), $allowed)) {
-            $hinhAnhMoi = 'sp_' . $id . '.' . strtolower($ext);
+            $hinhAnhMoi = preg_replace('/\s+/', '-', $_FILES['product-image']['name']);
             move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnhMoi);
         }
     }
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmtUpdate = $conn->prepare($sql);
     $stmtUpdate->execute([$tenSP, $maLoai, $moTa, $donViTinh, $hinhAnhMoi, $tiLeLoiNhuan, $hienTrang, $id]);
 
-    echo "<script>alert('Cập nhật thành công!'); window.location.href='quanlidanhmuc.php';</script>";
+    echo "<script>alert('Cập nhật thành công!'); window.location.href='quanlidanhmuc.php?maloai=" . $sp['MaLoai'] . "';</script>";
 }
 ?>
 

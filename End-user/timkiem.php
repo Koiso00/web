@@ -125,8 +125,8 @@ $result = mysqli_query($conn, $sql);
             <div class="dropdown-content" aria-hidden="true">
                 <a href="sanpham.php?loai=1">Bàn phím</a>
                 <a href="sanpham.php?loai=2">Chuột</a>
-                <a href="sanpham.php?loai=3">Màn hình</a>
-                <a href="sanpham.php?loai=4">Tai nghe</a>
+                <a href="sanpham.php?loai=4">Màn hình</a>
+                <a href="sanpham.php?loai=3">Tai nghe</a>
             </div>
 
             <form action="timkiem.php" method="GET" class="search-form">

@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$tenSP, $maLoai, $moTa, $donViTinh, 'product0.png', $tiLeLoiNhuan, $hienTrang, $soLuongBanDau]);
 
     // 2. Lấy MaSP vừa tạo
-    $maSP = $conn->lastInsertId();
+    $maSP = $conn->lastInsertId(); 
 
     // 3. Đặt tên file theo MaSP và upload
-    $hinhAnh = 'sp_' . $maSP . '.' . $ext;
-    move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
+   $hinhAnh = preg_replace('/\s+/', '-', $_FILES['product-image']['name']);
+   move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
 
     // 4. Cập nhật lại tên ảnh
     $conn->prepare("UPDATE SanPham SET HinhAnh = ? WHERE MaSP = ?")->execute([$hinhAnh, $maSP]);
