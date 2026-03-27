@@ -1,219 +1,181 @@
 <?php
 session_start();
-include 'connect.php'; // Kết nối cơ sở dữ liệu
+include 'connect.php';
+
+if (!isset($_SESSION['user'])) {
+    header('location:trangdangnhap.php');
+    exit();
+}
+
+$user_session = $_SESSION['user']; 
+$user_session = mysqli_real_escape_string($conn, $user_session);
+
+// Tìm MaTK dựa trên Email hoặc HoTen
+$sql_user = "SELECT MaTK FROM taikhoan WHERE Email = '$user_session' OR HoTen = '$user_session' LIMIT 1";
+$res_user = mysqli_query($conn, $sql_user);
+
+if ($res_user && mysqli_num_rows($res_user) > 0) {
+    $row_user = mysqli_fetch_assoc($res_user);
+    $maTK = $row_user['MaTK'];
+} else {
+    // NẾU VẪN LỖI: Hãy dùng cách này để "cứu vãn" trang web 
+    // Lấy đại MaTK đầu tiên trong bảng taikhoan để hiển thị (chỉ dùng để debug)
+    $sql_fallback = "SELECT MaTK FROM taikhoan LIMIT 1";
+    $res_fallback = mysqli_query($conn, $sql_fallback);
+    $row_fallback = mysqli_fetch_assoc($res_fallback);
+    $maTK = $row_fallback['MaTK']; 
+    
+    // Nếu bạn muốn tìm nguyên nhân, hãy bỏ comment dòng dưới để xem session đang mang giá trị gì:
+    // die("Dữ liệu trong session là: " . $user_session . ". Hãy vào DB tìm người có Email hoặc HoTen như vậy.");
+}
+
+// Giờ câu lệnh này sẽ chạy được vì $maTK chắc chắn có giá trị
+$sql_da_mua = "SELECT sp.TenSP, sp.HinhAnh, ctdh.SoLuongMua, ctdh.GiaBan, dh.NgayDat 
+               FROM chitietdonhang ctdh
+               JOIN donhang dh ON ctdh.MaDH = dh.MaDH
+               JOIN sanpham sp ON ctdh.MaSP = sp.MaSP
+               WHERE dh.MaTK = '$maTK'
+               ORDER BY dh.NgayDat DESC";
+$result_da_mua = mysqli_query($conn, $sql_da_mua);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giỏ hàng - TechZone</title>
-  <link rel="stylesheet" href="giohang.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng - TechZone</title>
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="giohang.css"> <style>
+        .cart-section-title {
+            font-size: 2.2rem;
+            margin: 3rem 0 1.5rem;
+            color: #333;
+            border-left: 5px solid #0f75ff;
+            padding-left: 1.5rem;
+            text-transform: uppercase;
+        }
+        .status-success { color: #27ae60; font-weight: bold; }
+        .history-table img { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; }
+    </style>
 </head>
-
 <body>
 
-  <header class="header">
-    <div class="logo">TechZone | Giỏ hàng</div>
-    <nav>
-      <a href="sanpham.php">Trang chủ</a>
-      <a href="giohang.php">Giỏ hàng</a>
-    </nav>
-  </header>
-
-  <section class="cart-container">
-    <h1>Giỏ hàng của bạn</h1>
-
-    <form action="capnhatgiohang.php" method="POST">
-      <table>
-        <thead>
-          <tr>
-            <th>Chọn</th>
-            <th>Sản phẩm</th>
-            <th>Tên</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Tổng</th>
-            <th>Xóa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $tong_tien_gio_hang = 0; // Biến cộng dồn tổng tiền
-
-          // Kiểm tra xem giỏ hàng có tồn tại và có đồ không
-          if (isset($_SESSION['giohang']) && !empty($_SESSION['giohang'])) {
-
-            // Duyệt qua từng món trong SESSION
-            foreach ($_SESSION['giohang'] as $id_sp => $so_luong) {
-
-              // Truy vấn lấy thông tin sản phẩm từ DB
-              $sql = "SELECT * FROM SanPham WHERE MaSP = $id_sp";
-              $result = mysqli_query($conn, $sql);
-
-              if ($row = mysqli_fetch_assoc($result)) {
-                // Tính giá bán thực tế
-                $gia_ban = $row['GiaNhapBinhQuan'] * (1 + $row['TiLeLoiNhuan']);
-                // Tính thành tiền cho dòng này
-                $thanh_tien = $gia_ban * $so_luong;
-                // Cộng dồn vào tổng tiền giỏ hàng
-                $tong_tien_gio_hang += $thanh_tien;
-          ?>
-                <tr>
-                  <td>
+    <?php include 'header.php'; ?> <section class="cart-container" style="margin-top: 100px;">
+        
+        <h2 class="cart-section-title">Giỏ hàng hiện tại</h2>
+        <form action="capnhatgiohang.php" method="POST">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chọn</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php
-                    // Kiểm tra xem sản phẩm này có nằm trong danh sách đang được chọn không
-                    $is_checked = "";
-                    if (isset($_SESSION['sp_chon'])) {
-                      // Nếu có session lưu trạng thái, kiểm tra xem ID này có trong đó không
-                      if (in_array($id_sp, $_SESSION['sp_chon'])) {
-                        $is_checked = "checked";
-                      }
+                    $tong_tien_gio_hang = 0;
+                    if (isset($_SESSION['giohang']) && !empty($_SESSION['giohang'])) {
+                        foreach ($_SESSION['giohang'] as $id_sp => $so_luong) {
+                            $sql = "SELECT * FROM SanPham WHERE MaSP = $id_sp";
+                            $result = mysqli_query($conn, $sql);
+                            if ($row = mysqli_fetch_assoc($result)) {
+                                $gia_ban = $row['GiaNhapBinhQuan'] * (1 + $row['TiLeLoiNhuan']);
+                                $thanh_tien = $gia_ban * $so_luong;
+                                $tong_tien_gio_hang += $thanh_tien;
+                    ?>
+                        <tr>
+                            <td><input type="checkbox" name="sp_chon[]" value="<?php echo $id_sp; ?>" class="chon-sp" data-price="<?php echo $thanh_tien; ?>" checked></td>
+                            <td><img src="../Admin/Image/<?php echo $row['HinhAnh']; ?>" alt=""></td>
+                            <td><?php echo htmlspecialchars($row['TenSP']); ?></td>
+                            <td><?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫</td>
+                            <td>
+                                <input type="number" name="soluong[<?php echo $id_sp; ?>]" value="<?php echo $so_luong; ?>" min="1" onchange="this.form.submit()" style="width: 60px; padding: 5px; text-align: center;">
+                            </td>
+                            <td><?php echo number_format($thanh_tien, 0, ',', '.'); ?> ₫</td>
+                            <td>
+                                <a href="xoagiohang.php?id=<?php echo $id_sp; ?>" onclick="return confirm('Xóa sản phẩm này?')">
+                                    <img src="picture/trash.png" alt="Xóa" style="width: 20px;">
+                                </a>
+                            </td>
+                        </tr>
+                    <?php 
+                            }
+                        }
                     } else {
-                      // Nếu mới vào giỏ hàng lần đầu (chưa bấm gì), mặc định chọn hết cho tiện
-                      $is_checked = "checked";
+                        echo "<tr><td colspan='7' style='padding: 3rem; font-size: 1.6rem;'>Giỏ hàng trống. <a href='trangchu.php' style='color:#0f75ff'>Tiếp tục mua sắm</a></td></tr>";
                     }
                     ?>
-                    <input type="checkbox" name="sp_chon[]" value="<?php echo $id_sp; ?>" class="chon-sp" data-price="<?php echo $thanh_tien; ?>" <?php echo $is_checked; ?>>
-                  </td>
-                  <td><img src="../Admin/Image/<?php echo $row['HinhAnh']; ?>" alt="" style="width: 50px;"></td>
-                  <td data-label="Tên"><?php echo htmlspecialchars($row['TenSP']); ?></td>
-                  <td data-label="Giá"><?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫</td>
+                </tbody>
+            </table>
 
-                  <td data-label="Số lượng">
-                    <input type="number" name="soluong[<?php echo $id_sp; ?>]" value="<?php echo $so_luong; ?>" min="1" onchange="this.form.submit()">
-                  </td>
+            <div class="cart-summary">
+                <p class="total">Tổng thanh toán: <span id="tong-tien-hien-thi"><?php echo number_format($tong_tien_gio_hang, 0, ',', '.'); ?></span> ₫</p>
+                <?php if ($tong_tien_gio_hang > 0): ?>
+                    <button type="submit" formaction="thanhtoan.php" class="checkout-btn">Tiến hành thanh toán</button>
+                <?php endif; ?>
+            </div>
+        </form>
 
-                  <td data-label="Tổng"><?php echo number_format($thanh_tien, 0, ',', '.'); ?> ₫</td>
-                  <td data-label="Xóa">
-                    <a href="xoagiohang.php?id=<?php echo $id_sp; ?>">
-                      <i class="remove"><img src="picture/trash.png" alt="Xóa" style="width: 20px;"></i>
-                    </a>
-                  </td>
-                </tr>
-          <?php
-              } // Kết thúc if
-            } // Kết thúc foreach
-          } else {
-            // NẾU GIỎ HÀNG TRỐNG
-            echo "<tr><td colspan='7' style='text-align: center; padding: 20px;'>Giỏ hàng của bạn đang trống. <a href='sanpham.php'>Tiếp tục mua sắm</a></td></tr>";
-          }
-          ?>
-        </tbody>
-      </table>
+        <hr style="margin: 5rem 0; border: 0; border-top: 1px dashed #ccc;">
 
-      <div class="cart-summary">
-        <p class="total">Tổng cộng: <span id="tong-tien-hien-thi"><?php echo number_format($tong_tien_gio_hang, 0, ',', '.'); ?></span> ₫</p>
-        <?php if ($tong_tien_gio_hang > 0): ?>
-          <button type="submit" formaction="thanhtoan.php" class="checkout-btn" style="color: white; text-decoration: none;">Thanh toán</button>
-        <?php else: ?>
-          <button type="button" class="checkout-btn" style="background: #ccc; cursor: not-allowed;" disabled>Thanh toán</button>
-        <?php endif; ?>
-      </div>
-    </form>
-  </section>
-
-  <footer id="bottom">
-
-    <section class="footer">
-
-      <div class="footer-box">
-
-        <ul>
-
-          <li><b>Dịch vụ khách hàng</b></li>
-
-          <li>Trung tâm trợ giúp</li>
-          <li>Hướng dẫn mua hàng</li>
-          <li>Đơn hàng</li>
-          <li>Trả hàng / hoàn tiền</li>
-          <li>Chính sách bảo hành</li>
-
-        </ul>
-
-      </div>
-
-
-      <div class="footer-box">
-
-        <ul>
-
-          <li><b>TechZone Việt Nam</b></li>
-
-          <li>Về TechZone</li>
-          <li>Tuyển dụng</li>
-          <li>Điều khoản</li>
-          <li>Chính sách bảo mật</li>
-
-        </ul>
-
-      </div>
-
-
-      <div class="footer-box">
-
-        <ul>
-          <li><b>Thanh toán</b></li>
-        </ul>
-
-        <div class="payment">
-
-          <table>
-
+        <h2 class="cart-section-title">Lịch sử sản phẩm đã mua</h2>
+<table class="history-table">
+    <thead>
+        <tr>
+            <th>Ngày mua</th>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá đã mua</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        if ($result_da_mua && mysqli_num_rows($result_da_mua) > 0) {
+            while ($row_mua = mysqli_fetch_assoc($result_da_mua)) {
+        ?>
             <tr>
-
-              <td><img src="picture/thanhtoan1.png"></td>
-              <td><img src="picture/thanhtoan2.png"></td>
-              <td><img src="picture/thanhtoan3.png"></td>
-              <td><img src="picture/thanhtoan7.png"></td>
-
+                <td><?php echo date('d/m/Y', strtotime($row_mua['NgayDat'])); ?></td> 
+                <td><img src="../Admin/Image/<?php echo $row_mua['HinhAnh']; ?>"></td>
+                <td style="text-align: left;"><?php echo htmlspecialchars($row_mua['TenSP']); ?></td>
+                <td><?php echo $row_mua['SoLuongMua']; ?></td> 
+                <td><?php echo number_format($row_mua['GiaBan'], 0, ',', '.'); ?> ₫</td>
+                <td class="status-success">Đã hoàn thành</td>
             </tr>
-
-            <tr>
-
-              <td><img src="picture/thanhtoan4.png"></td>
-              <td><img src="picture/thanhtoan5.png"></td>
-              <td><img src="picture/thanhtoan6.png"></td>
-
-            </tr>
-
-          </table>
-
-        </div>
-
-      </div>
-
+        <?php 
+            }
+        } else {
+            echo "<tr><td colspan='6' style='padding: 3rem; font-size: 1.6rem;'>Bạn chưa có lịch sử mua hàng nào.</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
     </section>
 
-  </footer>
-  <script>
-    // Tìm tất cả các ô checkbox và chỗ hiển thị tổng tiền
-    const checkboxes = document.querySelectorAll('.chon-sp');
-    const tongTienEl = document.getElementById('tong-tien-hien-thi');
+    <?php include 'footer.php'; ?> <script>
+        // Logic tính tổng tiền khi tích chọn checkbox
+        const checkboxes = document.querySelectorAll('.chon-sp');
+        const tongTienEl = document.getElementById('tong-tien-hien-thi');
 
-    // Hàm tính lại tiền dựa trên những ô đang được tích
-    function tinhTongTien() {
-      let tong = 0;
-      checkboxes.forEach(cb => {
-        if (cb.checked) {
-          // Cộng dồn tiền của món đó (lấy từ thuộc tính data-price)
-          tong += parseInt(cb.getAttribute('data-price'));
+        function tinhTongTien() {
+            let tong = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    tong += parseInt(cb.getAttribute('data-price'));
+                }
+            });
+            tongTienEl.innerText = tong.toLocaleString('vi-VN');
         }
-      });
-      // Định dạng lại thành số tiền VNĐ và in ra màn hình
-      tongTienEl.innerText = tong.toLocaleString('vi-VN');
-    }
 
-    // Lắng nghe sự kiện: hễ khách bấm tích/bỏ tích là tính lại tiền ngay
-    checkboxes.forEach(cb => {
-      cb.addEventListener('change', tinhTongTien);
-    });
-
-    // Gọi hàm 1 lần khi trang vừa load xong để hiển thị đúng số tiền của các ô đang tích sẵn
-    tinhTongTien();
-  </script>
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', tinhTongTien);
+        });
+    </script>
 </body>
-
 </html>

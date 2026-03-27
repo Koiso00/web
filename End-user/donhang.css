@@ -1,0 +1,95 @@
+.order-container {
+    padding: 10rem 9% 5rem;
+    background: #f4f4f4;
+    min-height: 100vh;
+}
+
+.order-container .title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.order-card {
+    background: #fff;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.2rem 1rem rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.order-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: #fafafa;
+}
+
+.order-status {
+    color: #ee4d2d; /* Màu đỏ cam Shopee/Lazada */
+    text-transform: uppercase;
+}
+
+.product-item {
+    display: flex;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #f9f9f9;
+    align-items: center;
+}
+
+.product-item img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border: 1px solid #eee;
+    margin-right: 1.5rem;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-info h3 {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.product-info p {
+    font-size: 1.4rem;
+    color: #888;
+}
+
+.product-price {
+    font-size: 1.6rem;
+    color: #ee4d2d;
+}
+
+.order-footer {
+    padding: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
+    background: #fff;
+}
+
+.total-label {
+    font-size: 1.5rem;
+}
+
+.total-amount {
+    font-size: 2.2rem;
+    color: #ee4d2d;
+    font-weight: bold;
+}
+
+.empty-msg {
+    text-align: center;
+    font-size: 1.8rem;
+    padding: 5rem;
+    background: #fff;
+}

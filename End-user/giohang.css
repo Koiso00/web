@@ -1,263 +1,166 @@
+/* Tệp: giohang.css */
 :root {
-  --blue: #0f75ff;
-  --border: #ddd;
-  --light-bg: #f6f7fb;
-  --card-bg: #fff;
-  --text: #333;
+  --primary-color: #0f75ff;
+  --bg-light: #f9f9f9;
+  --text-dark: #333;
+  --text-gray: #666;
+  --white: #ffffff;
+  --shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  --border-radius: 0.8rem;
 }
 
-/* ===== RESET CHUNG ===== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* 🔹 Đã sửa font-size về 16px để chữ không bị khổng lồ, đồng thời thiết lập làm mốc cho Footer */
-body {
-  background: var(--light-bg);
-  color: var(--text);
-  font-size: 16px; 
-  line-height: 1.4;
-  position: relative;
-  min-height: 100vh;
-  padding-bottom: 250px; /* Chừa khoảng trống cho Footer */
-}
-
-/* ===== HEADER ===== */
-.header {
-  background: #fff;
-  border-bottom: 3px solid var(--blue);
-  padding: 16px 10%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 26px;
-  font-weight: bold;
-  color: var(--blue);
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--text);
-  margin-left: 16px;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-nav a:hover {
-  color: var(--blue);
-  transform: scale(1.05);
-}
-
-nav a.active {
-  color: var(--blue);
-  border-bottom: 2px solid var(--blue);
-  padding-bottom: 2px;
-}
-
-/* ===== CONTAINER GIỎ HÀNG ===== */
+/* Cấu trúc chung cho container */
 .cart-container {
-  max-width: 950px;
-  margin: 95px auto;
-  background: var(--card-bg);
-  padding: 20px 25px;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    max-width: 1200px;
+    margin: 12rem auto 5rem; /* Cách header cố định */
+    padding: 0 2rem;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: var(--blue);
+h1, .cart-section-title {
+    font-size: 2.8rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    text-align: left;
+    border-left: 0.6rem solid var(--primary-color);
+    padding-left: 1.5rem;
 }
 
-/* ===== BẢNG SẢN PHẨM ===== */
+/* Định dạng bảng dữ liệu */
 table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border-collapse: collapse;
+    margin-bottom: 3rem;
 }
 
-th, td {
-  text-align: center;
-  padding: 11px;
-  border-bottom: 1px solid var(--border);
+table thead {
+    background: var(--primary-color);
 }
 
-th {
-  background-color: var(--blue);
-  color: white;
-  font-size: 18px;
+table th {
+    color: var(--white);
+    font-size: 1.6rem;
+    padding: 1.5rem;
+    text-align: center;
+    font-weight: 500;
 }
 
-td img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  border-radius: 5px;
+table td {
+    padding: 1.5rem;
+    border-bottom: 0.1rem solid #eee;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    text-align: center;
+    vertical-align: middle;
 }
 
-/* 🔹 Tăng tính cụ thể (Specificity) để làm to chữ trong bảng mà không cần !important */
-.cart-container table tbody td {
-  font-size: 16px;
-  vertical-align: middle;
+table td img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
 }
 
-.cart-container table tbody td input[type="number"] {
-  width: 50px;
-  text-align: center;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
+/* Ô nhập số lượng */
+table td input[type="number"] {
+    width: 6rem;
+    padding: 0.8rem;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.4rem;
 }
 
-td input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--blue);
-  cursor: pointer;
+/* Checkbox chọn sản phẩm */
+.chon-sp {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
 }
 
-/* ===== NÚT XOÁ ===== */
-.remove img {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  transition: 0.2s;
-}
-
-/* ===== TỔNG TIỀN ===== */
+/* Tổng kết giỏ hàng */
 .cart-summary {
-  margin-top: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3rem;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
-.total {
-  font-weight: bold;
-  color: var(--blue);
-  font-size: 1.4rem;
+.cart-summary .total {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-dark);
 }
 
-/* ===== NÚT THANH TOÁN ===== */
+.cart-summary .total span {
+    color: var(--primary-color);
+    font-size: 2.4rem;
+}
+
+/* Nút thanh toán */
 .checkout-btn {
-  background: var(--blue);
-  color: white;
-  border: none;
-  padding: 15px 20px;
-  font-size: 1.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
+    background: var(--primary-color);
+    color: var(--white);
+    font-size: 1.8rem;
+    padding: 1.2rem 3rem;
+    border-radius: 5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 .checkout-btn:hover {
-  background: #004fc7;
+    background: #084ea8;
+    transform: translateY(-0.2rem);
 }
 
-.checkout-btn a {
-  color: white;
-  text-decoration: none;
+/* Trạng thái đơn hàng trong lịch sử */
+.status-success {
+    color: #27ae60;
+    font-weight: 600;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #e8f5e9;
+    border-radius: 2rem;
+    font-size: 1.3rem;
 }
 
-/* ===== FOOTER (Dùng ID #bottom làm gốc để tăng độ ưu tiên) ===== */
-#bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin-top: 0;
-}
-
-#bottom .footer {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
-
-#bottom .footer-box ul {
-  list-style: none;
-  padding: 0;
-}
-
-#bottom .footer-box li {
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-#bottom .footer-box b {
-  font-size: 16px;
-  display: block;
-  margin-bottom: 12px;
-}
-
-/* ===== RESPONSIVE ===== */
+/* Responsive cho di động */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 6px;
-    padding: 10px 5%;
-  }
-
-  nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  nav a {
-    font-size: 1.05rem;
-  }
-
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  th {
-    display: none;
-  }
-
-  td {
-    text-align: right;
-    padding-left: 45%;
-    position: relative;
-  }
-
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 10px;
-    font-weight: bold;
-  }
-
-  .cart-summary {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .checkout-btn {
-    width: 100%;
-  }
-  
-  /* Cấu hình lại Footer cho điện thoại */
-  #bottom .footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    text-align: center;
-  }
+    table thead {
+        display: none;
+    }
+    table, table tbody, table tr, table td {
+        display: block;
+        width: 100%;
+    }
+    table tr {
+        margin-bottom: 2rem;
+        border: 0.1rem solid #eee;
+    }
+    table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1.5rem;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+    }
+    .cart-summary {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
 }
