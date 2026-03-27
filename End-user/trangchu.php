@@ -94,15 +94,36 @@ $result = mysqli_query($conn, $sql);
             </div>
 
             <div class="user">
-                <?php if (isset($_SESSION['MaTK'])): ?>
-                    <a href="suathongtin.php"><img src="picture/user.png" alt="Người dùng" style="margin-right: 5px;"><span><?php echo htmlspecialchars($_SESSION['HoTen']); ?></span></a>
-                    <a href="dangxuat.php" class="dangky" style="margin-left: 10px;">Thoát</a>
-                <?php else: ?>
-                    <a href="trangdangnhap.php"><img src="picture/user.png" alt="Người dùng" style="margin-right: 5px;"><span>Đăng nhập</span></a>
-                    <a href="trangdangki.php" class="dangky" style="margin-left: 10px;">Đăng ký</a>
-                <?php endif; ?>
-            </div>
-        </div>
+
+<?php
+if(isset($_SESSION['user'])){
+?>
+
+<a href="#">
+<img src="picture/user.png">
+<span><?php echo $_SESSION['user']; ?></span>
+</a>
+
+<a href="xuly_dangxuat.php" class="dangky">Đăng xuất</a>
+
+<?php
+}else{
+?>
+
+<a href="trangdangnhap.php">
+<img src="picture/user.png">
+<span>Đăng nhập</span>
+</a>
+
+<a href="trangdangki.php" class="dangky">Đăng ký</a>
+
+<?php
+}
+?>
+
+</div>
+
+</div>
     </header>
 
     <section class="home" id="home">
