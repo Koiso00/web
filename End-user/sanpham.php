@@ -135,8 +135,6 @@ $result = mysqli_query($conn, $sql);
 
                 <div class="grid">
                     <?php
-                    $sql = "SELECT * FROM SanPham WHERE MaLoai = $ma_loai AND HienTrang = 1 LIMIT $limit OFFSET $offset";
-                    $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
