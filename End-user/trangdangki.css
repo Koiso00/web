@@ -317,3 +317,11 @@ input[name="fullname"]{
 .apple:hover{
     transform:scale(1.02);
 }
+.register-box.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    margin-top: 220px; /* Tăng từ 170px lên 220px */
+}
