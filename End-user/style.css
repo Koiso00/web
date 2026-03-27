@@ -223,94 +223,78 @@ header .icon a:hover img, header .icon a:hover span{
     display: none;
 }
 
+/* Container chung cho User */
 header .icon .user {
-    /* stack profile (avatar + name) and logout vertically so the
-       'Đăng xuất' anchor sits directly under the name while keeping
-       the avatar + name inline */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* change to flex-start if you want left alignment */
-    justify-content: center;
-    padding: 4px 8px;
-    margin: 2px 0 2px .6rem;
-    border-radius: 10px;
-    border: 1px solid rgba(0,0,0,0.06);
-    background: transparent;
-}
-
-/* keep the first anchor (avatar + name) inline */
-header .icon .user > a{
     display: flex;
     align-items: center;
-    gap: .8rem;
-    font-size: 1.5rem;
-    color: #333;
-    text-align: left;
+    gap: 1.5rem; /* Khoảng cách giữa các thành phần */
+    padding: 0.5rem 1.2rem;
+    border-radius: 5rem;
+    background: #f8f9fa; /* Màu nền nhẹ để phân biệt */
+    border: 1px solid #eee;
+    margin-left: 1rem;
 }
 
-/* logout should be a small inline-block under the name */
-header .icon .user > a.dangxuat{
-    display: inline-block;
-    margin-top: 0.2rem;
-    font-size: 1.25rem;
-    color: #0f75ff;
-    padding: 0.08rem 0.35rem;
-    border-radius: 6px;
-}
-header .icon .user > a.dangxuat:hover{
-    background: rgba(15,117,255,0.08);
-    color: #084ea8;
+/* Khi đã đăng nhập: Avatar và Tên */
+header .icon .user > a {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
     text-decoration: none;
 }
 
-header .icon .user .avatar{
-    width: 3.8rem;
-    height: 3.8rem;
+header .icon .user .avatar, 
+header .icon .user img {
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid #ddd;
 }
-header .icon .user a span{
-    padding-bottom: 0;
-    display: inline-block;
-    font-weight: 600;
+
+header .icon .user span {
     font-size: 1.4rem;
-    color: #222;
-    max-width: 9.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-header .icon .user .dangky {
-    padding-bottom: 0;
-    display: inline-block;
     font-weight: 600;
-    font-size: 1.4rem;
-    color: #222;
-    max-width: 9.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-} 
-header .icon .user .dangnhap {
-    padding-bottom: 0;
-    display: inline-block;
-    /* float removed - layout is handled by flexbox on .user */
-    font-weight: 600;
-    font-size: 1.4rem;
-    color: #222;
-    max-width: 9.5rem;
+    color: #333;
+    max-width: 10rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-@media (max-width: 700px){
-    header .icon .user img.user1{ width: 3rem; height: 3rem; }
-    header .icon .user a span{ font-size: 1.2rem; max-width: 7rem; }
+/* Các nút Đăng nhập, Đăng ký, Đăng xuất */
+header .icon .user .dangky, 
+header .icon .user .dangnhap,
+header .icon .user .dangxuat {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #0f75ff; /* Màu thương hiệu */
+    transition: all 0.2s ease;
 }
-header .icon .user a span{
-    padding-bottom: 0;
-    display: inline-block;
+
+header .icon .user .dangky:hover, 
+header .icon .user .dangnhap:hover,
+header .icon .user .dangxuat:hover {
+    color: #084ea8;
+    text-decoration: underline;
+}
+
+/* Tinh chỉnh riêng cho nút Đăng xuất để nó tách biệt hơn */
+header .icon .user a.dangxuat {
+    border-left: 1px solid #ccc;
+    padding-left: 1rem;
+    margin-top: 0; /* Reset lại margin-top từ code cũ */
+}
+
+/* Responsive cho mobile */
+@media (max-width: 700px) {
+    header .icon .user {
+        padding: 0.4rem 0.8rem;
+        gap: 0.8rem;
+    }
+    header .icon .user span {
+        display: none; /* Ẩn tên trên mobile để tiết kiệm diện tích */
+    }
 }
 .home {
     display: flex;
