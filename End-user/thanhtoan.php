@@ -1,94 +1,106 @@
-<?php session_start(); ?>
+<?php
+session_start();
+include 'connect.php';
+
+// Kiểm tra đăng nhập (Giả sử session lưu MaTK khi login)
+if (!isset($_SESSION['MaTK'])) {
+    echo "<script>alert('Vui lòng đăng nhập để thanh toán!'); window.location.href='dangnhap.php';</script>";
+    exit;
+}
+
+$maTK = $_SESSION['MaTK'];
+
+// Lấy danh sách địa chỉ đã có của khách hàng
+$sql_diachi = "SELECT * FROM diachikhachhang WHERE MaTK = $maTK";
+$result_diachi = mysqli_query($conn, $sql_diachi);
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thanh toán - TechZone</title>
-  <link rel="stylesheet" href="thanhtoan.css">
+    <meta charset="UTF-8">
+    <title>Thanh Toán - TechZone</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-box { max-width: 800px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .section-title { color: #0f75ff; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .hidden { display: none; }
+        .bank-info { background: #f0f8ff; padding: 15px; border-left: 4px solid #0f75ff; margin-top: 10px; }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="logo">TechZone | Thanh toán </div>
-    <nav>
-      <a href="sau-khi-dang-nhap.php">Trang chủ</a>
-      <a href="giohang.php">Giỏ hàng</a>
-    </nav>
-  </header>
+    <div class="checkout-box">
+        <h1>Xác nhận thanh toán</h1>
+        <form action="xulydathang.php" method="POST">
+            
+            <h2 class="section-title">1. Địa chỉ giao hàng</h2>
+            <?php if (mysqli_num_rows($result_diachi) > 0) {
+                while ($dc = mysqli_fetch_assoc($result_diachi)) { ?>
+                    <div class="form-group">
+                        <input type="radio" name="chon_diachi" value="<?php echo $dc['MaDC']; ?>" class="radio-diachi" checked>
+                        <label>
+                            <b><?php echo $dc['TenNguoiNhan']; ?> (<?php echo $dc['SDTNhan']; ?>)</b> - 
+                            <?php echo $dc['DiaChiChiTiet'] . ", " . $dc['PhuongXa'] . ", " . $dc['QuanHuyen'] . ", " . $dc['TinhThanh']; ?>
+                        </label>
+                    </div>
+            <?php } } ?>
+            
+            <div class="form-group">
+                <input type="radio" name="chon_diachi" value="new" class="radio-diachi" <?php echo (mysqli_num_rows($result_diachi) == 0) ? 'checked' : ''; ?>>
+                <label><b>+ Thêm địa chỉ giao hàng mới</b></label>
+            </div>
 
-  <main class="checkout-container">
+            <div id="form_diachimoi" class="<?php echo (mysqli_num_rows($result_diachi) > 0) ? 'hidden' : ''; ?>">
+                <div class="form-group"><input type="text" name="ten_nhan" placeholder="Tên người nhận" class="form-control"></div>
+                <div class="form-group"><input type="text" name="sdt_nhan" placeholder="Số điện thoại" class="form-control"></div>
+                <div class="form-group"><input type="text" name="tinh_thanh" placeholder="Tỉnh/Thành phố" class="form-control"></div>
+                <div class="form-group"><input type="text" name="quan_huyen" placeholder="Quận/Huyện" class="form-control"></div>
+                <div class="form-group"><input type="text" name="phuong_xa" placeholder="Phường/Xã" class="form-control"></div>
+                <div class="form-group"><input type="text" name="diachi_chitiet" placeholder="Số nhà, Tên đường..." class="form-control"></div>
+            </div>
 
-    <!-- 🏠 PHẦN ĐỊA CHỈ -->
-    <section class="address-section">
-      <div class="address-info">
-        <h3>Địa chỉ nhận hàng</h3>
-        <p><strong>Nguyễn Văn A</strong> | 0901 234 567</p>
-        <p>123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh</p>
-      </div>
+            <h2 class="section-title">2. Phương thức thanh toán</h2>
+            <div class="form-group">
+                <select name="phuongthuc_tt" id="phuongthuc_tt" style="width:100%; padding: 10px;">
+                    <option value="Tiền mặt">Thanh toán khi nhận hàng (COD)</option>
+                    <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
+                    <option value="Trực tuyến">Thanh toán trực tuyến (VNPay / Momo)</option>
+                </select>
+            </div>
+            
+            <div id="thongtin_chuyenkhoan" class="hidden bank-info">
+                <b>Thông tin chuyển khoản:</b><br>
+                Ngân hàng: Vietcombank<br>
+                Số tài khoản: <b>123456789</b><br>
+                Chủ tài khoản: TECHZONE VIETNAM<br>
+                Nội dung CK: <i>Thanh toan don hang - [Số điện thoại của bạn]</i>
+            </div>
 
-      <!-- Nút sửa dùng checkbox -->
-      <label for="toggle-edit" class="edit-btn">Sửa thông tin</label>
-      <input type="checkbox" id="toggle-edit" hidden>
+            <button type="submit" style="background:#0f75ff; color:white; padding:15px; width:100%; border:none; font-size:18px; margin-top:20px; cursor:pointer;">
+                Hoàn tất đặt hàng
+            </button>
+        </form>
+    </div>
 
-      <!-- Form ẩn/hiện -->
-      <form class="edit-form">
-        <h4>Cập nhật địa chỉ</h4>
-        <input type="text" placeholder="Họ và tên" value="Nguyễn Văn A">
-        <input type="text" placeholder="Số điện thoại" value="0901 234 567">
-        <textarea placeholder="Địa chỉ chi tiết">123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh</textarea>
-        <div class="form-btns">
-          <label for="toggle-edit" class="btn cancel">Hủy</label>
-          <label for="toggle-edit" class="btn save">Lưu thông tin</label>
-        </div>
-      </form>
-    </section>
+    <script>
+        // JS Ẩn/hiện form nhập địa chỉ mới
+        const radiosDiachi = document.querySelectorAll('.radio-diachi');
+        const formDiachiMoi = document.getElementById('form_diachimoi');
+        radiosDiachi.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'new') formDiachiMoi.classList.remove('hidden');
+                else formDiachiMoi.classList.add('hidden');
+            });
+        });
 
-    <!-- 🛒 DANH SÁCH SẢN PHẨM -->
-    <section class="order-items">
-      <h3>Đơn hàng của bạn</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Sản phẩm</th>
-            <th>Tên</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-            <th>Tổng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><img src="picture/product1.png" alt=""></td>
-            <td>AKKO TAC87 Black&Gold</td>
-            <td>1</td>
-            <td>1,250,000 ₫</td>
-            <td>1,250,000 ₫</td>
-          </tr>
-          <tr>
-            <td><img src="picture/product2.png" alt=""></td>
-            <td>AKKO 5075B Plus Dragon Ball Super</td>
-            <td>1</td>
-            <td>2,000,000 ₫</td>
-            <td>2,000,000 ₫</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="total">
-        <p>Tổng cộng: <span>3,250,000 ₫</span></p>
-      </div>
-    </section>
-
-    <!-- 💳 PHƯƠNG THỨC THANH TOÁN -->
-    <section class="payment-section">
-      <h3>Phương thức thanh toán</h3>
-      <div class="payment-options">
-        <label><input type="radio" name="pay" checked> Thanh toán khi nhận hàng (COD)</label>
-        <label><input type="radio" name="pay"> Chuyển khoản ngân hàng</label>
-        <label><input type="radio" name="pay"> Thanh toán trực tuyến</label>
-      </div>
-      <button class="confirm-btn"><a href="xemdonhang.php">Xác nhận thanh toán</a></button>
-    </section>
-
-  </main>
+        // JS Ẩn/hiện thông tin chuyển khoản
+        const selectThanhToan = document.getElementById('phuongthuc_tt');
+        const infoChuyenKhoan = document.getElementById('thongtin_chuyenkhoan');
+        selectThanhToan.addEventListener('change', function() {
+            if(this.value === 'Chuyển khoản') infoChuyenKhoan.classList.remove('hidden');
+            else infoChuyenKhoan.classList.add('hidden');
+        });
+    </script>
 </body>
 </html>
