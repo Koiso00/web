@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 26, 2026 lúc 04:30 PM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Mar 27, 2026 at 08:05 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `db_banhang`
+-- Database: `db_banhang`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietdonhang`
+-- Table structure for table `chitietdonhang`
 --
 
 CREATE TABLE `chitietdonhang` (
@@ -35,7 +35,7 @@ CREATE TABLE `chitietdonhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chitietdonhang`
+-- Dumping data for table `chitietdonhang`
 --
 
 INSERT INTO `chitietdonhang` (`MaDH`, `MaSP`, `SoLuongMua`, `GiaBan`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `chitietdonhang` (`MaDH`, `MaSP`, `SoLuongMua`, `GiaBan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietphieunhap`
+-- Table structure for table `chitietphieunhap`
 --
 
 CREATE TABLE `chitietphieunhap` (
@@ -57,7 +57,7 @@ CREATE TABLE `chitietphieunhap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chitietphieunhap`
+-- Dumping data for table `chitietphieunhap`
 --
 
 INSERT INTO `chitietphieunhap` (`MaPN`, `MaSP`, `SoLuongNhap`, `GiaNhap`) VALUES
@@ -74,7 +74,7 @@ INSERT INTO `chitietphieunhap` (`MaPN`, `MaSP`, `SoLuongNhap`, `GiaNhap`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `diachikhachhang`
+-- Table structure for table `diachikhachhang`
 --
 
 CREATE TABLE `diachikhachhang` (
@@ -89,7 +89,7 @@ CREATE TABLE `diachikhachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `diachikhachhang`
+-- Dumping data for table `diachikhachhang`
 --
 
 INSERT INTO `diachikhachhang` (`MaDC`, `MaTK`, `TenNguoiNhan`, `SDTNhan`, `DiaChiChiTiet`, `PhuongXa`, `QuanHuyen`, `TinhThanh`) VALUES
@@ -101,7 +101,7 @@ INSERT INTO `diachikhachhang` (`MaDC`, `MaTK`, `TenNguoiNhan`, `SDTNhan`, `DiaCh
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `donhang`
+-- Table structure for table `donhang`
 --
 
 CREATE TABLE `donhang` (
@@ -116,7 +116,7 @@ CREATE TABLE `donhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `donhang`
+-- Dumping data for table `donhang`
 --
 
 INSERT INTO `donhang` (`MaDH`, `MaTK`, `NgayDat`, `TongTien`, `PhuongThucThanhToan`, `TrangThai`, `DiaChiGiaoHang`, `PhuongXaGiao`) VALUES
@@ -127,7 +127,7 @@ INSERT INTO `donhang` (`MaDH`, `MaTK`, `NgayDat`, `TongTien`, `PhuongThucThanhTo
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `loaisanpham`
+-- Table structure for table `loaisanpham`
 --
 
 CREATE TABLE `loaisanpham` (
@@ -137,18 +137,18 @@ CREATE TABLE `loaisanpham` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `loaisanpham`
+-- Dumping data for table `loaisanpham`
 --
 
 INSERT INTO `loaisanpham` (`MaLoai`, `TenLoai`, `HinhAnh`) VALUES
-(1, 'Bàn phím cơ', 'loai_1.jpg'),
-(2, 'Chuột Gaming', 'loai_2.png'),
+(1, 'Bàn phím cơ', 'loai_1.png'),
+(2, 'Chuột Gaming', 'loai_2.jpg'),
 (3, 'Tai nghe & Âm thanh', 'loai_3.png');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phieunhap`
+-- Table structure for table `phieunhap`
 --
 
 CREATE TABLE `phieunhap` (
@@ -159,7 +159,7 @@ CREATE TABLE `phieunhap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phieunhap`
+-- Dumping data for table `phieunhap`
 --
 
 INSERT INTO `phieunhap` (`MaPN`, `NgayNhap`, `MaAdmin`, `TrangThai`) VALUES
@@ -172,7 +172,7 @@ INSERT INTO `phieunhap` (`MaPN`, `NgayNhap`, `MaAdmin`, `TrangThai`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `sanpham`
+-- Table structure for table `sanpham`
 --
 
 CREATE TABLE `sanpham` (
@@ -189,7 +189,7 @@ CREATE TABLE `sanpham` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `sanpham`
+-- Dumping data for table `sanpham`
 --
 
 INSERT INTO `sanpham` (`MaSP`, `TenSP`, `MaLoai`, `MoTa`, `DonViTinh`, `HinhAnh`, `SoLuongTon`, `TiLeLoiNhuan`, `GiaNhapBinhQuan`, `HienTrang`) VALUES
@@ -203,21 +203,21 @@ INSERT INTO `sanpham` (`MaSP`, `TenSP`, `MaLoai`, `MoTa`, `DonViTinh`, `HinhAnh`
 (8, 'Bàn phím cơ RK Royal Kludge RK61', 1, 'Bàn phím mini 60% siêu nhỏ gọn, kết nối 3 chế độ (Dây, Bluetooth, 2.4Ghz), dễ dàng mang theo.', 'Cái', 'RK Royal Kludge RK61.png', 30, 0.40, 850000.00, 1),
 (9, 'Bàn phím cơ E-Dra EK387', 1, 'Thiết kế cổ điển, build cực kỳ chắc chắn, giá cả phải chăng, phù hợp cho phòng net.', 'Cái', 'n.com-products-ban-phim-e-dra-ek387.png', 40, 0.30, 550000.00, 1),
 (10, 'Bàn phím cơ FL-Esports CMK87', 1, 'Bàn phím cận cao cấp, build kim loại đầm tay, âm thanh gõ cực thock không cần mod lại. Phiên bản CPM Metal Heart ', 'Cái', 'ban-phim-co-fl-esports-cmk87cpm-metal-heart-3-mode.jpg', 7, 0.30, 2500000.00, 1),
-(11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'sp_11.jpg', 20, 0.30, 450000.00, 1),
-(12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'sp_12.jpg', 12, 0.20, 600000.00, 1),
-(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'sp_13.png', 60, 0.35, 350000.00, 1),
-(14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'sp_14.jpg', 15, 0.25, 1100000.00, 1),
-(15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'sp_15.jpg', 25, 0.30, 750000.00, 1),
-(16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'sp_16.jpg', 10, 0.15, 1650000.00, 1),
-(17, 'Chuột SteelSeries Rival 3', 2, 'Cảm biến TrueMove Core chính xác, chất liệu nhựa nhám chống mồ hôi cực tốt.', 'Cái', 'sp_17.png', 18, 0.25, 650000.00, 1),
-(18, 'Chuột Corsair Harpoon RGB', 2, 'Chuột không dây giá mềm của Corsair, công nghệ Slipstream độ trễ siêu thấp.', 'Cái', 'sp_18.jpg', 22, 0.20, 1150000.00, 1),
-(19, 'Chuột Asus ROG Gladius II', 2, 'Có thể tự thay switch dễ dàng với socket push-fit, LED Aura Sync đồng bộ hệ sinh thái Asus.', 'Cái', 'sp_19.jpg', 8, 0.20, 1450000.00, 1),
-(20, 'Tai nghe HyperX Cloud II', 3, 'Huyền thoại tai nghe gaming, giả lập âm thanh vòm 7.1, đệm tai mút hoạt tính cực êm đeo cả ngày không đau.', 'Cái', 'sp_20.png', 15, 0.25, 1950000.00, 1);
+(11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'chuot-gaming-vgn-vxe-dragonfly-r1-se-plus-black.jpg', 20, 0.30, 450000.00, 1),
+(12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'Chuột-Logitech-G402.jpg', 12, 0.20, 600000.00, 1),
+(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'product2.6.png', 60, 0.35, 350000.00, 1),
+(14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'Razer-DeathAdder-V2.jpg', 15, 0.25, 1100000.00, 1),
+(15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'razer-viper-ultralight.jpg', 25, 0.30, 750000.00, 1),
+(16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'chuot-gaming-zowie-ec2-c.jpg', 10, 0.15, 1650000.00, 1),
+(17, 'Chuột SteelSeries Rival 3', 2, 'Cảm biến TrueMove Core chính xác, chất liệu nhựa nhám chống mồ hôi cực tốt.', 'Cái', 'Steelseries-Rival-3.png', 18, 0.25, 650000.00, 1),
+(18, 'Chuột Corsair Harpoon RGB', 2, 'Chuột không dây giá mềm của Corsair, công nghệ Slipstream độ trễ siêu thấp.', 'Cái', 'chuot-corsair-harpoon-rgb-pro.jpg', 22, 0.20, 1150000.00, 1),
+(19, 'Chuột Asus ROG Gladius II', 2, 'Có thể tự thay switch dễ dàng với socket push-fit, LED Aura Sync đồng bộ hệ sinh thái Asus.', 'Cái', 'Asus-ROG-Gladius-II.jpg', 8, 0.20, 1450000.00, 1),
+(20, 'Tai nghe HyperX Cloud II', 3, 'Huyền thoại tai nghe gaming, giả lập âm thanh vòm 7.1, đệm tai mút hoạt tính cực êm đeo cả ngày không đau.', 'Cái', 'Tai-nghe-HyperX-Cloud-II.png', 15, 0.25, 1950000.00, 1);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `taikhoan`
+-- Table structure for table `taikhoan`
 --
 
 CREATE TABLE `taikhoan` (
@@ -233,7 +233,7 @@ CREATE TABLE `taikhoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `taikhoan`
+-- Dumping data for table `taikhoan`
 --
 
 INSERT INTO `taikhoan` (`MaTK`, `Username`, `Password`, `HoTen`, `Email`, `Avatar`, `SoDienThoai`, `VaiTro`, `TrangThai`) VALUES
@@ -245,60 +245,60 @@ INSERT INTO `taikhoan` (`MaTK`, `Username`, `Password`, `HoTen`, `Email`, `Avata
 (6, 'nhanvien1', 'e10adc3949ba59abbe56e057f20f883e', 'Nhân viên test', 'nv1@techzone.vn', NULL, '0988888888', 1, 1);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `chitietdonhang`
+-- Indexes for table `chitietdonhang`
 --
 ALTER TABLE `chitietdonhang`
   ADD PRIMARY KEY (`MaDH`,`MaSP`),
   ADD KEY `MaSP` (`MaSP`);
 
 --
--- Chỉ mục cho bảng `chitietphieunhap`
+-- Indexes for table `chitietphieunhap`
 --
 ALTER TABLE `chitietphieunhap`
   ADD PRIMARY KEY (`MaPN`,`MaSP`),
   ADD KEY `MaSP` (`MaSP`);
 
 --
--- Chỉ mục cho bảng `diachikhachhang`
+-- Indexes for table `diachikhachhang`
 --
 ALTER TABLE `diachikhachhang`
   ADD PRIMARY KEY (`MaDC`),
   ADD KEY `MaTK` (`MaTK`);
 
 --
--- Chỉ mục cho bảng `donhang`
+-- Indexes for table `donhang`
 --
 ALTER TABLE `donhang`
   ADD PRIMARY KEY (`MaDH`),
   ADD KEY `MaTK` (`MaTK`);
 
 --
--- Chỉ mục cho bảng `loaisanpham`
+-- Indexes for table `loaisanpham`
 --
 ALTER TABLE `loaisanpham`
   ADD PRIMARY KEY (`MaLoai`),
   ADD UNIQUE KEY `TenLoai` (`TenLoai`);
 
 --
--- Chỉ mục cho bảng `phieunhap`
+-- Indexes for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   ADD PRIMARY KEY (`MaPN`),
   ADD KEY `MaAdmin` (`MaAdmin`);
 
 --
--- Chỉ mục cho bảng `sanpham`
+-- Indexes for table `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD PRIMARY KEY (`MaSP`),
   ADD KEY `MaLoai` (`MaLoai`);
 
 --
--- Chỉ mục cho bảng `taikhoan`
+-- Indexes for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
   ADD PRIMARY KEY (`MaTK`),
@@ -306,83 +306,83 @@ ALTER TABLE `taikhoan`
   ADD UNIQUE KEY `Email` (`Email`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `diachikhachhang`
+-- AUTO_INCREMENT for table `diachikhachhang`
 --
 ALTER TABLE `diachikhachhang`
   MODIFY `MaDC` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `donhang`
+-- AUTO_INCREMENT for table `donhang`
 --
 ALTER TABLE `donhang`
   MODIFY `MaDH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `loaisanpham`
+-- AUTO_INCREMENT for table `loaisanpham`
 --
 ALTER TABLE `loaisanpham`
   MODIFY `MaLoai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `phieunhap`
+-- AUTO_INCREMENT for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   MODIFY `MaPN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `sanpham`
+-- AUTO_INCREMENT for table `sanpham`
 --
 ALTER TABLE `sanpham`
   MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT cho bảng `taikhoan`
+-- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
   MODIFY `MaTK` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `chitietdonhang`
+-- Constraints for table `chitietdonhang`
 --
 ALTER TABLE `chitietdonhang`
   ADD CONSTRAINT `chitietdonhang_ibfk_1` FOREIGN KEY (`MaDH`) REFERENCES `donhang` (`MaDH`) ON DELETE CASCADE,
   ADD CONSTRAINT `chitietdonhang_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
 
 --
--- Các ràng buộc cho bảng `chitietphieunhap`
+-- Constraints for table `chitietphieunhap`
 --
 ALTER TABLE `chitietphieunhap`
   ADD CONSTRAINT `chitietphieunhap_ibfk_1` FOREIGN KEY (`MaPN`) REFERENCES `phieunhap` (`MaPN`) ON DELETE CASCADE,
   ADD CONSTRAINT `chitietphieunhap_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `sanpham` (`MaSP`);
 
 --
--- Các ràng buộc cho bảng `diachikhachhang`
+-- Constraints for table `diachikhachhang`
 --
 ALTER TABLE `diachikhachhang`
   ADD CONSTRAINT `diachikhachhang_ibfk_1` FOREIGN KEY (`MaTK`) REFERENCES `taikhoan` (`MaTK`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `donhang`
+-- Constraints for table `donhang`
 --
 ALTER TABLE `donhang`
   ADD CONSTRAINT `donhang_ibfk_1` FOREIGN KEY (`MaTK`) REFERENCES `taikhoan` (`MaTK`);
 
 --
--- Các ràng buộc cho bảng `phieunhap`
+-- Constraints for table `phieunhap`
 --
 ALTER TABLE `phieunhap`
   ADD CONSTRAINT `phieunhap_ibfk_1` FOREIGN KEY (`MaAdmin`) REFERENCES `taikhoan` (`MaTK`);
 
 --
--- Các ràng buộc cho bảng `sanpham`
+-- Constraints for table `sanpham`
 --
 ALTER TABLE `sanpham`
   ADD CONSTRAINT `sanpham_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `loaisanpham` (`MaLoai`);
