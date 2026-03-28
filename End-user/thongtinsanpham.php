@@ -128,7 +128,7 @@ $lienquan = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="buttons">
                 <button class="cart btn-add-cart" data-id="<?php echo $sp['MaSP']; ?>">Thêm vào giỏ</button>
-                <button class="buy">Mua ngay</button>
+                <button class="buy btn-buy-now" data-id="<?php echo $sp['MaSP']; ?>">Mua ngay</button>
             </div>
 
             <div class="info">
@@ -202,30 +202,51 @@ $lienquan = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     </footer>
 
     <script>
+        // Hàm xử lý chung cho cả 2 nút
+        function handleAddToCart(productId, isRedirect) {
+            let formData = new FormData();
+            formData.append('id', productId);
+
+            fetch('themgiohang.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Cập nhật số lượng trên Header
+                        document.getElementById('cart-count').innerText = data.tong_mon;
+                        
+                        if (isRedirect) {
+                            // Nếu là "Mua ngay" -> Chuyển hướng sang trang giỏ hàng
+                            window.location.href = 'giohang.php';
+                        } else {
+                            // Nếu là "Thêm vào giỏ" -> Thông báo thành công
+                            alert('Đã thêm sản phẩm vào giỏ hàng thành công!');
+                        }
+                    } else {
+                        alert('Có lỗi xảy ra, vui lòng thử lại.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Không thể kết nối tới máy chủ.');
+                });
+        }
+
+        // Sự kiện cho nút THÊM VÀO GIỎ
         document.querySelectorAll('.btn-add-cart').forEach(button => {
             button.addEventListener('click', function() {
                 const sanPhamId = this.getAttribute('data-id');
-                let formData = new FormData();
-                formData.append('id', sanPhamId);
+                handleAddToCart(sanPhamId, false);
+            });
+        });
 
-                fetch('themgiohang.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            // Cập nhật số lượng hiển thị trên Header ngay lập tức
-                            document.getElementById('cart-count').innerText = data.tong_mon;
-                            alert('Đã thêm sản phẩm vào giỏ hàng thành công!');
-                        } else {
-                            alert('Có lỗi xảy ra, vui lòng thử lại.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Lỗi:', error);
-                        alert('Không thể kết nối tới máy chủ.');
-                    });
+        // Sự kiện cho nút MUA NGAY
+        document.querySelectorAll('.btn-buy-now').forEach(button => {
+            button.addEventListener('click', function() {
+                const sanPhamId = this.getAttribute('data-id');
+                handleAddToCart(sanPhamId, true);
             });
         });
     </script>

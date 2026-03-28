@@ -1,3 +1,4 @@
+
 <header>
     <a href="trangchu.php" class="logo">TechZone</a>
 
@@ -10,8 +11,8 @@
         <div class="dropdown-content" aria-hidden="true">
             <a href="sanpham.php?loai=1">Bàn phím</a>
             <a href="sanpham.php?loai=2">Chuột</a>
-            <a href="sanpham.php?loai=4">Màn hình</a>
-            <a href="sanpham.php?loai=3">Tai nghe</a>
+            <a href="sanpham.php?loai=3">Màn hình</a>
+            <a href="sanpham.php?loai=4">Tai nghe</a>
         </div>
 
         <form action="timkiem.php" method="GET" class="search-form">
@@ -30,22 +31,15 @@
 
     <div class="icon" style="display: flex; align-items: center;">
         <div style="position: relative; margin-right: 15px;">
-    <?php if(isset($_SESSION['user'])): ?>
-        <a href="giohang.php" class="shopping-cart">
-            <img src="picture/shopping.png" alt="Giỏ hàng">
-        </a>
-        <span id="cart-count" style="position: absolute; ...">
-            <?php echo isset($tong_gio_hang) ? $tong_gio_hang : 0; ?>
-        </span>
-    <?php else: ?>
-        <a href="trangdangnhap.php" class="shopping-cart" onclick="alert('Vui lòng đăng nhập để xem giỏ hàng')">
-            <img src="picture/shopping.png" alt="Giỏ hàng">
-        </a>
-    <?php endif; ?>
-</div>
+            <a href="giohang.php" class="shopping-cart">
+                <img src="picture/shopping.png" alt="Giỏ hàng">
+            </a>
+            <span id="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold; line-height: 1;">
+                <?php echo isset($tong_gio_hang) ? $tong_gio_hang : 0; ?>
+            </span>
+        </div>
 
         <div class="user">
-            
             <?php if(isset($_SESSION['user'])): ?>
                 <a href="#">
                     <img src="picture/user.png">
