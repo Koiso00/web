@@ -452,5 +452,29 @@ h3{
 .products {
     flex: 1;
 }
+/* --- ĐỒNG BỘ GIAO DIỆN HEADER (BẢN MẠNH NHẤT) --- */
+header .icon .user {
+    display: flex !important;
+    flex-direction: row !important; /* Ép buộc nằm ngang */
+    align-items: center !important;
+    border: none; /* Xóa cái viền mờ đi cho đẹp */
+}
 
+header .icon .user a {
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    color: #333 !important; 
+}
 
+header .icon .user img {
+    margin-right: 5px !important;
+}
+
+header .icon .user a.dangky,
+header .icon .user a.dangxuat {
+    margin-left: 15px !important; 
+    font-weight: bold !important;
+    color: #007bff !important; 
+    margin-top: 0 !important;
+}
