@@ -2,105 +2,188 @@
 session_start();
 include 'connect.php';
 
-// Kiểm tra đăng nhập (Giả sử session lưu MaTK khi login)
-if (!isset($_SESSION['MaTK'])) {
-    echo "<script>alert('Vui lòng đăng nhập để thanh toán!'); window.location.href='dangnhap.php';</script>";
-    exit;
+if (!isset($_SESSION['user'])) {
+    header("location:trangdangnhap.php");
+    exit();
 }
 
-$maTK = $_SESSION['MaTK'];
+$user_session = $_SESSION['user'];
 
-// Lấy danh sách địa chỉ đã có của khách hàng
-$sql_diachi = "SELECT * FROM diachikhachhang WHERE MaTK = $maTK";
-$result_diachi = mysqli_query($conn, $sql_diachi);
+$sql_user = "SELECT MaTK FROM taikhoan WHERE Email='$user_session' OR HoTen='$user_session' LIMIT 1";
+$res_user = mysqli_query($conn,$sql_user);
+$row_user = mysqli_fetch_assoc($res_user);
+$maTK = $row_user['MaTK'];
+
+$sql_dc = "SELECT * FROM diachikhachhang WHERE MaTK='$maTK'";
+$res_dc = mysqli_query($conn,$sql_dc);
+
+$tong_tien = 0;
+
+if(isset($_SESSION['giohang'])){
+    foreach($_SESSION['giohang'] as $id_sp=>$so_luong){
+        $sql = "SELECT * FROM sanpham WHERE MaSP=$id_sp";
+        $res = mysqli_query($conn,$sql);
+        $row = mysqli_fetch_assoc($res);
+
+        $gia = $row['GiaNhapBinhQuan']*(1+$row['TiLeLoiNhuan']);
+        $tong_tien += $gia*$so_luong;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Thanh Toán - TechZone</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .checkout-box { max-width: 800px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .section-title { color: #0f75ff; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-top: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .hidden { display: none; }
-        .bank-info { background: #f0f8ff; padding: 15px; border-left: 4px solid #0f75ff; margin-top: 10px; }
-    </style>
+<meta charset="UTF-8">
+<title>Thanh toán</title>
+<link rel="stylesheet" href="thanhtoan.css">
 </head>
+
 <body>
-    <div class="checkout-box">
-        <h1>Xác nhận thanh toán</h1>
-        <form action="xulydathang.php" method="POST">
-            
-            <h2 class="section-title">1. Địa chỉ giao hàng</h2>
-            <?php if (mysqli_num_rows($result_diachi) > 0) {
-                while ($dc = mysqli_fetch_assoc($result_diachi)) { ?>
-                    <div class="form-group">
-                        <input type="radio" name="chon_diachi" value="<?php echo $dc['MaDC']; ?>" class="radio-diachi" checked>
-                        <label>
-                            <b><?php echo $dc['TenNguoiNhan']; ?> (<?php echo $dc['SDTNhan']; ?>)</b> - 
-                            <?php echo $dc['DiaChiChiTiet'] . ", " . $dc['PhuongXa'] . ", " . $dc['QuanHuyen'] . ", " . $dc['TinhThanh']; ?>
-                        </label>
-                    </div>
-            <?php } } ?>
-            
-            <div class="form-group">
-                <input type="radio" name="chon_diachi" value="new" class="radio-diachi" <?php echo (mysqli_num_rows($result_diachi) == 0) ? 'checked' : ''; ?>>
-                <label><b>+ Thêm địa chỉ giao hàng mới</b></label>
-            </div>
 
-            <div id="form_diachimoi" class="<?php echo (mysqli_num_rows($result_diachi) > 0) ? 'hidden' : ''; ?>">
-                <div class="form-group"><input type="text" name="ten_nhan" placeholder="Tên người nhận" class="form-control"></div>
-                <div class="form-group"><input type="text" name="sdt_nhan" placeholder="Số điện thoại" class="form-control"></div>
-                <div class="form-group"><input type="text" name="tinh_thanh" placeholder="Tỉnh/Thành phố" class="form-control"></div>
-                <div class="form-group"><input type="text" name="quan_huyen" placeholder="Quận/Huyện" class="form-control"></div>
-                <div class="form-group"><input type="text" name="phuong_xa" placeholder="Phường/Xã" class="form-control"></div>
-                <div class="form-group"><input type="text" name="diachi_chitiet" placeholder="Số nhà, Tên đường..." class="form-control"></div>
-            </div>
+<?php include 'header.php'; ?>
 
-            <h2 class="section-title">2. Phương thức thanh toán</h2>
-            <div class="form-group">
-                <select name="phuongthuc_tt" id="phuongthuc_tt" style="width:100%; padding: 10px;">
-                    <option value="Tiền mặt">Thanh toán khi nhận hàng (COD)</option>
-                    <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
-                    <option value="Trực tuyến">Thanh toán trực tuyến (VNPay / Momo)</option>
-                </select>
-            </div>
-            
-            <div id="thongtin_chuyenkhoan" class="hidden bank-info">
-                <b>Thông tin chuyển khoản:</b><br>
-                Ngân hàng: Vietcombank<br>
-                Số tài khoản: <b>123456789</b><br>
-                Chủ tài khoản: TECHZONE VIETNAM<br>
-                Nội dung CK: <i>Thanh toan don hang - [Số điện thoại của bạn]</i>
-            </div>
+<form action="process_order.php" method="POST">
 
-            <button type="submit" style="background:#0f75ff; color:white; padding:15px; width:100%; border:none; font-size:18px; margin-top:20px; cursor:pointer;">
-                Hoàn tất đặt hàng
-            </button>
-        </form>
-    </div>
+<div class="container">
 
-    <script>
-        // JS Ẩn/hiện form nhập địa chỉ mới
-        const radiosDiachi = document.querySelectorAll('.radio-diachi');
-        const formDiachiMoi = document.getElementById('form_diachimoi');
-        radiosDiachi.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'new') formDiachiMoi.classList.remove('hidden');
-                else formDiachiMoi.classList.add('hidden');
-            });
-        });
+<div class="box left">
 
-        // JS Ẩn/hiện thông tin chuyển khoản
-        const selectThanhToan = document.getElementById('phuongthuc_tt');
-        const infoChuyenKhoan = document.getElementById('thongtin_chuyenkhoan');
-        selectThanhToan.addEventListener('change', function() {
-            if(this.value === 'Chuyển khoản') infoChuyenKhoan.classList.remove('hidden');
-            else infoChuyenKhoan.classList.add('hidden');
-        });
-    </script>
+<h2>Địa chỉ giao hàng</h2>
+
+<label>
+<input type="radio" name="diachi_option" value="cu" checked onclick="toggleAddress()"> 
+Sử dụng địa chỉ đã lưu
+</label>
+
+<select name="diachi_cu" id="diachi_cu">
+
+<?php
+while($row=mysqli_fetch_assoc($res_dc)){
+echo "<option value='".$row['MaDC']."'>
+".$row['TenNguoiNhan']." - ".$row['SDTNhan']." - ".
+$row['DiaChiChiTiet'].", ".$row['PhuongXa'].", ".$row['QuanHuyen']."
+</option>";
+}
+?>
+
+</select>
+
+<label>
+<input type="radio" name="diachi_option" value="moi" onclick="toggleAddress()"> 
+Nhập địa chỉ mới
+</label>
+
+<div id="diachi_moi" style="display:none">
+
+<input type="text" name="TenNguoiNhan" placeholder="Tên người nhận">
+
+<input type="text" name="SDTNhan" placeholder="Số điện thoại">
+
+<input type="text" name="DiaChiChiTiet" placeholder="Địa chỉ chi tiết">
+
+<input type="text" name="PhuongXa" placeholder="Phường/Xã">
+
+<input type="text" name="QuanHuyen" placeholder="Quận/Huyện">
+
+<input type="text" name="TinhThanh" placeholder="Tỉnh/Thành">
+
+</div>
+
+
+<h2>Phương thức thanh toán</h2>
+
+<label>
+<input type="radio" name="payment" value="tienmat" checked onclick="togglePayment()">
+Thanh toán tiền mặt khi nhận hàng
+</label>
+
+<br>
+
+<label>
+<input type="radio" name="payment" value="chuyenkhoan" onclick="togglePayment()">
+Chuyển khoản ngân hàng
+</label>
+
+<div class="payment-info" id="bank-info">
+
+<p><b>Ngân hàng:</b> Vietcombank</p>
+<p><b>Chủ tài khoản:</b> TECHZONE</p>
+<p><b>Số tài khoản:</b> 123456789</p>
+<p><b>Nội dung:</b> Thanh toán đơn hàng</p>
+
+</div>
+
+<br>
+
+<label>
+<input type="radio" name="payment" value="online" onclick="togglePayment()">
+Thanh toán trực tuyến
+</label>
+
+<div class="payment-info" id="online-info">
+
+<p>Chức năng thanh toán online đang phát triển.</p>
+
+</div>
+
+</div>
+
+
+<div class="box right">
+
+<h2>Đơn hàng của bạn</h2>
+
+<p>Tổng tiền:</p>
+
+<h3><?php echo number_format($tong_tien,0,",","."); ?> ₫</h3>
+
+<input type="hidden" name="TongTien" value="<?php echo $tong_tien; ?>">
+
+<button class="order-btn">
+Đặt hàng
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+<script>
+
+function toggleAddress(){
+
+let option=document.querySelector('input[name="diachi_option"]:checked').value;
+
+if(option=="moi"){
+document.getElementById("diachi_moi").style.display="block";
+document.getElementById("diachi_cu").style.display="none";
+}else{
+document.getElementById("diachi_moi").style.display="none";
+document.getElementById("diachi_cu").style.display="block";
+}
+
+}
+
+function togglePayment(){
+
+let p=document.querySelector('input[name="payment"]:checked').value;
+
+document.getElementById("bank-info").style.display="none";
+document.getElementById("online-info").style.display="none";
+
+if(p=="chuyenkhoan"){
+document.getElementById("bank-info").style.display="block";
+}
+
+if(p=="online"){
+document.getElementById("online-info").style.display="block";
+}
+
+}
+
+</script>
+
 </body>
 </html>

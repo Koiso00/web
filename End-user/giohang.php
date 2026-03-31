@@ -99,7 +99,7 @@ $result_da_mua = mysqli_query($conn, $sql_da_mua);
                             <td><?php echo number_format($thanh_tien, 0, ',', '.'); ?> ₫</td>
                             <td>
                                 <a href="xoagiohang.php?id=<?php echo $id_sp; ?>" onclick="return confirm('Xóa sản phẩm này?')">
-                                    <img src="picture/trash.png" alt="Xóa" style="width: 20px;">
+                                    <img src="picture/trash.png" alt="Xóa" style="width: 25px; height: 25px;">
                                 </a>
                             </td>
                         </tr>
@@ -123,59 +123,10 @@ $result_da_mua = mysqli_query($conn, $sql_da_mua);
 
         <hr style="margin: 5rem 0; border: 0; border-top: 1px dashed #ccc;">
 
-        <h2 class="cart-section-title">Lịch sử sản phẩm đã mua</h2>
-<table class="history-table">
-    <thead>
-        <tr>
-            <th>Ngày mua</th>
-            <th>Hình ảnh</th>
-            <th>Tên sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá đã mua</th>
-            <th>Trạng thái</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php 
-        if ($result_da_mua && mysqli_num_rows($result_da_mua) > 0) {
-            while ($row_mua = mysqli_fetch_assoc($result_da_mua)) {
-        ?>
-            <tr>
-                <td><?php echo date('d/m/Y', strtotime($row_mua['NgayDat'])); ?></td> 
-                <td><img src="../Admin/Image/<?php echo $row_mua['HinhAnh']; ?>"></td>
-                <td style="text-align: left;"><?php echo htmlspecialchars($row_mua['TenSP']); ?></td>
-                <td><?php echo $row_mua['SoLuongMua']; ?></td> 
-                <td><?php echo number_format($row_mua['GiaBan'], 0, ',', '.'); ?> ₫</td>
-                <td class="status-success">Đã hoàn thành</td>
-            </tr>
-        <?php 
-            }
-        } else {
-            echo "<tr><td colspan='6' style='padding: 3rem; font-size: 1.6rem;'>Bạn chưa có lịch sử mua hàng nào.</td></tr>";
-        }
-        ?>
-    </tbody>
+       
+
 </table>
     </section>
-
-    <?php include 'footer.php'; ?> <script>
-        // Logic tính tổng tiền khi tích chọn checkbox
-        const checkboxes = document.querySelectorAll('.chon-sp');
-        const tongTienEl = document.getElementById('tong-tien-hien-thi');
-
-        function tinhTongTien() {
-            let tong = 0;
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    tong += parseInt(cb.getAttribute('data-price'));
-                }
-            });
-            tongTienEl.innerText = tong.toLocaleString('vi-VN');
-        }
-
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', tinhTongTien);
-        });
     </script>
 </body>
 </html>
