@@ -58,7 +58,7 @@ if(isset($_SESSION['giohang'])){
                 while($row = mysqli_fetch_assoc($res_dc)){
                     echo "<option value='".$row['MaDC']."'>
                     ".$row['TenNguoiNhan']." - ".$row['SDTNhan']." | ".
-                    $row['DiaChiChiTiet'].", ".$row['PhuongXa'].", ".$row['QuanHuyen'].", ".$row['TinhThanh']."
+                    $row['DiaChiChiTiet'].", P ".$row['PhuongXa'].", Q ".$row['QuanHuyen'].", ".$row['TinhThanh']."
                     </option>";
                 }
                 ?>
