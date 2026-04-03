@@ -62,7 +62,7 @@ function getTrangThai($status_code) {
     <div class="content">
         
         <div id="tab-profile" class="tab-pane <?php echo ($activeTab == 'profile') ? 'active' : ''; ?>">
-            <h2>Hồ Sơ Của Tôi</h2>
+            <h2>Hồ Sơ</h2>
             <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
             <form>
                 <div class="profile-group">
