@@ -1,7 +1,8 @@
 <?php 
 session_start();
-include "config.php"; // File kết nối PDO của bạn
-include "header.php"; // Header chung của trang
+include "config.php"; 
+include "header.php"; 
+
 if(isset($_POST['dangky'])){
 
     $hoten = $_POST['fullname'];
@@ -10,48 +11,43 @@ if(isset($_POST['dangky'])){
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
     $sdt = $_POST['phone']; 
-    $diachi = $_POST['address']; // Nhận từ ô input địa chỉ mới
+    
+    // Nhận 4 trường địa chỉ từ form mới
+    $diachichitiet = $_POST['diachichitiet']; 
+    $phuongxa = $_POST['phuongxa'];
+    $quanhuyen = $_POST['quanhuyen'];
+    $tinhthanh = $_POST['tinhthanh'];
 
-    // 1. Kiểm tra mật khẩu khớp
     if($password != $confirm){
         echo "<script>alert('Mật khẩu nhập lại không chính xác!');</script>";
     } else {
 
-        $pass = md5($password); // Database của bạn đang dùng md5
+        $pass = md5($password); 
 
-        // 2. Kiểm tra Username hoặc Email đã tồn tại chưa
         $check = $conn->prepare("SELECT * FROM taikhoan WHERE Username=? OR Email=?");
         $check->execute([$username, $email]);
 
         if($check->rowCount() > 0){
             echo "<script>alert('Tên đăng nhập hoặc Email này đã được sử dụng!');</script>";
         } else {
-            
             try {
-                // Bắt đầu Transaction để lưu vào 2 bảng cùng lúc
                 $conn->beginTransaction();
 
-                // 3. Chèn vào bảng taikhoan
-                // VaiTro = 0 (Khách hàng), TrangThai = 1 (Hoạt động)
+                // Chèn vào bảng taikhoan
                 $sql_tk = $conn->prepare("INSERT INTO taikhoan 
                     (Username, Password, HoTen, Email, SoDienThoai, VaiTro, TrangThai) 
                     VALUES (?, ?, ?, ?, ?, 0, 1)");
-                
                 $sql_tk->execute([$username, $pass, $hoten, $email, $sdt]);
 
-                // Lấy MaTK vừa tự động tăng của tài khoản này
                 $last_id = $conn->lastInsertId();
 
-                // 4. Chèn vào bảng diachikhachhang
-                // Theo cấu trúc database của bạn: MaDC tự tăng, MaTK là khóa ngoại
-                // Các trường PhuongXa, QuanHuyen, TinhThanh để tạm rỗng nếu form chưa chia nhỏ
+                // Chèn 4 trường địa chỉ cụ thể vào bảng diachikhachhang
                 $sql_dc = $conn->prepare("INSERT INTO diachikhachhang 
                     (MaTK, TenNguoiNhan, SDTNhan, DiaChiChiTiet, PhuongXa, QuanHuyen, TinhThanh) 
-                    VALUES (?, ?, ?, ?, '', '', '')");
+                    VALUES (?, ?, ?, ?, ?, ?, ?)");
                 
-                $sql_dc->execute([$last_id, $hoten, $sdt, $diachi]);
+                $sql_dc->execute([$last_id, $hoten, $sdt, $diachichitiet, $phuongxa, $quanhuyen, $tinhthanh]);
 
-                // Xác nhận lưu mọi thay đổi vào Database
                 $conn->commit();
 
                 echo "<script>
@@ -60,7 +56,6 @@ if(isset($_POST['dangky'])){
                 </script>";
 
             } catch (Exception $e) {
-                // Nếu có bất kỳ lỗi nào, hủy bỏ toàn bộ quá trình (không tạo tài khoản lỗi)
                 $conn->rollBack();
                 echo "<script>alert('Lỗi đăng ký: " . $e->getMessage() . "');</script>";
             }
@@ -79,7 +74,6 @@ if(isset($_POST['dangky'])){
 </head>
 <body>
 
-
     <section class="register-section">
         <div class="register-wrapper">
             <div class="register-box left">
@@ -94,9 +88,23 @@ if(isset($_POST['dangky'])){
                     <label>Số điện thoại:</label>
                     <input type="text" name="phone" placeholder="Nhập số điện thoại" required>
 
-                    <label>Địa chỉ giao hàng:</label>
-                    <input type="text" name="address" placeholder="Số nhà, tên đường, phường, quận..." required>
+                    <label>Địa chỉ chi tiết (Số nhà, Tên đường):</label>
+                    <input type="text" name="diachichitiet" placeholder="Vd: 123 Nguyễn Huệ" required>
 
+                    <div class="address-group">
+                        <div>
+                            <label>Phường/Xã:</label>
+                            <input type="text" name="phuongxa" placeholder="Vd: Bến Nghé" required>
+                        </div>
+                        <div>
+                            <label>Quận/Huyện:</label>
+                            <input type="text" name="quanhuyen" placeholder="Vd: Quận 1" required>
+                        </div>
+                        <div>
+                            <label>Tỉnh/Thành:</label>
+                            <input type="text" name="tinhthanh" placeholder="Vd: TP.HCM" required>
+                        </div>
+                    </div>
                     <label>Tên đăng nhập:</label>
                     <input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
 
