@@ -39,6 +39,7 @@ if(isset($_POST['dangnhap'])){
 <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png">
 <link rel="stylesheet" href="trangdangnhap.css">
 <link rel="stylesheet" href="styleforpr.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
