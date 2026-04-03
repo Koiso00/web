@@ -95,8 +95,8 @@ $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];
 $total_pages = ceil($total_records / $limit);
 
-// Câu truy vấn lấy dữ liệu để hiển thị
-$sql = "SELECT * FROM SanPham WHERE $where_clause LIMIT $limit OFFSET $offset";
+// 5. Câu truy vấn lấy dữ liệu để hiển thị (Đã thêm sắp xếp Mới Nhất lên đầu)
+$sql = "SELECT * FROM SanPham WHERE $where_clause ORDER BY MaSP DESC LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $sql);
 ?>
 
