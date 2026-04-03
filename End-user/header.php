@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="style.css">
 <header>
     <a href="trangchu.php" class="logo">TechZone</a>
+    
 
     <div class="search-bar" role="search">
         <input type="checkbox" id="menu-toggle" hidden>
@@ -39,20 +40,22 @@
             </span>
         </div>
 
-        <div class="user">
-            <?php if(isset($_SESSION['user'])): ?>
-                <a href="#">
-                    <img src="picture/user.png">
-                    <span><?php echo $_SESSION['user']; ?></span>
-                </a>
-                <a href="xuly_dangxuat.php" class="dangky">Đăng xuất</a>
-            <?php else: ?>
-                <a href="trangdangnhap.php">
-                    <img src="picture/user.png">
-                    <span>Đăng nhập</span>
-                </a>
-                <a href="trangdangki.php" class="dangky">Đăng ký</a>
-            <?php endif; ?>
+    <div class="user">
+        <?php if(isset($_SESSION['user'])): ?>
+        <a href="thongtintaikhoan.php" title="Xem thông tin cá nhân">
+            <img src="picture/user.png" alt="Avatar">
+            <span><?php echo $_SESSION['user']; ?></span>
+        </a>
+        
+        
+        <a href="xuly_dangxuat.php" class="dangky">Đăng xuất</a>
+    <?php else: ?>
+        <a href="trangdangnhap.php">
+            <img src="picture/user.png">
+            <span>Đăng nhập</span>
+        </a>
+        <a href="trangdangki.php" class="dangky">Đăng ký</a>
+    <?php endif; ?>
         </div>
     </div>
 </header>

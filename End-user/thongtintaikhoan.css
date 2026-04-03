@@ -1,0 +1,203 @@
+/* thongtintaikhoan.css - Phiên bản Hiện đại */
+:root {
+    --primary: #0f75ff; 
+    --primary-light: rgba(15, 117, 255, 0.1);
+    --bg: #f2f5f9;
+    --text-main: #2c3e50;
+    --text-muted: #69707a;
+    --white: #ffffff;
+    --danger: #e81500;
+    --success: #00ac69;
+    --warning: #f4a100;
+    --info: #00cfd5;
+    --shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+    --radius: 12px;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    max-width: 1140px;
+    margin: 120px auto 60px;
+    display: grid;
+    grid-template-columns: 320px 1fr; 
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--white);
+    padding: 30px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    height: fit-content;
+}
+
+.sidebar .user-card {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #edf2f9;
+}
+
+.sidebar .user-card img {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+.sidebar .user-card h3 {
+    margin: 10px 0 5px;
+    font-size: 1.6rem;
+    color: var(--primary);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--text-main);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #f8f9fc;
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+.sidebar ul li a.active {
+    background-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(15, 117, 255, 0.3);
+}
+
+/* QUAN TRỌNG: CSS ĐỂ ẨN/HIỆN TAB */
+.tab-pane {
+    display: none; /* Ẩn mặc định */
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-pane.active {
+    display: block; /* Chỉ hiện khi có class active */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Main Content */
+.content {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.tab-pane h2 {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    color: var(--text-main);
+}
+
+.tab-pane p {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #edf2f9;
+}
+
+/* Form Profile */
+.profile-group { margin-bottom: 25px; }
+.profile-group label {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+.profile-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d1d9e6;
+    border-radius: 8px;
+    font-size: 1.4rem;
+}
+.profile-group input[readonly] {
+    background-color: #f1f3f5;
+    color: #666;
+    cursor: default;
+}
+
+/* Order History */
+.order-card {
+    border: 1px solid #edf2f9;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.order-header {
+    background: #f8f9fc;
+    padding: 15px 20px;
+    border-bottom: 1px solid #edf2f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-id { font-weight: bold; color: var(--primary); font-size: 1.4rem; }
+.order-date { color: var(--text-muted); font-size: 1.3rem; margin-left: 10px; }
+
+.order-body { padding: 0 20px; }
+.order-item {
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #eee;
+}
+.order-item:last-child { border-bottom: none; }
+.order-item-name { font-size: 1.5rem; color: #333; }
+.order-item-price { font-size: 1.5rem; font-weight: bold; color: var(--danger); }
+
+.order-footer {
+    padding: 15px 20px;
+    background: #fdfefe;
+    border-top: 1px solid #edf2f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-total { color: var(--danger); font-size: 1.6rem; font-weight: bold; }
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.status-0 { background-color: #fff4e5; color: #b45d00; }
+.status-1 { background-color: #e1f5fe; color: #0288d1; }
+.status-2 { background-color: #e8f5e9; color: #2e7d32; }
+.status-3 { background-color: #ffebee; color: #c62828; }
