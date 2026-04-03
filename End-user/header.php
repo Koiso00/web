@@ -26,7 +26,7 @@
 
     <nav class="navbar">
         <a href="trangchu.php">Trang chủ</a>
-        <a href="sanpham.php?loai=1">Sản Phẩm</a>
+        <a href="sanpham.php">Sản Phẩm</a>
         <a href="#bottom">Liên hệ</a>
     </nav>
 

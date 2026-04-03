@@ -33,13 +33,19 @@ if (isset($_SESSION['giohang'])) {
 }
 
 // --- XỬ LÝ URL: Lấy mã loại sản phẩm ---
-$ma_loai = isset($_GET['loai']) ? (int)$_GET['loai'] : 1;
+// Đổi mặc định từ 1 thành 0 (0 nghĩa là lấy Tất cả sản phẩm)
+$ma_loai = isset($_GET['loai']) && $_GET['loai'] != '' ? (int)$_GET['loai'] : 0;
 
-// Lấy tên danh mục để in ra tiêu đề
-$sql_tenloai = "SELECT TenLoai FROM LoaiSanPham WHERE MaLoai = $ma_loai";
-$result_tenloai = mysqli_query($conn, $sql_tenloai);
-$row_tenloai = mysqli_fetch_assoc($result_tenloai);
-$ten_danh_muc = $row_tenloai ? $row_tenloai['TenLoai'] : "Sản phẩm";
+// Lấy tên danh mục để in ra tiêu đề H1
+if ($ma_loai > 0) {
+    $sql_tenloai = "SELECT TenLoai FROM LoaiSanPham WHERE MaLoai = $ma_loai";
+    $result_tenloai = mysqli_query($conn, $sql_tenloai);
+    $row_tenloai = mysqli_fetch_assoc($result_tenloai);
+    $ten_danh_muc = $row_tenloai ? $row_tenloai['TenLoai'] : "Sản phẩm";
+} else {
+    // Nếu mã loại = 0, tiêu đề sẽ là Tất cả sản phẩm
+    $ten_danh_muc = "Tất cả sản phẩm";
+}
 
 // --- XỬ LÝ PHÂN TRANG VÀ ĐIỀU KIỆN LỌC ---
 $limit = 6;
@@ -48,7 +54,12 @@ if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
 // 1. Xây dựng câu lệnh điều kiện (WHERE clause) cơ bản
-$where_clause = "MaLoai = $ma_loai AND HienTrang = 1";
+$where_clause = "HienTrang = 1"; // Luôn chỉ lấy hàng đang được bán
+
+// Nếu khách có chọn loại cụ thể (Mã loại > 0) thì mới thêm điều kiện lọc theo loại
+if ($ma_loai > 0) {
+    $where_clause .= " AND MaLoai = $ma_loai";
+}
 
 // 2. Nếu người dùng có chọn Hãng (Mảng hang[])
 if (!empty($_GET['hang'])) {
@@ -82,8 +93,8 @@ $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];
 $total_pages = ceil($total_records / $limit);
 
-// 5. Câu truy vấn lấy dữ liệu để hiển thị
-$sql = "SELECT * FROM SanPham WHERE $where_clause LIMIT $limit OFFSET $offset";
+// 5. Câu truy vấn lấy dữ liệu để hiển thị (Đã thêm sắp xếp Mới Nhất lên đầu)
+$sql = "SELECT * FROM SanPham WHERE $where_clause ORDER BY MaSP DESC LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -229,5 +240,51 @@ $result = mysqli_query($conn, $sql);
         });
     </script>
 </body>
+<footer id="bottom">
+        <section class="footer">
+            <div class="footer-box">
+                <ul>
+                    <li><b>Dịch vụ khách hàng</b></li>
+                    <li>Trung tâm trợ giúp</li>
+                    <li>Hướng dẫn mua hàng</li>
+                    <li>Đơn hàng</li>
+                    <li>Trả hàng / hoàn tiền</li>
+                    <li>Chính sách bảo hành</li>
+                </ul>
+            </div>
 
+            <div class="footer-box">
+                <ul>
+                    <li><b>TechZone Việt Nam</b></li>
+                    <li>Về TechZone</li>
+                    <li>Tuyển dụng</li>
+                    <li>Điều khoản</li>
+                    <li>Chính sách bảo mật</li>
+                </ul>
+            </div>
+
+            <div class="footer-box">
+                <ul>
+                    <li><b>Thanh toán</b></li>
+                </ul>
+                <div class="payment">
+                    <table>
+                        <tr>
+                            <td><img src="picture/thanhtoan1.png"></td>
+                            <td><img src="picture/thanhtoan2.png"></td>
+                            <td><img src="picture/thanhtoan3.png"></td>
+                            <td><img src="picture/thanhtoan7.png"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="picture/thanhtoan4.png"></td>
+                            <td><img src="picture/thanhtoan5.png"></td>
+                            <td><img src="picture/thanhtoan6.png"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    </body>
 </html>
