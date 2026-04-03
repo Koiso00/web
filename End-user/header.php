@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="styleforpr.css">
 <header>
     <a href="trangchu.php" class="logo">TechZone</a>
 

@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include "config.php"; // File kết nối PDO của bạn
-
+include "header.php"; // Header chung của trang
 if(isset($_POST['dangky'])){
 
     $hoten = $_POST['fullname'];
@@ -78,9 +78,7 @@ if(isset($_POST['dangky'])){
     <link rel="stylesheet" href="trangdangki.css">
 </head>
 <body>
-    <header>
-        <a href="trangchu.php" class="logo">TechZone</a>
-        </header>
+
 
     <section class="register-section">
         <div class="register-wrapper">

@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include "config.php";
-
+include "header.php";
 if(isset($_POST['dangnhap'])){
 
     $username = $_POST['username'];
@@ -38,65 +38,11 @@ if(isset($_POST['dangnhap'])){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="shortcut icon" href="/picture/png-transparent-laptop-computer-icons-computer-desktop-pc-electronics-rectangle-computer.png">
 <link rel="stylesheet" href="trangdangnhap.css">
-
+<link rel="stylesheet" href="styleforpr.css">
 </head>
 <body>
 
-<header>
 
-<a href="trangchu.php" class="logo">TechZone</a>
-
-<div class="search-bar">
-
-<input type="checkbox" id="menu-toggle" hidden>
-
-<label for="menu-toggle" class="menu-btn">
-<img src="picture/menu-burger.png" class="menu-icon">
-</label>
-
-<div class="dropdown-content">
-<a href="sanpham-banphim.php">Bàn phím</a>
-<a href="sanpham-chuot.php">Chuột</a>
-<a href="sanpham-tainghe.php">Tai nghe</a>
-<a href="sanpham-manhinh.php">Màn hình</a>
-</div>
-
-<form action="sanpham-banphim.php" method="GET" class="search-form">
-
-<input type="search" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu...">
-
-<button type="submit" class="search-submit">
-<img src="picture/magnifying-glass.png">
-</button>
-
-</form>
-
-</div>
-
-<nav class="navbar">
-<a href="trangchu.php">Trang chủ</a>
-<a href="trangchu.php#products">Sản phẩm</a>
-<a href="#bottom">Liên hệ</a>
-</nav>
-
-<div class="icon">
-
-<div>
-<a href="#" class="shopping-cart">
-<img src="picture/shopping.png">
-</a>
-</div>
-
-<div class="user">
-<a href="trangdangnhap.php">
-<img src="picture/user.png">
-<span>Đăng nhập</span>
-</a>
-</div>
-
-</div>
-
-</header>
 
 
 <!-- LOGIN -->
