@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once 'config.php';
 if (!isset($_SESSION['admin'])) {
@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
         $thongBao = 'Mật khẩu phải có ít nhất 6 ký tự!';
         $loaiThongBao = 'error';
     } else {
-        $passHash = md5($matKhauMoi);
-        $conn->prepare("UPDATE TaiKhoan SET Password = ? WHERE MaTK = ?")->execute([$passHash, $id]);
+        $matKhauBam = md5($matKhauMoi);
+        $conn->prepare("UPDATE TaiKhoan SET Password = ? WHERE MaTK = ?")->execute([$matKhauBam, $id]);
         $thongBao = 'Reset mật khẩu thành công!';
         $loaiThongBao = 'success';
     }
@@ -49,130 +49,184 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     $username = trim($_POST['username']);
     $email    = trim($_POST['email']);
     $sdt      = trim($_POST['sdt']);
+    $password = trim($_POST['password']);
     $vaiTro   = (int)$_POST['vai_tro'];
-    $matKhau  = trim($_POST['mat_khau']);
 
-    if (empty($hoTen) || empty($username) || empty($email) || empty($matKhau)) {
-        $thongBao = 'Vui lòng điền đầy đủ thông tin bắt buộc!';
-        $loaiThongBao = 'error';
-    } elseif (strlen($matKhau) < 6) {
-        $thongBao = 'Mật khẩu phải có ít nhất 6 ký tự!';
-        $loaiThongBao = 'error';
+    // Lấy chữ cái đầu của tên để làm Avatar
+    $words = explode(" ", $hoTen);
+    $initials = (count($words) >= 2) ? strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1)) : strtoupper(substr($hoTen, 0, 2));
+    $avatarUrl = "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background=random&color=fff";
+
+    $stmtCheck = $conn->prepare("SELECT COUNT(*) FROM TaiKhoan WHERE Username = ?");
+    $stmtCheck->execute([$username]);
+
+    if ($stmtCheck->fetchColumn() > 0) {
+        $thongBao = "Tên đăng nhập đã tồn tại!";
+        $loaiThongBao = "error";
+    } elseif (strlen($password) < 6) {
+        $thongBao = "Mật khẩu phải từ 6 ký tự trở lên!";
+        $loaiThongBao = "error";
     } else {
-        // Kiểm tra trùng username hoặc email
-        $check = $conn->prepare("SELECT COUNT(*) FROM TaiKhoan WHERE Username = ? OR Email = ?");
-        $check->execute([$username, $email]);
-        if ($check->fetchColumn() > 0) {
-            $thongBao = 'Tên đăng nhập hoặc Email đã tồn tại!';
-            $loaiThongBao = 'error';
-        } else {
-            $passHash = md5($matKhau);
-            $conn->prepare("INSERT INTO TaiKhoan (HoTen, Username, Password, Email, SoDienThoai, VaiTro, TrangThai) VALUES (?, ?, ?, ?, ?, ?, 1)")
-                ->execute([$hoTen, $username, $passHash, $email, $sdt, $vaiTro]);
-            $thongBao = 'Thêm tài khoản thành công!';
-            $loaiThongBao = 'success';
+        try {
+            $conn->beginTransaction();
+
+            // 1. Thêm vào bảng TaiKhoan
+            $stmt = $conn->prepare("INSERT INTO TaiKhoan (Username, Password, HoTen, Email, SoDienThoai, VaiTro, Avatar, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, 1)");
+            $stmt->execute([$username, md5($password), $hoTen, $email, $sdt, $vaiTro, $avatarUrl]);
+
+            $maTK = $conn->lastInsertId();
+
+            // 2. Thêm vào bảng DiaChiKhachHang nếu role là Khách Hàng (0)
+            if ($vaiTro === 0) {
+                $tenNhan = trim($_POST['ten_nguoi_nhan']);
+                $sdtNhan = trim($_POST['sdt_nhan']);
+
+                $diaChi = trim($_POST['dia_chi_chi_tiet']);
+                $phuong = trim($_POST['phuong_xa']);
+                $quan   = trim($_POST['quan_huyen']);
+                $tinh   = trim($_POST['tinh_thanh']);
+
+                // Nếu không nhập tên/SĐT nhận, lấy mặc định của tài khoản
+                $tenNhan = !empty($tenNhan) ? $tenNhan : $hoTen;
+                $sdtNhan = !empty($sdtNhan) ? $sdtNhan : $sdt;
+
+                $stmtDC = $conn->prepare("INSERT INTO DiaChiKhachHang (MaTK, TenNguoiNhan, SDTNhan, DiaChiChiTiet, PhuongXa, QuanHuyen, TinhThanh) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmtDC->execute([$maTK, $tenNhan, $sdtNhan, $diaChi, $phuong, $quan, $tinh]);
+            }
+
+            $conn->commit();
+            $thongBao = "Thêm tài khoản thành công!";
+            $loaiThongBao = "success";
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            $thongBao = "Lỗi hệ thống: Không thể thêm tài khoản.";
+            $loaiThongBao = "error";
         }
     }
 }
 
 // -----------------------------------------------------------------------
-// LẤY DANH SÁCH TÀI KHOẢN
+// TRUY VẤN: LẤY DANH SÁCH TÀI KHOẢN (PHÂN TRANG)
 // -----------------------------------------------------------------------
-$stmt = $conn->query("SELECT * FROM TaiKhoan ORDER BY VaiTro DESC, MaTK DESC");
-$danhSachTK = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+$offset = ($page - 1) * $limit;
+
+$totalAccounts = $conn->query("SELECT COUNT(*) FROM TaiKhoan")->fetchColumn();
+$totalPages = ceil($totalAccounts / $limit);
+
+$stmt = $conn->prepare("SELECT * FROM TaiKhoan ORDER BY MaTK DESC LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
-    <title>Quản lý Tài khoản</title>
+    <title>Quản lý Tài Khoản</title>
     <link rel="stylesheet" href="Style.css">
     <style>
         .modal-overlay {
-            display: none;
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            display: none;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
 
         .modal-overlay.active {
             display: flex;
         }
 
-        .modal-box {
+        .modal-content {
             background: #fff;
-            border-radius: 12px;
             padding: 30px;
-            width: 420px;
-            max-width: 95vw;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-box h3 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .modal-box .form-group {
-            margin-bottom: 14px;
-        }
-
-        .modal-box label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        .modal-box input,
-        .modal-box select {
-            width: 100%;
-            padding: 9px 12px;
-            border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
+            width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .modal-actions {
             display: flex;
-            gap: 10px;
             justify-content: flex-end;
+            gap: 10px;
             margin-top: 20px;
         }
 
         .btn-cancel-modal {
-            padding: 9px 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background: #f5f5f5;
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-weight: bold;
         }
 
-        .alert-box {
-            padding: 12px 18px;
-            border-radius: 8px;
+        .notification {
+            padding: 15px;
             margin-bottom: 20px;
-            font-size: 14px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
         }
 
-        .alert-success {
-            background: #d4edda;
+        .notification.success {
+            background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
 
-        .alert-error {
-            background: #f8d7da;
+        .notification.error {
+            background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+        }
+
+        /* Lưới form 2 cột */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            color: #007bff;
+        }
+
+        .form-hint {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: normal;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -187,7 +241,7 @@ $danhSachTK = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <?php if ($thongBao): ?>
-                <div class="alert-box alert-<?= $loaiThongBao ?>">
+                <div class="notification <?= $loaiThongBao ?>">
                     <?= htmlspecialchars($thongBao) ?>
                 </div>
             <?php endif; ?>
@@ -199,103 +253,133 @@ $danhSachTK = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="account-list">
-                <?php foreach ($danhSachTK as $tk): ?>
+                <?php foreach ($danhSachTaiKhoan as $tk): ?>
                     <div class="account-item">
-                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($tk['HoTen']) ?>&background=random&color=fff&size=100"
-                            alt="Avatar" class="account-avatar" style="border-radius: 50%;">
-
+                        <img src="<?= htmlspecialchars($tk['Avatar']) ?>" alt="Avatar" class="account-avatar">
                         <div class="account-info">
                             <h4><?= htmlspecialchars($tk['HoTen']) ?> (<?= htmlspecialchars($tk['Username']) ?>)</h4>
-                            <p><?= htmlspecialchars($tk['Email']) ?></p>
+                            <p><?= htmlspecialchars($tk['Email']) ?> | <?= htmlspecialchars($tk['SoDienThoai']) ?></p>
                             <p>Vai trò:
                                 <?php if ($tk['VaiTro'] == 1): ?>
-                                    <span class="role admin">Quản trị viên</span>
+                                    <span class="role admin" style="background:#dc3545; color:white; padding: 2px 8px; border-radius: 12px; font-size: 0.85rem;">Quản trị viên</span>
                                 <?php else: ?>
-                                    <span class="role customer">Khách hàng</span>
+                                    <span class="role customer" style="background:#28a745; color:white; padding: 2px 8px; border-radius: 12px; font-size: 0.85rem;">Khách hàng</span>
                                 <?php endif; ?>
-                                <?php if ($tk['TrangThai'] == 0): ?>
-                                    <span style="color:red; font-size:12px; margin-left:10px;">(Đang bị khóa)</span>
-                                <?php endif; ?>
+                                <?= $tk['TrangThai'] == 0 ? '<span style="color:red; font-size: 0.85rem; margin-left: 10px; font-weight:bold;">(Đang bị khóa)</span>' : '' ?>
                             </p>
                         </div>
-
                         <div class="account-actions">
-                            <!-- Nút Reset mật khẩu -->
-                            <button class="btn btn-reset"
-                                onclick="moModalReset(<?= $tk['MaTK'] ?>, '<?= htmlspecialchars($tk['HoTen'], ENT_QUOTES) ?>')">
-                                🔑 Reset MK
-                            </button>
-
-                            <!-- Nút Khóa / Mở khóa (không cho tự khóa chính mình) -->
-                            <?php if ($tk['MaTK'] != $_SESSION['admin']['MaTK']): ?>
+                            <button class="btn btn-edit" onclick="moModalReset(<?= $tk['MaTK'] ?>, '<?= htmlspecialchars($tk['Username']) ?>')">🔑 Reset MK</button>
+                            <?php if ($tk['VaiTro'] != 1): ?>
                                 <?php if ($tk['TrangThai'] == 1): ?>
-                                    <a href="taikhoan.php?action=lock&id=<?= $tk['MaTK'] ?>"
-                                        class="btn btn-lock" style="text-decoration:none;"
-                                        onclick="return confirm('Xác nhận khóa tài khoản này?')">🔒 Khoá</a>
+                                    <a href="taikhoan.php?action=lock&id=<?= $tk['MaTK'] ?>" class="btn btn-delete" onclick="return confirm('Khóa tài khoản này?');">🔒 Khóa</a>
                                 <?php else: ?>
-                                    <a href="taikhoan.php?action=unlock&id=<?= $tk['MaTK'] ?>"
-                                        class="btn btn-unlock" style="text-decoration:none;">🔓 Mở khoá</a>
+                                    <a href="taikhoan.php?action=unlock&id=<?= $tk['MaTK'] ?>" class="btn btn-save" onclick="return confirm('Mở khóa tài khoản này?');">🔓 Mở khóa</a>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
+
+            <?php if ($totalPages > 1): ?>
+                <div class="pagination" style="margin-top: 20px; text-align: center;">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a href="taikhoan.php?page=<?= $i ?>" class="btn <?= ($page == $i) ? 'btn-save' : 'btn-deleteback' ?>" style="text-decoration:none; padding: 5px 10px; margin: 0 2px;">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                </div>
+            <?php endif; ?>
         </main>
     </div>
 
-    <!-- ===================== MODAL THÊM TÀI KHOẢN ===================== -->
     <div class="modal-overlay" id="modalThem">
-        <div class="modal-box">
-            <h3>➕ Thêm tài khoản mới</h3>
-            <form method="POST">
+        <div class="modal-content">
+            <h2>Thêm Tài Khoản Mới</h2>
+            <form method="POST" action="" onsubmit="return validateThem()">
                 <input type="hidden" name="action" value="them">
-                <div class="form-group">
-                    <label>Họ tên <span style="color:red">*</span></label>
-                    <input type="text" name="ho_ten" required placeholder="Nhập họ và tên...">
+
+                <div class="section-title">👤 Thông tin cơ bản</div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Vai trò <span style="color:red">*</span></label>
+                        <select name="vai_tro" id="inp_vaitro" required onchange="toggleAddressFields()" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="0">Khách hàng</option>
+                            <option value="1">Quản trị viên</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Họ và Tên <span style="color:red">*</span></label>
+                        <input type="text" name="ho_ten" id="inp_hoten" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại <span style="color:red">*</span></label>
+                        <input type="text" name="sdt" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Email <span style="color:red">*</span></label>
+                        <input type="email" name="email" id="inp_email" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group">
+                        <label>Tên đăng nhập <span style="color:red">*</span></label>
+                        <input type="text" name="username" id="inp_username" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu <span style="color:red">*</span></label>
+                        <input type="password" name="password" id="inp_matkhau" placeholder="Ít nhất 6 ký tự" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Tên đăng nhập <span style="color:red">*</span></label>
-                    <input type="text" name="username" required placeholder="Nhập username...">
+
+                <div id="address_section">
+                    <div class="section-title">📍 Thông tin giao hàng <span class="form-hint">(Bỏ trống Tên/SĐT nếu người nhận là chủ tài khoản)</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Tên người nhận</label>
+                            <input type="text" name="ten_nguoi_nhan" id="inp_tennguoinhan" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Ví dụ: Nguyễn Văn B">
+                        </div>
+                        <div class="form-group">
+                            <label>SĐT người nhận</label>
+                            <input type="text" name="sdt_nhan" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Ví dụ: 0987654321">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Địa chỉ chi tiết <span style="color:red" class="req-star">*</span></label>
+                            <input type="text" name="dia_chi_chi_tiet" id="inp_diachi" class="addr-input" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Số nhà, tên đường...">
+                        </div>
+                        <div class="form-group">
+                            <label>Phường/Xã <span style="color:red" class="req-star">*</span></label>
+                            <input type="text" name="phuong_xa" id="inp_phuongxa" class="addr-input" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                        </div>
+                        <div class="form-group">
+                            <label>Quận/Huyện <span style="color:red" class="req-star">*</span></label>
+                            <input type="text" name="quan_huyen" id="inp_quanhuyen" class="addr-input" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Tỉnh/Thành phố <span style="color:red" class="req-star">*</span></label>
+                            <input type="text" name="tinh_thanh" id="inp_tinhthanh" class="addr-input" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Email <span style="color:red">*</span></label>
-                    <input type="email" name="email" required placeholder="Nhập email...">
-                </div>
-                <div class="form-group">
-                    <label>Số điện thoại</label>
-                    <input type="text" name="sdt" placeholder="Nhập SĐT...">
-                </div>
-                <div class="form-group">
-                    <label>Vai trò <span style="color:red">*</span></label>
-                    <select name="vai_tro">
-                        <option value="0">Khách hàng</option>
-                        <option value="1">Quản trị viên</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Mật khẩu khởi tạo <span style="color:red">*</span></label>
-                    <input type="password" name="mat_khau" required placeholder="Tối thiểu 6 ký tự...">
-                </div>
+
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel-modal"
                         onclick="document.getElementById('modalThem').classList.remove('active')">Hủy</button>
-                    <button type="submit" class="btn btn-save">Lưu tài khoản</button>
+                    <button type="submit" class="btn btn-save">💾 Tạo tài khoản</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ===================== MODAL RESET MẬT KHẨU ===================== -->
     <div class="modal-overlay" id="modalReset">
-        <div class="modal-box">
-            <h3>🔑 Reset mật khẩu cho: <span id="tenTaiKhoan"></span></h3>
-            <form method="POST">
+        <div class="modal-content" style="width: 400px;">
+            <h2>Reset Mật Khẩu</h2>
+            <form method="POST" action="">
                 <input type="hidden" name="action" value="reset">
                 <input type="hidden" name="id" id="resetId">
-                <div class="form-group">
+                <p>Tài khoản: <strong id="tenTaiKhoan" style="color: #007bff;"></strong></p>
+                <div class="form-group" style="margin-top: 15px;">
                     <label>Mật khẩu mới <span style="color:red">*</span></label>
-                    <input type="password" name="mat_khau_moi" required placeholder="Tối thiểu 6 ký tự...">
+                    <input type="password" name="mat_khau_moi" required placeholder="Tối thiểu 6 ký tự..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel-modal"
@@ -307,17 +391,68 @@ $danhSachTK = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <script>
+        // Ẩn/Hiện form nhập địa chỉ tùy theo vai trò
+        function toggleAddressFields() {
+            const role = document.getElementById('inp_vaitro').value;
+            const addressSection = document.getElementById('address_section');
+
+            if (role === '0') { // 0 = Khách hàng
+                addressSection.style.display = 'block';
+            } else { // 1 = Admin
+                addressSection.style.display = 'none';
+            }
+        }
+
+        // Chạy hàm ngay khi vừa tải trang
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleAddressFields();
+        });
+
+        // Hàm mở Modal Reset
         function moModalReset(id, ten) {
             document.getElementById('resetId').value = id;
             document.getElementById('tenTaiKhoan').innerText = ten;
             document.getElementById('modalReset').classList.add('active');
         }
+
         // Click ngoài modal để đóng
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
                 if (e.target === this) this.classList.remove('active');
             });
         });
+
+        // Validate JavaScript trước khi Submit
+        function validateThem() {
+            const hoten = document.getElementById('inp_hoten').value.trim();
+            const user = document.getElementById('inp_username').value.trim();
+            const email = document.getElementById('inp_email').value.trim();
+            const pass = document.getElementById('inp_matkhau').value.trim();
+            const vaiTro = document.getElementById('inp_vaitro').value;
+
+            if (!hoten || !user || !email || !pass) {
+                alert('Vui lòng điền đầy đủ thông tin cơ bản bắt buộc!');
+                return false;
+            }
+            if (pass.length < 6) {
+                alert('Mật khẩu phải có ít nhất 6 ký tự!');
+                return false;
+            }
+
+            if (vaiTro == '0') {
+                // Chỉ kiểm tra các ô địa chỉ (Bỏ qua tên và sđt người nhận)
+                const dc = document.getElementById('inp_diachi').value.trim();
+                const px = document.getElementById('inp_phuongxa').value.trim();
+                const qh = document.getElementById('inp_quanhuyen').value.trim();
+                const tt = document.getElementById('inp_tinhthanh').value.trim();
+
+                if (!dc || !px || !qh || !tt) {
+                    alert('Vui lòng điền đầy đủ thông tin địa chỉ giao hàng (Số nhà, Phường, Quận, Tỉnh)!');
+                    return false;
+                }
+            }
+            return true;
+        }
 
         <?php if ($loaiThongBao): ?>
             // Tự động mở lại modal nếu có lỗi khi thêm tài khoản
