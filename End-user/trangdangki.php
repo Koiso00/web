@@ -105,6 +105,7 @@ if(isset($_POST['dangky'])){
                             <input type="text" name="tinhthanh" placeholder="Vd: TP.HCM" required>
                         </div>
                     </div>
+                    
                     <label>Tên đăng nhập:</label>
                     <input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
 
@@ -120,14 +121,6 @@ if(isset($_POST['dangky'])){
                         Đã có tài khoản? <a href="trangdangnhap.php">Đăng nhập ngay</a>
                     </p>
                 </form>
-            </div>
-
-            <div class="divider"><span>Hoặc</span></div>
-
-            <div class="register-box right">
-                <a href="#" class="google"><img src="picture/google.png"> Đăng ký bằng Google</a>
-                <a href="#" class="facebook"><img src="picture/facebook.png"> Đăng ký bằng Facebook</a>
-                <a href="#" class="apple"><img src="picture/apple.png"> Đăng ký bằng Apple</a>
             </div>
         </div>
     </section>
