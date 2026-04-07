@@ -205,7 +205,7 @@ INSERT INTO `sanpham` (`MaSP`, `TenSP`, `MaLoai`, `MoTa`, `DonViTinh`, `HinhAnh`
 (10, 'Bàn phím cơ FL-Esports CMK87', 1, 'Bàn phím cận cao cấp, build kim loại đầm tay, âm thanh gõ cực thock không cần mod lại. Phiên bản CPM Metal Heart ', 'Cái', 'ban-phim-co-fl-esports-cmk87cpm-metal-heart-3-mode.jpg', 7, 0.30, 2500000.00, 1),
 (11, 'Chuột VXE R1 SE+', 2, 'Chuột gaming siêu nhẹ chỉ khoảng 50g, form đối xứng dễ cầm, cảm biến cực nhạy.', 'Cái', 'chuot-gaming-vgn-vxe-dragonfly-r1-se-plus-black.jpg', 20, 0.30, 450000.00, 1),
 (12, 'Chuột Logitech G402', 2, 'Huyền thoại chuột gaming form công thái học, tích hợp nhiều phím macro tiện dụng cho FPS và MOBA.', 'Cái', 'chuot-logitech-g402.jpg', 12, 0.20, 600000.00, 1),
-(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'product2.6.png', 60, 0.35, 350000.00, 1),
+(13, 'Chuột Logitech G102 Lightsync', 2, 'Chuột quốc dân form nhỏ gọn, LED RGB đẹp mắt, mắt đọc chuẩn xác cho mọi tựa game.', 'Cái', 'logitech g102.jpg', 60, 0.35, 350000.00, 1),
 (14, 'Chuột Razer DeathAdder V2', 2, 'Thiết kế công thái học huyền thoại, switch quang học Razer siêu tốc không lo double-click.', 'Cái', 'razer-deathAdder-v2.jpg', 15, 0.25, 1100000.00, 1),
 (15, 'Chuột Razer Viper Mini', 2, 'Trọng lượng siêu nhẹ chỉ 61g, feet chuột PTFE trượt êm ái, dành cho tay vừa và nhỏ.', 'Cái', 'razer-viper-ultralight.jpg', 25, 0.30, 750000.00, 1),
 (16, 'Chuột Zowie EC2-C', 2, 'Dòng chuột chuyên nghiệp dành riêng cho dân bắn súng CS:GO/Valorant, không cần phần mềm.', 'Cái', 'chuot-gaming-zowie-ec2-c.jpg', 10, 0.15, 1650000.00, 1),
