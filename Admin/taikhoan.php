@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require_once 'config.php';
 if (!isset($_SESSION['admin'])) {
@@ -255,7 +255,17 @@ $danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="account-list">
                 <?php foreach ($danhSachTaiKhoan as $tk): ?>
                     <div class="account-item">
-                        <img src="<?= htmlspecialchars($tk['Avatar']) ?>" alt="Avatar" class="account-avatar">
+                        <?php
+                        // Tự động tạo ảnh đại diện bằng chữ cái nếu Database chưa có ảnh
+                        $avatarUrl = $tk['Avatar'];
+                        if (empty($avatarUrl)) {
+                            $words = explode(" ", $tk['HoTen']);
+                            $initials = (count($words) >= 2) ? strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1)) : strtoupper(substr($tk['HoTen'], 0, 2));
+                            $avatarUrl = "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background=random&color=fff";
+                        }
+                        ?>
+                        <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="account-avatar">
+
                         <div class="account-info">
                             <h4><?= htmlspecialchars($tk['HoTen']) ?> (<?= htmlspecialchars($tk['Username']) ?>)</h4>
                             <p><?= htmlspecialchars($tk['Email']) ?> | <?= htmlspecialchars($tk['SoDienThoai']) ?></p>
