@@ -147,7 +147,6 @@ function getTrangThai($status_code) {
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
 
 <script>
 function switchTab(tabId) {

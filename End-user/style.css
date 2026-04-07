@@ -436,20 +436,40 @@ header .icon .user a.dangxuat {
     border-radius: .5rem;
     
 }
-.products .box-content .name-product{
-    font-size: 1.2rem;
+.products .box-content .name-product {
+    padding: 1.5rem; /* Tạo khoảng cách đều 4 phía (trên, phải, dưới, trái) */
+    text-align: left; /* Đảm bảo chữ canh lề trái */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Khoảng cách nhỏ giữa tên và giá */
 }
-.products .box-content .name-product .price{
-    font-size: 1.5rem;
-    color: var(--black);
-    padding: 1rem 0;
+
+.products .box-content .name-product h3 {
+    font-size: 1.6rem; /* Tăng kích thước tên một chút cho dễ đọc */
+    font-weight: 700;
+    color: #333;
+    line-height: 1.4;
+    /* Giới hạn tên sản phẩm trong 2 dòng để các box luôn bằng nhau */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
+
+.products .box-content .name-product .price {
+    font-size: 1.8rem; /* Làm giá tiền nổi bật hơn */
+    color: #c00000;
+    font-weight: 700;
+    padding: 0.5rem 0; /* Chỉ padding trên dưới, lề trái đã có ở cha */
+}
+
 .products .box-content .name-product .price span {
     text-decoration: line-through;
     color: #999;
-    font-weight: lighter;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-left: 0.5rem;
 }
-
 footer{
     padding: 2rem 0;
     width:100%;
