@@ -1,147 +1,99 @@
-/* --- CSS Reset và Thiết lập cơ bản cho Body --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
+/* Căn chỉnh tổng thể cho phần đăng nhập */
+.login-section {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f2f5; /* Màu nền màn hình nhẹ nhàng hơn */
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Font chữ đẹp hơn */
+    background: #f5f5f5;
+    padding: 20px;
 }
 
-/* --- CSS cho Container Form --- */
-.login-container {
-    background-color: #fff;
-    padding: 50px; /* Tăng padding để 'to' và sang trọng hơn */
-    border-radius: 16px; /* Bán kính bo góc lớn hơn cho container */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Bóng mờ tinh tế và nhẹ hơn */
+.login-wrapper {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 480px; /* Tăng chiều rộng tối đa của form */
-    text-align: left;
-    transition: box-shadow 0.3s ease-in-out;
+    max-width: 450px; /* Độ rộng vừa phải cho form 1 cột */
 }
 
-/* Hiệu ứng khi hover vào form (tùy chọn) */
-.login-container:hover {
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* --- Tiêu đề "Đăng Nhập" --- */
-.login-container h1 {
+.login-box h2 {
+    font-size: 2.4rem;
+    margin-bottom: 25px;
     text-align: center;
-    font-size: 32px; /* Tăng kích thước tiêu đề */
-    font-weight: 700;
-    color: #1c1e21;
-    margin-top: 0;
-    margin-bottom: 30px; /* Thêm khoảng cách bên dưới */
+    color: #333;
 }
 
-/* --- Nhãn Input (Tên Đăng Nhập, Mật Khẩu) --- */
-.input-group {
-    margin-bottom: 24px; /* Tăng khoảng cách giữa các nhóm input */
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 10px; /* Khoảng cách giữa nhãn và input */
-    font-size: 15px;
+.login-box label {
+    font-size: 1.4rem;
     font-weight: 600;
-    color: #4b4f56;
+    display: block;
+    margin-bottom: 5px;
 }
 
-/* --- Các Trường Input (Tên, Mật Khẩu) --- */
-.input-group input {
+.login-box input[type="text"],
+.login-box input[type="password"] {
     width: 100%;
-    padding: 16px; /* Tăng padding để trường input to hơn */
-    font-size: 16px;
-    border: 1px solid #dddfe2; /* Viền mỏng và tinh tế hơn */
-    border-radius: 8px; /* Bo góc trường input */
-    background-color: #fcfdfe; /* Màu nền trắng sạch hơn */
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none; /* Bỏ viền outline mặc định */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    box-sizing: border-box;
 }
 
-/* Hiệu ứng khi focus vào input (đây là điểm nhấn đẹp) */
-.input-group input:focus {
-    border-color: #1877f2; /* Viền xanh khi focus */
-    box-shadow: 0 0 0 4px rgba(24, 119, 242, 0.2); /* Vòng sáng xanh khi focus */
-}
-
-/* --- Nhóm Hành Động (Nhớ, Quên) --- */
-.actions {
+/* Phần Ghi nhớ & Quên mật khẩu */
+.remember-forgot {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px; /* Khoảng cách lớn trước nút đăng nhập */
-    font-size: 14px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
 }
 
-/* Tùy chỉnh Checkbox "Nhớ Tài Khoản" */
-.remember-me {
+.remember-forgot label {
     display: flex;
     align-items: center;
-    gap: 8px; /* Thêm khoảng cách giữa checkbox và văn bản */
+    gap: 5px;
     cursor: pointer;
-    color: #4b4f56;
+    font-weight: normal;
 }
 
-.remember-me input {
-    cursor: pointer;
-    width: 18px; /* Checkbox to hơn */
-    height: 18px;
-    accent-color: #1877f2; /* Màu xanh khi được check */
-}
-
-/* Liên kết "Quên Mật Khẩu?" */
-.forgot-password {
-    color: #1877f2;
+.remember-forgot a {
+    color: #050af9;
     text-decoration: none;
-    font-weight: 600;
 }
 
-.forgot-password:hover {
-    text-decoration: underline;
-}
-
-/* --- Nút "Đăng Nhập" Lớn --- */
-.login-button {
-    width: 100%;
-    padding: 16px; /* Tăng padding cho nút to hơn */
-    background-color: #1877f2; /* Màu xanh lam chuẩn */
+/* Nút đăng nhập */
+.buttonsign {
+    background: #050af9;
     color: #fff;
+    padding: 12px;
+    width: 100%;
     border: none;
-    border-radius: 8px; /* Bo góc nút */
-    font-size: 18px; /* Kích thước font chữ nút to hơn */
-    font-weight: 700;
+    border-radius: 5px;
+    font-size: 1.6rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: 0.3s;
 }
 
-/* Hiệu ứng hover cho nút */
-.login-button:hover {
-    background-color: #166fe5;
+.buttonsign:hover {
+    background: #0000cc;
 }
 
-/* --- Văn bản Footer ("Chưa có tài khoản?") --- */
-.signup-text {
-    margin-top: 30px; /* Thêm khoảng cách */
+.register-text {
     text-align: center;
-    font-size: 15px;
-    color: #4b4f56;
+    margin-top: 20px;
+    font-size: 1.4rem;
 }
 
-/* Liên kết "Đăng Ký Ngay" */
-.signup-text a {
-    color: #1877f2;
+.register-text a {
+    color: #050af9;
+    font-weight: bold;
     text-decoration: none;
-    font-weight: 600;
 }
 
-.signup-text a:hover {
+.register-text a:hover {
     text-decoration: underline;
 }
