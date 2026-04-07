@@ -126,7 +126,26 @@ body {
     color: var(--primary-color);
     margin-top: 1rem;
 }
+/* Thêm class cha .box phía trước để tăng độ ưu tiên */
+.box input.invalid {
+    border: 1.5px solid red !important;
+    background-color: #fff0f0 !important;
+    outline: none;
+}
 
+/* Định dạng cho dòng chữ báo lỗi */
+.error-msg {
+    color: red;
+    font-size: 1.3rem; /* Sử dụng rem cho đồng bộ với dự án của bạn */
+    display: block;
+    margin-top: -1.5rem; /* Kéo chữ lên gần input hơn do margin-bottom của input lớn */
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
 /* Responsive */
 @media (max-width: 768px) {
     .container {
