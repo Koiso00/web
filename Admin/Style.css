@@ -970,6 +970,8 @@ body {
     /* Màu chữ khi được chọn */
     border-bottom-color: #007bff;
     /* Gạch chân khi được chọn */
+    background-color: rgba(0, 123, 255, 0.1); /* Lớp phủ mờ màu xanh dương (0.1 là độ mờ 10%) */
+    border-radius: 6px 6px 0 0; /* Bo góc tròn nhẹ ở trên, vuông ở dưới cho giống hình cái Tab */
 }
 
 /* --- CSS CHO TRANG QUẢN LÍ NHẬP HÀNG --- */
@@ -1834,4 +1836,17 @@ body {
 
 .status-cancelled {
     background-color: #dc3545;
+}
+/* Phủ nền mờ cho menu đang được chọn */
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.1); /* Phủ mờ trắng 10% */
+    border-radius: 8px; /* Bo tròn góc */
+    color: #ffffff; /* Sáng chữ lên */
+    font-weight: bold; /* Làm đậm chữ */
+}
+
+/* Hiệu ứng mờ khi rê chuột vào các menu khác */
+.sidebar a:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
 }
