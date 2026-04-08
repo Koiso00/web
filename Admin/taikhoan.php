@@ -66,6 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     } elseif (strlen($password) < 6) {
         $thongBao = "Mật khẩu phải từ 6 ký tự trở lên!";
         $loaiThongBao = "error";
+    } elseif (!preg_match('/^0[0-9]{9}$/', $sdt)) {
+        $thongBao = "Số điện thoại không hợp lệ (Phải có 10 số và bắt đầu bằng 0)!";
+        $loaiThongBao = "error";
     } else {
         try {
             $conn->beginTransaction();
@@ -325,7 +328,7 @@ $danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="form-group">
                         <label>Số điện thoại <span style="color:red">*</span></label>
-                        <input type="text" name="sdt" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                        <input type="text" name="sdt" id="inp_sdt" pattern="0[0-9]{9}" maxlength="10" title="Vui lòng nhập đúng 10 số, bắt đầu bằng số 0" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
                     </div>
                     <div class="form-group full-width">
                         <label>Email <span style="color:red">*</span></label>
@@ -447,6 +450,12 @@ $danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (pass.length < 6) {
                 alert('Mật khẩu phải có ít nhất 6 ký tự!');
                 return false;
+                const sdt = document.getElementById('inp_sdt').value.trim();
+                const phoneRegex = /^0[0-9]{9}$/;
+                if (!phoneRegex.test(sdt)) {
+                    alert('Số điện thoại không hợp lệ (Phải có 10 số và bắt đầu bằng 0)!');
+                    return false;
+                }
             }
 
             if (vaiTro == '0') {
