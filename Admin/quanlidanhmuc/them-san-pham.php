@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$tenSP, $maLoai, $moTa, $donViTinh, 'product0.png', $tiLeLoiNhuan, $hienTrang, $soLuongBanDau]);
 
     // 2. Lấy MaSP vừa tạo
-    $maSP = $conn->lastInsertId(); 
+    $maSP = $conn->lastInsertId();
 
     // 3. Đặt tên file theo MaSP và upload
-   $hinhAnh = preg_replace('/\s+/', '-', $_FILES['product-image']['name']);
-   move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
+    $hinhAnh = preg_replace('/\s+/', '-', $_FILES['product-image']['name']);
+    move_uploaded_file($_FILES['product-image']['tmp_name'], '../Image/' . $hinhAnh);
 
     // 4. Cập nhật lại tên ảnh
     $conn->prepare("UPDATE SanPham SET HinhAnh = ? WHERE MaSP = ?")->execute([$hinhAnh, $maSP]);
@@ -135,6 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="number" id="product-quantity" name="product-quantity"
                             min="0" value="0" required>
                         <p class="form-hint">Số lượng tồn kho khi mới tạo sản phẩm (nhập 0 nếu chưa có hàng).</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giá vốn ban đầu (VNĐ) <span style="color:red">*</span></label>
+                        <input type="number" name="gia_von" required min="0" placeholder="Ví dụ: 500000" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                        <span style="font-size: 0.85rem; color: #6c757d;">Nhập giá gốc nhập hàng. Nếu số lượng ban đầu là 0 thì nhập 0.</span>
                     </div>
 
                     <div class="form-group">
