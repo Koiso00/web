@@ -10,10 +10,21 @@
         </label>
 
         <div class="dropdown-content" aria-hidden="true">
-            <a href="sanpham.php?loai=1">Bàn phím</a>
-            <a href="sanpham.php?loai=2">Chuột</a>
-            <a href="sanpham.php?loai=4">Màn hình</a>
-            <a href="sanpham.php?loai=3">Tai nghe</a>
+            <?php
+            // Truy vấn lấy tất cả các danh mục từ CSDL
+            $sql_menu = "SELECT * FROM LoaiSanPham";
+            $result_menu = mysqli_query($conn, $sql_menu);
+            
+            // Dùng vòng lặp in ra từng danh mục
+            if ($result_menu && mysqli_num_rows($result_menu) > 0) {
+                while ($row_menu = mysqli_fetch_assoc($result_menu)) {
+                    // Tự động gắn MaLoai vào link và in TenLoai ra màn hình
+                    echo '<a href="sanpham.php?loai=' . $row_menu['MaLoai'] . '">' . htmlspecialchars($row_menu['TenLoai']) . '</a>';
+                }
+            } else {
+                echo '<a href="#">Đang cập nhật...</a>';
+            }
+            ?>
         </div>
 
         <form action="timkiem.php" method="GET" class="search-form">

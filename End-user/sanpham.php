@@ -239,7 +239,6 @@ $result = mysqli_query($conn, $sql);
             });
         });
     </script>
-</body>
 <footer id="bottom">
         <section class="footer">
             <div class="footer-box">
