@@ -1,3 +1,21 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Một số trang include `header.php` nhưng chưa include DB connection.
+// Header cần `$conn` để render menu danh mục.
+if (!isset($conn)) {
+    include __DIR__ . '/connect.php';
+}
+
+$displayName = $_SESSION['HoTen']
+    ?? $_SESSION['hoten']
+    ?? $_SESSION['username']
+    ?? $_SESSION['user']
+    ?? null;
+?>
+
 <link rel="stylesheet" href="style.css">
 <header>
     <a href="trangchu.php" class="logo">TechZone</a>
@@ -52,10 +70,10 @@
         </div>
 
     <div class="user">
-        <?php if(isset($_SESSION['user'])): ?>
+        <?php if (!empty($displayName)): ?>
         <a href="thongtintaikhoan.php" title="Xem thông tin cá nhân">
             <img src="picture/user.png" alt="Avatar">
-            <span><?php echo $_SESSION['user']; ?></span>
+            <span><?php echo htmlspecialchars($displayName); ?></span>
         </a>
         
         
