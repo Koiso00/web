@@ -1,8 +1,32 @@
 <?php
 session_start();
-include "config.php";
+include "connect.php";
 
-// 1. --- ĐẾM SỐ LƯỢNG GIỎ HÀNG KHI LOAD TRANG (Sửa lỗi hiển thị bằng 0) ---
+// 1. Hàm tính giá bán theo chuẩn FIFO (Giống trang chủ)
+function getGiaBanFIFO($conn, $maSP, $tiLeLoiNhuan, $giaNhapBinhQuan)
+{
+    $sql_fifo = "SELECT ctpn.GiaNhap 
+                 FROM chitietphieunhap ctpn 
+                 JOIN phieunhap pn ON ctpn.MaPN = pn.MaPN 
+                 WHERE ctpn.MaSP = $maSP 
+                 AND ctpn.SoLuongNhap > 0 
+                 ORDER BY pn.NgayNhap ASC 
+                 LIMIT 1";
+
+    $result_fifo = mysqli_query($conn, $sql_fifo);
+
+    if ($row_fifo = mysqli_fetch_assoc($result_fifo)) {
+        $giaNhapLieu = $row_fifo['GiaNhap'];
+        return $giaNhapLieu * (1 + $tiLeLoiNhuan);
+    }
+
+    if ($giaNhapBinhQuan > 0) {
+        return $giaNhapBinhQuan * (1 + $tiLeLoiNhuan);
+    }
+    return 0;
+}
+
+// 2. --- ĐẾM SỐ LƯỢNG GIỎ HÀNG KHI LOAD TRANG (Sửa lỗi hiển thị bằng 0) ---
 $tong_gio_hang = 0;
 if (isset($_SESSION['giohang'])) {
     foreach ($_SESSION['giohang'] as $soluong) {
@@ -10,17 +34,17 @@ if (isset($_SESSION['giohang'])) {
     }
 }
 
-// 2. --- KIỂM TRA ID SẢN PHẨM ---
+// 3. --- KIỂM TRA ID SẢN PHẨM ---
 if (!isset($_GET['id'])) {
     echo "Không tìm thấy sản phẩm";
     exit();
 }
 
-$id = $_GET['id'];
+$id = intval($_GET['id']);
 
-$stmt = $conn->prepare("SELECT * FROM SanPham WHERE MaSP=?");
-$stmt->execute([$id]);
-$sp = $stmt->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM SanPham WHERE MaSP = $id";
+$result = mysqli_query($conn, $sql);
+$sp = mysqli_fetch_assoc($result);
 
 if (!$sp) {
     echo "Sản phẩm không tồn tại";
@@ -28,13 +52,16 @@ if (!$sp) {
 }
 
 /* tính giá bán */
-$gia = $sp['GiaNhapBinhQuan'] + ($sp['GiaNhapBinhQuan'] * $sp['TiLeLoiNhuan']);
+$gia = getGiaBanFIFO($conn, $id, $sp['TiLeLoiNhuan'], $sp['GiaNhapBinhQuan']);
 
 /* sản phẩm liên quan */
-$stmt2 = $conn->prepare("SELECT * FROM SanPham 
-WHERE MaLoai=? AND MaSP!=? LIMIT 4");
-$stmt2->execute([$sp['MaLoai'], $id]);
-$lienquan = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+$maLoai = $sp['MaLoai'];
+$sql2 = "SELECT * FROM SanPham WHERE MaLoai = $maLoai AND MaSP != $id LIMIT 4";
+$result2 = mysqli_query($conn, $sql2);
+$lienquan = [];
+while ($row = mysqli_fetch_assoc($result2)) {
+    $lienquan[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -47,63 +74,7 @@ $lienquan = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <header>
-        <a href="trangchu.php" class="logo">TechZone</a>
-
-        <div class="search-bar" role="search">
-            <input type="checkbox" id="menu-toggle" hidden>
-            <label for="menu-toggle" class="menu-btn">
-                <img src="picture/menu-burger.png" class="menu-icon" alt="menu">
-            </label>
-
-            <div class="dropdown-content" aria-hidden="true">
-                <a href="sanpham.php?loai=1">Bàn phím</a>
-                <a href="sanpham.php?loai=2">Chuột</a>
-                <a href="sanpham.php?loai=3">Màn hình</a>
-                <a href="sanpham.php?loai=4">Tai nghe</a>
-            </div>
-
-            <form action="timkiem.php" method="GET" class="search-form">
-                <input type="search" name="q" placeholder="Tìm kiếm sản phẩm, thương hiệu..." autocomplete="off">
-                <button type="submit" class="search-submit">
-                    <img src="picture/magnifying-glass.png" alt="Tìm kiếm">
-                </button>
-            </form>
-        </div>
-
-        <nav class="navbar">
-            <a href="trangchu.php">Trang chủ</a>
-            <a href="sanpham.php?loai=1">Sản Phẩm</a>
-            <a href="#bottom">Liên hệ</a>
-        </nav>
-
-        <div class="icon" style="display: flex; align-items: center;">
-            <div style="position: relative; margin-right: 15px;">
-                <a href="giohang.php" class="shopping-cart">
-                    <img src="picture/shopping.png" alt="Giỏ hàng">
-                </a>
-                <span id="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold; line-height: 1;">
-                    <?php echo $tong_gio_hang; ?>
-                </span>
-            </div>
-
-            <div class="user">
-                <?php if(isset($_SESSION['user'])): ?>
-                    <a href="#">
-                        <img src="picture/user.png">
-                        <span><?php echo $_SESSION['user']; ?></span>
-                    </a>
-                    <a href="xuly_dangxuat.php" class="dangky">Đăng xuất</a>
-                <?php else: ?>
-                    <a href="trangdangnhap.php">
-                        <img src="picture/user.png">
-                        <span>Đăng nhập</span>
-                    </a>
-                    <a href="trangdangki.php" class="dangky">Đăng ký</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <section class="product-container">
         <div class="product-left">
@@ -146,13 +117,13 @@ $lienquan = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         <h2>Sản Phẩm Liên Quan</h2>
         <div class="grid">
             <?php foreach ($lienquan as $sp2): 
-                $gia2 = $sp2['GiaNhapBinhQuan'] + ($sp2['GiaNhapBinhQuan'] * $sp2['TiLeLoiNhuan']);
+                $gia2 = getGiaBanFIFO($conn, $sp2['MaSP'], $sp2['TiLeLoiNhuan'], $sp2['GiaNhapBinhQuan']);
             ?>
                 <div class="card">
                     <a href="thongtinsanpham.php?id=<?php echo $sp2['MaSP']; ?>">
                         <img src="../Admin/Image/<?php echo $sp2['HinhAnh']; ?>">
                         <h3><?php echo $sp2['TenSP']; ?></h3>
-                        <p><?php echo number_format($gia2); ?>đ</p>
+                        <p><?php echo $gia2 > 0 ? number_format($gia2, 0, ',', '.') . 'đ' : '<span style="color:red; font-size:14px; font-weight:bold;">Tạm hết hàng</span>'; ?></p>
                     </a>
                 </div>
             <?php endforeach; ?>

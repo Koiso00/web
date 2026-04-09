@@ -18,14 +18,29 @@ if(isset($_POST['dangnhap'])){
         // Lấy dữ liệu tài khoản
         $user = mysqli_fetch_assoc($result);
         
-        // Gán đúng biến Session đã thống nhất ở Header
-        $_SESSION['MaTK'] = $user['MaTK'];
-        $_SESSION['HoTen'] = $user['HoTen'];
+        // Kiểm tra trạng thái tài khoản
+        if ($user['TrangThai'] == 0) {
+            echo "<script>alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');</script>";
+        } else {
+            if ($user['VaiTro'] == 1) {
+                $_SESSION['admin'] = $user;
+                echo "<script>
+                alert('Đăng nhập trang quản trị thành công');
+                window.location='../Admin/Trang-chu.php';
+                </script>";
+            } else {
+                // Gán đúng biến Session đã thống nhất ở Header và các trang khác
+                $_SESSION['MaTK'] = $user['MaTK'];
+                $_SESSION['HoTen'] = $user['HoTen'];
+                $_SESSION['username'] = $user['Username'];
+                $_SESSION['user'] = $user['Email'];
 
-        echo "<script>
-        alert('Đăng nhập thành công');
-        window.location='trangchu.php';
-        </script>";
+                echo "<script>
+                alert('Đăng nhập thành công');
+                window.location='trangchu.php';
+                </script>";
+            }
+        }
     } else {
         echo "<script>alert('Sai tên đăng nhập hoặc mật khẩu');</script>";
     }
