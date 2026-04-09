@@ -1,4 +1,4 @@
-﻿/* style.css */
+/* style.css */
 
 
 
@@ -1849,4 +1849,11 @@ body {
 .sidebar a:hover:not(.active) {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
+}
+
+/* Kiểu cho sản phẩm bị ẩn */
+.product-item.hidden-product {
+    opacity: 0.6;
+    filter: grayscale(100%);
+    background-color: #f0f0f0;
 }

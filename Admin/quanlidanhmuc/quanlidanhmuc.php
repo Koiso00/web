@@ -57,11 +57,11 @@ if ($maLoaiActive > 0) {
             <div class="product-list">
                 <?php if (!empty($sanPhams)): ?>
                     <?php foreach ($sanPhams as $sp): ?>
-                        <div class="product-item">
+                        <div class="product-item <?= ($sp['HienTrang'] == 0) ? 'hidden-product' : '' ?>">
                             <img src="../Image/<?= htmlspecialchars($sp['HinhAnh'] ?? 'product0.png') ?>" alt="Hình" class="product-image">
 
                             <div class="product-details">
-                                <h3><?= htmlspecialchars($sp['TenSP']) ?></h3>
+                                <h3><?= htmlspecialchars($sp['TenSP']) ?> <?= ($sp['HienTrang'] == 0) ? '<span style="color:red; font-size: 0.8rem;">(Đã ẩn)</span>' : '' ?></h3>
                                 <p>Mã SP: SP<?= str_pad($sp['MaSP'], 4, '0', STR_PAD_LEFT) ?></p>
                                 <p>Giá vốn: <strong><?= number_format($sp['GiaNhapBinhQuan'], 0, ',', '.') ?> đ</strong></p>
                                 <p>Tồn kho: <?= $sp['SoLuongTon'] ?></p>
