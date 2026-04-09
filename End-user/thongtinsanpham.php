@@ -84,7 +84,7 @@ while ($row = mysqli_fetch_assoc($result2)) {
         <div class="product-right">
             <h1><?php echo $sp['TenSP']; ?></h1>
             <div class="price">
-                <?php echo number_format($gia); ?>đ
+                <?php echo ($sp['SoLuongTon'] > 0) ? number_format($gia) . "đ" : "<span style='color:red; font-weight:bold;'>Tạm hết hàng</span>"; ?>
             </div>
 
             <p class="status">
@@ -98,8 +98,18 @@ while ($row = mysqli_fetch_assoc($result2)) {
             </p>
 
             <div class="buttons">
-                <button class="cart btn-add-cart" data-id="<?php echo $sp['MaSP']; ?>">Thêm vào giỏ</button>
-                <button class="buy btn-buy-now" data-id="<?php echo $sp['MaSP']; ?>">Mua ngay</button>
+                <button class="cart btn-add-cart"
+                        data-id="<?php echo $sp['MaSP']; ?>"
+                        <?php echo ($sp['SoLuongTon'] > 0) ? '' : 'disabled'; ?>
+                        style="<?php echo ($sp['SoLuongTon'] > 0) ? '' : 'opacity:.5; cursor:not-allowed;'; ?>">
+                    Thêm vào giỏ
+                </button>
+                <button class="buy btn-buy-now"
+                        data-id="<?php echo $sp['MaSP']; ?>"
+                        <?php echo ($sp['SoLuongTon'] > 0) ? '' : 'disabled'; ?>
+                        style="<?php echo ($sp['SoLuongTon'] > 0) ? '' : 'opacity:.5; cursor:not-allowed;'; ?>">
+                    Mua ngay
+                </button>
             </div>
 
             <div class="info">
@@ -118,12 +128,13 @@ while ($row = mysqli_fetch_assoc($result2)) {
         <div class="grid">
             <?php foreach ($lienquan as $sp2): 
                 $gia2 = getGiaBanFIFO($conn, $sp2['MaSP'], $sp2['TiLeLoiNhuan'], $sp2['GiaNhapBinhQuan']);
+                $con_hang2 = ((int)($sp2['SoLuongTon'] ?? 0) > 0);
             ?>
                 <div class="card">
                     <a href="thongtinsanpham.php?id=<?php echo $sp2['MaSP']; ?>">
                         <img src="../Admin/Image/<?php echo $sp2['HinhAnh']; ?>">
                         <h3><?php echo $sp2['TenSP']; ?></h3>
-                        <p><?php echo $gia2 > 0 ? number_format($gia2, 0, ',', '.') . 'đ' : '<span style="color:red; font-size:14px; font-weight:bold;">Tạm hết hàng</span>'; ?></p>
+                        <p><?php echo $con_hang2 ? number_format($gia2, 0, ',', '.') . 'đ' : '<span style="color:red; font-size:14px; font-weight:bold;">Tạm hết hàng</span>'; ?></p>
                     </a>
                 </div>
             <?php endforeach; ?>
@@ -202,7 +213,7 @@ while ($row = mysqli_fetch_assoc($result2)) {
                             alert('Đã thêm sản phẩm vào giỏ hàng thành công!');
                         }
                     } else {
-                        alert('Có lỗi xảy ra, vui lòng thử lại.');
+                        alert(data.message || 'Sản phẩm không đủ tồn kho.');
                     }
                 })
                 .catch(error => {
@@ -214,6 +225,7 @@ while ($row = mysqli_fetch_assoc($result2)) {
         // Sự kiện cho nút THÊM VÀO GIỎ
         document.querySelectorAll('.btn-add-cart').forEach(button => {
             button.addEventListener('click', function() {
+                if (this.disabled) return;
                 const sanPhamId = this.getAttribute('data-id');
                 handleAddToCart(sanPhamId, false);
             });
@@ -222,6 +234,7 @@ while ($row = mysqli_fetch_assoc($result2)) {
         // Sự kiện cho nút MUA NGAY
         document.querySelectorAll('.btn-buy-now').forEach(button => {
             button.addEventListener('click', function() {
+                if (this.disabled) return;
                 const sanPhamId = this.getAttribute('data-id');
                 handleAddToCart(sanPhamId, true);
             });

@@ -10,7 +10,9 @@ if(isset($_POST['dangnhap'])){
     $pass = md5($password);
 
     // Truy vấn bằng MySQLi
-    $sql = "SELECT * FROM TaiKhoan WHERE Username='$username' AND Password='$pass'";
+    // Chỉ cho phép đăng nhập tài khoản end-user (VaiTro = 0) tại trang này
+    // Tài khoản admin (VaiTro = 1) sẽ luôn rớt như "sai mật khẩu"
+    $sql = "SELECT * FROM TaiKhoan WHERE Username='$username' AND Password='$pass' AND VaiTro = 0";
     $result = mysqli_query($conn, $sql);
 
     // Kiểm tra xem có dòng nào khớp không
@@ -22,24 +24,16 @@ if(isset($_POST['dangnhap'])){
         if ($user['TrangThai'] == 0) {
             echo "<script>alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.');</script>";
         } else {
-            if ($user['VaiTro'] == 1) {
-                $_SESSION['admin'] = $user;
-                echo "<script>
-                alert('Đăng nhập trang quản trị thành công');
-                window.location='../Admin/Trang-chu.php';
-                </script>";
-            } else {
-                // Gán đúng biến Session đã thống nhất ở Header và các trang khác
-                $_SESSION['MaTK'] = $user['MaTK'];
-                $_SESSION['HoTen'] = $user['HoTen'];
-                $_SESSION['username'] = $user['Username'];
-                $_SESSION['user'] = $user['Email'];
+            // Gán đúng biến Session đã thống nhất ở Header và các trang khác
+            $_SESSION['MaTK'] = $user['MaTK'];
+            $_SESSION['HoTen'] = $user['HoTen'];
+            $_SESSION['username'] = $user['Username'];
+            $_SESSION['user'] = $user['Email'];
 
-                echo "<script>
-                alert('Đăng nhập thành công');
-                window.location='trangchu.php';
-                </script>";
-            }
+            echo "<script>
+            alert('Đăng nhập thành công');
+            window.location='trangchu.php';
+            </script>";
         }
     } else {
         echo "<script>alert('Sai tên đăng nhập hoặc mật khẩu');</script>";
