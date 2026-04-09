@@ -2,18 +2,18 @@
 session_start();
 include 'connect.php';
 
-if (!isset($_SESSION['user'])) {
+// KIỂM TRA ĐÚNG BIẾN MaTK
+if (!isset($_SESSION['MaTK'])) {
     header("location:trangdangnhap.php");
     exit();
 }
 
-$user_session = $_SESSION['user'];
+$maTK = $_SESSION['MaTK'];
 
 // 1. Lấy thông tin tài khoản
-$sql_user = "SELECT * FROM taikhoan WHERE Email='$user_session' OR Username='$user_session' LIMIT 1";
+$sql_user = "SELECT * FROM taikhoan WHERE MaTK='$maTK' LIMIT 1";
 $res_user = mysqli_query($conn, $sql_user);
 $userInfo = mysqli_fetch_assoc($res_user);
-$maTK = $userInfo['MaTK'];
 
 // 2. Lấy danh sách đơn hàng (Gần nhất hiện lên đầu)
 $sql_orders = "SELECT * FROM donhang WHERE MaTK='$maTK' ORDER BY NgayDat DESC";
