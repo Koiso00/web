@@ -46,7 +46,7 @@
 
 
 ## 📁 Cấu trúc thư mục dự án
-
+```
 web/
 │   database.sql              # File CSQL database (import vào phpMyAdmin)
 │
@@ -79,3 +79,4 @@ web/
     │
     └───picture               # 🖼️ Ảnh giao diện (icon, banner, logo) dùng cho người dùng
     
+```
