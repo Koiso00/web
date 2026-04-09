@@ -175,6 +175,12 @@ while ($row = mysqli_fetch_assoc($result2)) {
     <script>
         // Hàm xử lý chung cho cả 2 nút
         function handleAddToCart(productId, isRedirect) {
+            <?php if (!isset($_SESSION['user'])): ?>
+            alert('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');
+            window.location.href = 'trangdangnhap.php';
+            return;
+            <?php endif; ?>
+
             let formData = new FormData();
             formData.append('id', productId);
 
