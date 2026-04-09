@@ -1,21 +1,27 @@
 <?php 
 session_start();
-include "config.php";
-include "header.php";
+include "connect.php"; // Dùng connect.php cho đồng bộ với toàn hệ thống
 
+// Xử lý đăng nhập bằng MySQLi
 if(isset($_POST['dangnhap'])){
-    $username = $_POST['username'];
+    // Chống SQL Injection cơ bản
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
-
     $pass = md5($password);
 
-    $sql = $conn->prepare("SELECT * FROM TaiKhoan WHERE Username=? AND Password=?");
-    $sql->execute([$username, $pass]);
+    // Truy vấn bằng MySQLi
+    $sql = "SELECT * FROM TaiKhoan WHERE Username='$username' AND Password='$pass'";
+    $result = mysqli_query($conn, $sql);
 
-    $user = $sql->fetch(PDO::FETCH_ASSOC);
+    // Kiểm tra xem có dòng nào khớp không
+    if($result && mysqli_num_rows($result) > 0){
+        // Lấy dữ liệu tài khoản
+        $user = mysqli_fetch_assoc($result);
+        
+        // Gán đúng biến Session đã thống nhất ở Header
+        $_SESSION['MaTK'] = $user['MaTK'];
+        $_SESSION['HoTen'] = $user['HoTen'];
 
-    if($user){
-        $_SESSION['user'] = $user['Username'];
         echo "<script>
         alert('Đăng nhập thành công');
         window.location='trangchu.php';
@@ -32,42 +38,91 @@ if(isset($_POST['dangnhap'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - TechZone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styleforpr.css"> 
     <link rel="stylesheet" href="trangdangnhap.css">
 </head>
 <body>
 
-<section class="login-section">
-    <div class="login-wrapper">
-        <div class="login-box">
-            <h2>Đăng Nhập</h2>
+    <?php include "header.php"; ?>
 
-            <form method="POST">
-                <label>Tên đăng nhập:</label>
-                <input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
+        <section class="login-section">
+            <div class="login-wrapper">
+                <div class="login-box">
+                    <h2>Đăng Nhập</h2>
 
-                <label>Mật khẩu:</label>
-                <input type="password" name="password" placeholder="Nhập mật khẩu" required>
+                    <form method="POST">
+                        <label>Tên đăng nhập:</label>
+                        <input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
 
-                <div class="remember-forgot">
-                    <label>
-                        <input type="checkbox">
-                        <span>Nhớ tài khoản</span>
-                    </label>
-                    <a href="#">Quên mật khẩu?</a>
+                        <label>Mật khẩu:</label>
+                        <input type="password" name="password" placeholder="Nhập mật khẩu" required>
+
+                        <div class="remember-forgot">
+                            <label>
+                                <input type="checkbox">
+                                <span>Nhớ tài khoản</span>
+                            </label>
+                            <a href="#">Quên mật khẩu?</a>
+                        </div>
+
+                        <button class="buttonsign" type="submit" name="dangnhap">
+                            Đăng nhập
+                        </button>
+
+                        <p class="register-text">
+                            Chưa có tài khoản?
+                            <a href="trangdangki.php">Đăng ký ngay</a>
+                        </p>
+                    </form>
                 </div>
+            </div>
+        </section>
 
-                <button class="buttonsign" type="submit" name="dangnhap">
-                    Đăng nhập
-                </button>
+    <footer id="bottom">
+        <section class="footer">
+            <div class="footer-box">
+                <ul>
+                    <li><b>Dịch vụ khách hàng</b></li>
+                    <li>Trung tâm trợ giúp</li>
+                    <li>Hướng dẫn mua hàng</li>
+                    <li>Đơn hàng</li>
+                    <li>Trả hàng / hoàn tiền</li>
+                    <li>Chính sách bảo hành</li>
+                </ul>
+            </div>
 
-                <p class="register-text">
-                    Chưa có tài khoản?
-                    <a href="trangdangki.php">Đăng ký ngay</a>
-                </p>
-            </form>
-        </div>
-    </div>
-</section>
+            <div class="footer-box">
+                <ul>
+                    <li><b>TechZone Việt Nam</b></li>
+                    <li>Về TechZone</li>
+                    <li>Tuyển dụng</li>
+                    <li>Điều khoản</li>
+                    <li>Chính sách bảo mật</li>
+                </ul>
+            </div>
 
+            <div class="footer-box">
+                <ul>
+                    <li><b>Thanh toán</b></li>
+                </ul>
+                <div class="payment">
+                    <table>
+                        <tr>
+                            <td><img src="picture/thanhtoan1.png"></td>
+                            <td><img src="picture/thanhtoan2.png"></td>
+                            <td><img src="picture/thanhtoan3.png"></td>
+                            <td><img src="picture/thanhtoan7.png"></td>
+                        </tr>
+                        <tr>
+                            <td><img src="picture/thanhtoan4.png"></td>
+                            <td><img src="picture/thanhtoan5.png"></td>
+                            <td><img src="picture/thanhtoan6.png"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </footer>
 </body>
 </html>

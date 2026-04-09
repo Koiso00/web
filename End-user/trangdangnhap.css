@@ -6,6 +6,10 @@
     min-height: 100vh;
     background: #f5f5f5;
     padding: 20px;
+
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('picture/hinhmaytinh.avif') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .login-wrapper {
@@ -40,6 +44,7 @@
     border-radius: 5px;
     font-size: 1.4rem;
     box-sizing: border-box;
+    text-transform: none;
 }
 
 /* Phần Ghi nhớ & Quên mật khẩu */
