@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once 'config.php';
 if (!isset($_SESSION['admin'])) {
@@ -450,12 +450,13 @@ $danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (pass.length < 6) {
                 alert('Mật khẩu phải có ít nhất 6 ký tự!');
                 return false;
-                const sdt = document.getElementById('inp_sdt').value.trim();
-                const phoneRegex = /^0[0-9]{9}$/;
-                if (!phoneRegex.test(sdt)) {
-                    alert('Số điện thoại không hợp lệ (Phải có 10 số và bắt đầu bằng 0)!');
-                    return false;
-                }
+            }
+            
+            const sdt = document.getElementById('inp_sdt').value.trim();
+            const phoneRegex = /^0[0-9]{9}$/;
+            if (!phoneRegex.test(sdt)) {
+                alert('Số điện thoại không hợp lệ (Phải có 10 số và bắt đầu bằng 0)!');
+                return false;
             }
 
             if (vaiTro == '0') {
@@ -468,6 +469,14 @@ $danhSachTaiKhoan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if (!dc || !px || !qh || !tt) {
                     alert('Vui lòng điền đầy đủ thông tin địa chỉ giao hàng (Số nhà, Phường, Quận, Tỉnh)!');
                     return false;
+                }
+                
+                const sdtNhan = document.getElementsByName('sdt_nhan')[0].value.trim();
+                if (sdtNhan !== '') {
+                    if (!phoneRegex.test(sdtNhan)) {
+                        alert('Số điện thoại người nhận không hợp lệ (Phải có 10 số và bắt đầu bằng 0)!');
+                        return false;
+                    }
                 }
             }
             return true;

@@ -84,7 +84,7 @@ if(isset($_POST['dangky'])){
             <div class="register-wrapper">
                 <div class="register-box left">
                     <h2>Tạo tài khoản mới</h2>
-                    <form method="POST">
+                    <form method="POST" onsubmit="return validateDangKy()" name="formDangKy">
                         <label>Họ và tên:</label>
                         <input type="text" name="fullname" placeholder="Nhập họ và tên" required>
 
@@ -178,5 +178,30 @@ if(isset($_POST['dangky'])){
         </section>
     </footer>   
 
+    <script>
+        function validateDangKy() {
+            const phone = document.forms["formDangKy"]["phone"].value.trim();
+            const phoneRegex = /^0[0-9]{9}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số và bắt đầu bằng số 0.');
+                document.forms["formDangKy"]["phone"].focus();
+                return false;
+            }
+
+            const pass = document.forms["formDangKy"]["password"].value;
+            const confirm = document.forms["formDangKy"]["confirm"].value;
+            if (pass.length < 6) {
+                alert('Mật khẩu phải có ít nhất 6 ký tự!');
+                document.forms["formDangKy"]["password"].focus();
+                return false;
+            }
+            if (pass !== confirm) {
+                alert('Mật khẩu nhập lại không khớp!');
+                document.forms["formDangKy"]["confirm"].focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
