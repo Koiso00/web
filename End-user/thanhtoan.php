@@ -87,9 +87,20 @@ if(isset($_SESSION['giohang'])){
     </div>
     
     <!-- Các trường khác giữ nguyên -->
-    <input type="text" name="PhuongXa" id="PhuongXa" placeholder="Phường/Xã">
-    <input type="text" name="QuanHuyen" id="QuanHuyen" placeholder="Quận/Huyện">
-    <input type="text" name="TinhThanh" id="TinhThanh" placeholder="Tỉnh/Thành phố">
+    <div class="input-group">
+        <input type="text" name="PhuongXa" id="PhuongXa" placeholder="Phường/Xã" oninput="validateField('PhuongXa')">
+        <span id="err-PhuongXa" class="error-msg"></span>
+    </div>
+
+    <div class="input-group">
+        <input type="text" name="QuanHuyen" id="QuanHuyen" placeholder="Quận/Huyện" oninput="validateField('QuanHuyen')">
+        <span id="err-QuanHuyen" class="error-msg"></span>
+    </div>
+
+    <div class="input-group">
+        <input type="text" name="TinhThanh" id="TinhThanh" placeholder="Tỉnh/Thành phố" oninput="validateField('TinhThanh')">
+        <span id="err-TinhThanh" class="error-msg"></span>
+    </div>
 </div>
 
             <hr style="margin: 2rem 0; border: 0.5px solid #eee;">
@@ -133,6 +144,22 @@ if(isset($_SESSION['giohang'])){
 </form>
 
 <script>
+function setNewAddressRequired(isRequired) {
+    ['TenNguoiNhan', 'SDTNhan', 'DiaChiChiTiet', 'PhuongXa', 'QuanHuyen', 'TinhThanh'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.required = isRequired;
+    });
+}
+
+function clearNewAddressErrors() {
+    ['TenNguoiNhan', 'SDTNhan', 'DiaChiChiTiet', 'PhuongXa', 'QuanHuyen', 'TinhThanh'].forEach(id => {
+        const el = document.getElementById(id);
+        const err = document.getElementById('err-' + id);
+        if (err) err.innerText = '';
+        if (el) el.classList.remove('invalid');
+    });
+}
+
 function toggleAddress(){
     let option = document.querySelector('input[name="diachi_option"]:checked').value;
     let dcMoi = document.getElementById("diachi_moi");
@@ -141,9 +168,12 @@ function toggleAddress(){
     if(option == "moi"){
         dcMoi.style.display = "block";
         if(dcCu) dcCu.disabled = true;
+        setNewAddressRequired(true);
     } else {
         dcMoi.style.display = "none";
         if(dcCu) dcCu.disabled = false;
+        setNewAddressRequired(false);
+        clearNewAddressErrors();
     }
 }
 
@@ -167,26 +197,29 @@ function validateField(fieldId) {
     const value = input.value.trim();
     let message = "";
 
-    // Regex tiếng Việt không chứa số/kí tự đặc biệt
-    const regexName = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
     // Regex SĐT 10 số bắt đầu bằng 0
     const regexPhone = /^0[0-9]{9}$/;
-    // Regex địa chỉ chỉ cho phép / và -
-    const regexAddress = /^[a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\/\-]+$/;
 
     if (fieldId === 'TenNguoiNhan') {
-        if (!value.includes(' ')) message = "* Phải có ít nhất 1 khoảng trắng.";
-        else if (!regexName.test(value)) message = "* Không chứa số/ký tự lạ.";
+        if (value === "") message = "* Vui lòng nhập Họ & Tên.";
     } 
     else if (fieldId === 'SDTNhan') {
-        if (!regexPhone.test(value)) message = "* SĐT phải là 10 số (Bắt đầu bằng 0).";
+        if (value === "") message = "* Vui lòng nhập SĐT liên hệ.";
+        else if (!regexPhone.test(value)) message = "* SĐT phải là 10 số (Bắt đầu bằng 0).";
     } 
     else if (fieldId === 'DiaChiChiTiet') {
-        if (!value.includes(' ')) message = "* Phải có ít nhất 1 khoảng trắng.";
-        else if (!regexAddress.test(value)) message = "* Không chứa ký tự lạ (ngoại trừ / và -).";
+        if (value === "") message = "* Vui lòng nhập địa chỉ chi tiết.";
+    }
+    else if (fieldId === 'PhuongXa') {
+        if (value === "") message = "* Vui lòng nhập Phường/Xã.";
+    }
+    else if (fieldId === 'QuanHuyen') {
+        if (value === "") message = "* Vui lòng nhập Quận/Huyện.";
+    }
+    else if (fieldId === 'TinhThanh') {
+        if (value === "") message = "* Vui lòng nhập Tỉnh/Thành phố.";
     }
 
-    // Hiển thị kết quả[cite: 1]
     if (message !== "") {
         errorSpan.innerText = message;
         input.classList.add('invalid');
@@ -202,17 +235,24 @@ function validateField(fieldId) {
 function validateForm() {
     let option = document.querySelector('input[name="diachi_option"]:checked').value;
     if (option === 'moi') {
-        const isTenValid = validateField('TenNguoiNhan');
-        const isSdtValid = validateField('SDTNhan');
-        const isDcValid = validateField('DiaChiChiTiet');
+        const ok =
+            validateField('TenNguoiNhan') &&
+            validateField('SDTNhan') &&
+            validateField('DiaChiChiTiet') &&
+            validateField('PhuongXa') &&
+            validateField('QuanHuyen') &&
+            validateField('TinhThanh');
 
-        if (!isTenValid || !isSdtValid || !isDcValid) {
+        if (!ok) {
             alert('Vui lòng sửa các lỗi nhập liệu trước khi đặt hàng!');
             return false;
         }
     }
     return true;
 }
+
+// Đồng bộ trạng thái required ngay khi load trang
+document.addEventListener('DOMContentLoaded', toggleAddress);
 </script>
 
 </body>

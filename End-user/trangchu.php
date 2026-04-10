@@ -107,6 +107,7 @@ $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     // SỬ DỤNG HÀM TÍNH GIÁ FIFO
                     $gia_ban = getGiaBanFIFO($conn, $row['MaSP'], $row['TiLeLoiNhuan'], $row['GiaNhapBinhQuan']);
+                    $con_hang = ((int)($row['SoLuongTon'] ?? 0) > 0);
             ?>
                     <div class="box">
                         <div class="image">
@@ -120,7 +121,7 @@ $result = mysqli_query($conn, $sql);
 
                             <div class="price">
                                 <?php
-                                if ($gia_ban > 0) {
+                                if ($con_hang) {
                                     echo number_format($gia_ban, 0, ',', '.') . ' ₫';
                                 } else {
                                     echo '<span style="color:red; font-size: 14px; font-weight: bold;">Tạm hết hàng</span>';

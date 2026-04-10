@@ -7,6 +7,9 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+$flash_error = $_SESSION['flash_error'] ?? '';
+unset($_SESSION['flash_error']);
+
 $user_session = $_SESSION['user']; 
 $user_session = mysqli_real_escape_string($conn, $user_session);
 
@@ -60,7 +63,13 @@ $result_da_mua = mysqli_query($conn, $sql_da_mua);
 </head>
 <body>
 
-    <?php include 'header.php'; ?> <section class="cart-container" style="margin-top: 100px;">
+    <?php include 'header.php'; ?>
+
+    <?php if (!empty($flash_error)): ?>
+        <script>alert(<?php echo json_encode($flash_error); ?>);</script>
+    <?php endif; ?>
+
+    <section class="cart-container" style="margin-top: 100px;">
         
         <h2 class="cart-section-title">Giỏ hàng hiện tại</h2>
         <form action="capnhatgiohang.php" method="POST">
@@ -94,7 +103,13 @@ $result_da_mua = mysqli_query($conn, $sql_da_mua);
                             <td><?php echo htmlspecialchars($row['TenSP']); ?></td>
                             <td><?php echo number_format($gia_ban, 0, ',', '.'); ?> ₫</td>
                             <td>
-                                <input type="number" name="soluong[<?php echo $id_sp; ?>]" value="<?php echo $so_luong; ?>" min="1" onchange="this.form.submit()" style="width: 60px; padding: 5px; text-align: center;">
+                                <input type="number"
+                                       name="soluong[<?php echo $id_sp; ?>]"
+                                       value="<?php echo $so_luong; ?>"
+                                       min="1"
+                                       max="<?php echo (int)$row['SoLuongTon']; ?>"
+                                       onchange="this.form.submit()"
+                                       style="width: 60px; padding: 5px; text-align: center;">
                             </td>
                             <td><?php echo number_format($thanh_tien, 0, ',', '.'); ?> ₫</td>
                             <td>

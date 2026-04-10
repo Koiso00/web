@@ -159,6 +159,7 @@ $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             $gia_ban = getGiaBanFIFO($conn, $row['MaSP'], $row['TiLeLoiNhuan'], $row['GiaNhapBinhQuan']);
+                            $con_hang = ((int)($row['SoLuongTon'] ?? 0) > 0);
                     ?>
                             <article class="card">
                                 <div class="img">
@@ -169,7 +170,7 @@ $result = mysqli_query($conn, $sql);
                                 <h3><?php echo htmlspecialchars($row['TenSP']); ?></h3>
                                 <div class="price">
                                     <?php
-                                    if ($gia_ban > 0) {
+                                    if ($con_hang) {
                                         echo number_format($gia_ban, 0, ',', '.') . ' ₫';
                                     } else {
                                         echo '<span style="color:red; font-size: 14px; font-weight: bold;">Tạm hết hàng</span>';
@@ -178,7 +179,12 @@ $result = mysqli_query($conn, $sql);
                                 </div>
                                 <div class="actions">
                                     <a class="btn btn-primary" href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">Chi tiết</a>
-                                    <button class="btn btn-outline btn-add-cart" data-id="<?php echo $row['MaSP']; ?>">Thêm vào giỏ</button>
+                                    <button class="btn btn-outline btn-add-cart"
+                                            data-id="<?php echo $row['MaSP']; ?>"
+                                            <?php echo $con_hang ? '' : 'disabled'; ?>
+                                            style="<?php echo $con_hang ? '' : 'opacity:.5; cursor:not-allowed;'; ?>">
+                                        Thêm vào giỏ
+                                    </button>
                                 </div>
                             </article>
                     <?php
@@ -227,6 +233,7 @@ $result = mysqli_query($conn, $sql);
         const addCartBtns = document.querySelectorAll('.btn-add-cart');
         addCartBtns.forEach(button => {
             button.addEventListener('click', function() {
+                if (this.disabled) return;
                 const sanPhamId = this.getAttribute('data-id');
                 let formData = new FormData();
                 formData.append('id', sanPhamId);
@@ -240,6 +247,8 @@ $result = mysqli_query($conn, $sql);
                         if (data.status === 'success') {
                             document.getElementById('cart-count').innerText = data.tong_mon;
                             alert('Đã thêm sản phẩm vào giỏ hàng!');
+                        } else {
+                            alert(data.message || 'Sản phẩm không đủ tồn kho.');
                         }
                     })
                     .catch(error => console.error('Lỗi:', error));

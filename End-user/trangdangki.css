@@ -49,6 +49,25 @@
     box-sizing: border-box; /* Đảm bảo padding không làm tràn width */
 }
 
+.register-box input.invalid {
+    border: 1.5px solid red !important;
+    background-color: #fff0f0 !important;
+    outline: none;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.error-msg {
+    color: red;
+    font-size: 1.3rem;
+    display: block;
+    margin-top: -1.2rem;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+}
+
 .register-box label {
     font-size: 1.4rem;
     font-weight: 600;

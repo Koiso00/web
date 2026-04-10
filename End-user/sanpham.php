@@ -3,7 +3,7 @@ session_start();
 include 'connect.php'; // Nhúng file kết nối DB
 
 // Hàm tính giá bán theo chuẩn FIFO
-function getGiaBanFIFO($conn, $maSP, $tiLeLoiNhuan)
+function getGiaBanFIFO($conn, $maSP, $tiLeLoiNhuan, $giaNhapBinhQuan = 0)
 {
     $sql_fifo = "SELECT ctpn.GiaNhap 
                  FROM chitietphieunhap ctpn 
@@ -19,6 +19,11 @@ function getGiaBanFIFO($conn, $maSP, $tiLeLoiNhuan)
     if ($row_fifo = mysqli_fetch_assoc($result_fifo)) {
         $giaNhapLieu = $row_fifo['GiaNhap'];
         return $giaNhapLieu * (1 + $tiLeLoiNhuan);
+    }
+
+    // Fallback: nếu chưa có lô FIFO hợp lệ thì dùng giá nhập bình quân
+    if ((float)$giaNhapBinhQuan > 0) {
+        return (float)$giaNhapBinhQuan * (1 + (float)$tiLeLoiNhuan);
     }
 
     return 0;
@@ -149,7 +154,8 @@ $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $gia_ban = getGiaBanFIFO($conn, $row['MaSP'], $row['TiLeLoiNhuan']);
+                            $gia_ban = getGiaBanFIFO($conn, $row['MaSP'], $row['TiLeLoiNhuan'], $row['GiaNhapBinhQuan'] ?? 0);
+                            $con_hang = ((int)($row['SoLuongTon'] ?? 0) > 0);
                     ?>
                             <article class="card">
                                 <div class="img">
@@ -160,7 +166,7 @@ $result = mysqli_query($conn, $sql);
                                 <h3><?php echo htmlspecialchars($row['TenSP']); ?></h3>
                                 <div class="price">
                                     <?php
-                                    if ($gia_ban > 0) {
+                                    if ($con_hang) {
                                         echo number_format($gia_ban, 0, ',', '.') . ' ₫';
                                     } else {
                                         echo '<span style="color:red; font-size: 14px; font-weight: bold;">Tạm hết hàng</span>';
@@ -169,7 +175,12 @@ $result = mysqli_query($conn, $sql);
                                 </div>
                                 <div class="actions">
                                     <a class="btn btn-primary" href="thongtinsanpham.php?id=<?php echo $row['MaSP']; ?>">Chi tiết</a>
-                                    <button class="btn btn-outline btn-add-cart" data-id="<?php echo $row['MaSP']; ?>">Thêm vào giỏ</button>
+                                    <button class="btn btn-outline btn-add-cart"
+                                            data-id="<?php echo $row['MaSP']; ?>"
+                                            <?php echo $con_hang ? '' : 'disabled'; ?>
+                                            style="<?php echo $con_hang ? '' : 'opacity:.5; cursor:not-allowed;'; ?>">
+                                        Thêm vào giỏ
+                                    </button>
                                 </div>
                             </article>
                     <?php
@@ -213,6 +224,7 @@ $result = mysqli_query($conn, $sql);
 
         addCartBtns.forEach(button => {
             button.addEventListener('click', function() {
+                if (this.disabled) return;
                 // Lấy mã sản phẩm từ thuộc tính data-id
                 const sanPhamId = this.getAttribute('data-id');
 
@@ -233,6 +245,8 @@ $result = mysqli_query($conn, $sql);
 
                             // Hiện một thông báo nhỏ cho vui (k vui thì tắt)
                             alert('Đã thêm sản phẩm vào giỏ hàng!');
+                        } else {
+                            alert(data.message || 'Sản phẩm không đủ tồn kho.');
                         }
                     })
                     .catch(error => console.error('Lỗi:', error));

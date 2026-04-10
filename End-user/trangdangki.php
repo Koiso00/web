@@ -86,40 +86,70 @@ if(isset($_POST['dangky'])){
                     <h2>Tạo tài khoản mới</h2>
                     <form method="POST" onsubmit="return validateDangKy()" name="formDangKy">
                         <label>Họ và tên:</label>
-                        <input type="text" name="fullname" placeholder="Nhập họ và tên" required>
+                        <div class="input-group">
+                            <input type="text" name="fullname" id="fullname" placeholder="Nhập họ và tên" required oninput="validateField('fullname')">
+                            <span id="err-fullname" class="error-msg"></span>
+                        </div>
 
                         <label>Email:</label>
-                        <input type="email" name="email" placeholder="Nhập email" required>
+                        <div class="input-group">
+                            <input type="email" name="email" id="email" placeholder="Nhập email" required oninput="validateField('email')">
+                            <span id="err-email" class="error-msg"></span>
+                        </div>
 
                         <label>Số điện thoại:</label>
-                        <input type="text" name="phone" placeholder="Nhập số điện thoại" required>
+                        <div class="input-group">
+                            <input type="text" name="phone" id="phone" placeholder="Nhập số điện thoại" required oninput="validateField('phone')">
+                            <span id="err-phone" class="error-msg"></span>
+                        </div>
 
                         <label>Địa chỉ chi tiết (Số nhà, Tên đường):</label>
-                        <input type="text" name="diachichitiet" placeholder="Vd: 123 Nguyễn Huệ" required>
+                        <div class="input-group">
+                            <input type="text" name="diachichitiet" id="diachichitiet" placeholder="Vd: 123 Nguyễn Huệ" required oninput="validateField('diachichitiet')">
+                            <span id="err-diachichitiet" class="error-msg"></span>
+                        </div>
 
                         <div class="address-group">
                             <div>
                                 <label>Phường/Xã:</label>
-                                <input type="text" name="phuongxa" placeholder="Vd: Bến Nghé" required>
+                                <div class="input-group">
+                                    <input type="text" name="phuongxa" id="phuongxa" placeholder="Vd: Bến Nghé" required oninput="validateField('phuongxa')">
+                                    <span id="err-phuongxa" class="error-msg"></span>
+                                </div>
                             </div>
                             <div>
                                 <label>Quận/Huyện:</label>
-                                <input type="text" name="quanhuyen" placeholder="Vd: Quận 1" required>
+                                <div class="input-group">
+                                    <input type="text" name="quanhuyen" id="quanhuyen" placeholder="Vd: Quận 1" required oninput="validateField('quanhuyen')">
+                                    <span id="err-quanhuyen" class="error-msg"></span>
+                                </div>
                             </div>
                             <div>
                                 <label>Tỉnh/Thành:</label>
-                                <input type="text" name="tinhthanh" placeholder="Vd: TP.HCM" required>
+                                <div class="input-group">
+                                    <input type="text" name="tinhthanh" id="tinhthanh" placeholder="Vd: TP.HCM" required oninput="validateField('tinhthanh')">
+                                    <span id="err-tinhthanh" class="error-msg"></span>
+                                </div>
                             </div>
                         </div>
                         
                         <label>Tên đăng nhập:</label>
-                        <input type="text" name="username" placeholder="Nhập tên đăng nhập" required>
+                        <div class="input-group">
+                            <input type="text" name="username" id="username" placeholder="Nhập tên đăng nhập" required oninput="validateField('username')">
+                            <span id="err-username" class="error-msg"></span>
+                        </div>
 
                         <label>Mật khẩu:</label>
-                        <input type="password" name="password" placeholder="Tạo mật khẩu" required>
+                        <div class="input-group">
+                            <input type="password" name="password" id="password" placeholder="Tạo mật khẩu" required oninput="validateField('password')">
+                            <span id="err-password" class="error-msg"></span>
+                        </div>
 
                         <label>Nhập lại mật khẩu:</label>
-                        <input type="password" name="confirm" placeholder="Xác nhận mật khẩu" required>
+                        <div class="input-group">
+                            <input type="password" name="confirm" id="confirm" placeholder="Xác nhận mật khẩu" required oninput="validateField('confirm')">
+                            <span id="err-confirm" class="error-msg"></span>
+                        </div>
 
                         <button type="submit" name="dangky" class="buttonsign">Đăng Ký</button>
 
@@ -179,26 +209,57 @@ if(isset($_POST['dangky'])){
     </footer>   
 
     <script>
-        function validateDangKy() {
-            const phone = document.forms["formDangKy"]["phone"].value.trim();
-            const phoneRegex = /^0[0-9]{9}$/;
-            if (!phoneRegex.test(phone)) {
-                alert('Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số và bắt đầu bằng số 0.');
-                document.forms["formDangKy"]["phone"].focus();
-                return false;
+        function validateField(fieldId) {
+            const input = document.getElementById(fieldId);
+            const errorSpan = document.getElementById('err-' + fieldId);
+            const value = (input?.value || '').trim();
+            let message = '';
+
+            const regexPhone = /^0[0-9]{9}$/;
+
+            if (fieldId === 'fullname') {
+                if (value === '') message = '* Vui lòng nhập Họ & tên.';
+            } else if (fieldId === 'email') {
+                if (value === '') message = '* Vui lòng nhập Email.';
+            } else if (fieldId === 'phone') {
+                if (value === '') message = '* Vui lòng nhập SĐT.';
+                else if (!regexPhone.test(value)) message = '* SĐT phải là 10 số (Bắt đầu bằng 0).';
+            } else if (fieldId === 'diachichitiet') {
+                if (value === '') message = '* Vui lòng nhập địa chỉ chi tiết.';
+            } else if (fieldId === 'phuongxa') {
+                if (value === '') message = '* Vui lòng nhập Phường/Xã.';
+            } else if (fieldId === 'quanhuyen') {
+                if (value === '') message = '* Vui lòng nhập Quận/Huyện.';
+            } else if (fieldId === 'tinhthanh') {
+                if (value === '') message = '* Vui lòng nhập Tỉnh/Thành phố.';
+            } else if (fieldId === 'username') {
+                if (value === '') message = '* Vui lòng nhập Tên đăng nhập.';
+            } else if (fieldId === 'password') {
+                if (value === '') message = '* Vui lòng nhập Mật khẩu.';
+                else if (value.length < 6) message = '* Mật khẩu phải có ít nhất 6 ký tự.';
+            } else if (fieldId === 'confirm') {
+                const pass = (document.getElementById('password')?.value || '');
+                if (value === '') message = '* Vui lòng nhập lại mật khẩu.';
+                else if (value !== pass) message = '* Mật khẩu nhập lại không khớp.';
             }
 
-            const pass = document.forms["formDangKy"]["password"].value;
-            const confirm = document.forms["formDangKy"]["confirm"].value;
-            if (pass.length < 6) {
-                alert('Mật khẩu phải có ít nhất 6 ký tự!');
-                document.forms["formDangKy"]["password"].focus();
-                return false;
+            if (errorSpan) errorSpan.innerText = message;
+            if (input) {
+                if (message) input.classList.add('invalid');
+                else input.classList.remove('invalid');
             }
-            if (pass !== confirm) {
-                alert('Mật khẩu nhập lại không khớp!');
-                document.forms["formDangKy"]["confirm"].focus();
-                return false;
+            return message === '';
+        }
+
+        function validateDangKy() {
+            const fields = ['fullname', 'email', 'phone', 'diachichitiet', 'phuongxa', 'quanhuyen', 'tinhthanh', 'username', 'password', 'confirm'];
+            for (const f of fields) {
+                const ok = validateField(f);
+                if (!ok) {
+                    document.getElementById(f)?.focus();
+                    alert('Vui lòng sửa các lỗi nhập liệu trước khi đăng ký!');
+                    return false;
+                }
             }
             return true;
         }
